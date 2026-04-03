@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - History</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="logo">
+            <h1>EduFusion</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="mathematics.html">Mathematics</a>
+                    <a href="biology.html">Biology</a>
+                    <a href="physics.html">Physics</a>
+                    <a href="chemistry.html">Chemistry</a>
+                    <a href="history.html">History</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Progress <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="overall-progress.html">Overall Progress</a>
+                    <a href="subject-wise-progress.html">Subject-wise Progress</a>
+                    <a href="achievements.html">Achievements</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Profile <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="view-profile.html">View Profile</a>
+                    <a href="account-settings.html">Account Settings</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+        <div class="user-actions">
+            <i class="fas fa-bell notification-icon"></i>
+            <div class="avatar">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span><a href="index.html" style="color: inherit; text-decoration: none;">Dashboard</a></span>
+                </li>
+                <li class="active">
+                    <i class="fas fa-book"></i>
+                    <span>My Subjects</span>
+                </li>
+                <li>
+                    <i class="fas fa-chart-line"></i>
+                    <span><a href="overall-progress.html" style="color: inherit; text-decoration: none;">Progress</a></span>
+                </li>
+                <li>
+                    <i class="fas fa-cog"></i>
+                    <span><a href="account-settings.html" style="color: inherit; text-decoration: none;">Settings</a></span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="book-view">
+                <div class="book-page" id="page1">
+                    <h2>History and Citizenship Textbook - Grade 10</h2>
+                    <p>Explore the past to understand the present and shape the future.</p>
+                    
+                    <h2 id="toc">Table of Contents</h2>
+                    <ul>
+                        <li><a href="#" onclick="showPage(1); document.getElementById('ch1').scrollIntoView();">Chapter 1: Introduction to History and Citizenship</a></li>
+                        <li><a href="#" onclick="showPage(1); document.getElementById('ch2').scrollIntoView();">Chapter 2: Ancient Civilizations</a></li>
+                        <li><a href="#" onclick="showPage(2); document.getElementById('ch3').scrollIntoView();">Chapter 3: The Middle Ages</a></li>
+                        <li><a href="#" onclick="showPage(2); document.getElementById('ch4').scrollIntoView();">Chapter 4: The Age of Exploration</a></li>
+                        <li><a href="#" onclick="showPage(2); document.getElementById('ch5').scrollIntoView();">Chapter 5: The Industrial Revolution</a></li>
+                        <li><a href="#" onclick="showPage(3); document.getElementById('ch6').scrollIntoView();">Chapter 6: World Wars</a></li>
+                        <li><a href="#" onclick="showPage(3); document.getElementById('ch7').scrollIntoView();">Chapter 7: The Cold War</a></li>
+                        <li><a href="#" onclick="showPage(4); document.getElementById('ch8').scrollIntoView();">Chapter 8: Modern Era</a></li>
+                        <li><a href="#" onclick="showPage(4); document.getElementById('ch9').scrollIntoView();">Chapter 9: Globalization</a></li>
+                        <li><a href="#" onclick="showPage(4); document.getElementById('ch10').scrollIntoView();">Chapter 10: Future Challenges</a></li>
+                    </ul>
+                    
+                    <h3 id="ch1">Chapter 1: Introduction to History and Citizenship</h3>
+                    <p>History is the study of past events, particularly in human affairs. It helps us understand how societies have evolved and the impact of decisions on the world today.</p>
+                    <p>Citizenship involves the rights and responsibilities of individuals in a society. It includes understanding democracy, laws, and civic participation.</p>
+                    <p>Key concepts in history and citizenship:</p>
+                    <ul>
+                        <li>Chronology and timelines</li>
+                        <li>Primary and secondary sources</li>
+                        <li>Civic duties and rights</li>
+                        <li>Global perspectives</li>
+                    </ul>
+                    
+                    <h4>Key Notes</h4>
+                    <p>History is not just a collection of dates and events; it is a dynamic field that helps us understand the complexities of human behavior, societal changes, and the causes and consequences of major events. By studying history, we learn about the evolution of civilizations, the impact of technological advancements, and the role of individuals and groups in shaping the world.</p>
+                    <p>Citizenship education emphasizes the importance of active participation in democratic processes. This includes understanding one's rights, such as freedom of speech and voting, as well as responsibilities like obeying laws, paying taxes, and contributing to community welfare. Civic education also covers topics like social justice, environmental stewardship, and global citizenship in an interconnected world.</p>
+                    <p>Primary sources, such as diaries, letters, and official documents, provide firsthand accounts of historical events. Secondary sources, like textbooks and analyses, offer interpretations based on primary evidence. Critical thinking skills are essential for evaluating sources and forming informed opinions.</p>
+                    <p>Global perspectives in history highlight the interconnectedness of cultures and economies. Events in one part of the world often have ripple effects elsewhere, and understanding these connections fosters empathy and informed decision-making in international relations.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/9vMh9X8QD7w" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Historical Timeline" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 1: A timeline of major historical events.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>What is the primary purpose of studying history?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="historyquiz1" value="a"> To memorize dates</label>
+                            <label><input type="radio" name="historyquiz1" value="b"> To understand past events and their impact</label>
+                            <label><input type="radio" name="historyquiz1" value="c"> To predict the future</label>
+                            <label><input type="radio" name="historyquiz1" value="d"> To learn about famous people only</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                    
+                    <h3 id="ch2">Chapter 2: Ancient Civilizations</h3>
+                    <p>Ancient civilizations laid the foundation for modern society. Key civilizations include Mesopotamia, Egypt, Greece, and Rome.</p>
+                    <p>Mesopotamia, located between the Tigris and Euphrates rivers, is known as the cradle of civilization. They invented writing (cuneiform) and the wheel.</p>
+                    <p>Ancient Egypt developed along the Nile River, famous for pyramids, pharaohs, and hieroglyphics.</p>
+                    <p>Greek civilization contributed democracy, philosophy, and the Olympics.</p>
+                    <p>Roman Empire spread across Europe, Africa, and Asia, influencing law, engineering, and governance.</p>
+                    
+                    <h4>Key Notes</h4>
+                    <p>Ancient civilizations developed complex systems of governance, from theocratic rule in Egypt to democratic elements in ancient Greece. These systems laid the groundwork for modern political structures and legal frameworks.</p>
+                    <p>The invention of writing systems, such as cuneiform and hieroglyphics, revolutionized communication and record-keeping. This allowed for the preservation of knowledge, laws, and cultural traditions across generations.</p>
+                    <p>Technological innovations in agriculture, such as irrigation systems in Mesopotamia and the Nile Valley, supported population growth and urbanization. These advancements also led to social stratification and the development of specialized labor.</p>
+                    <p>Cultural exchanges between ancient civilizations facilitated the spread of ideas, technologies, and goods. The Silk Road, for example, connected East and West, promoting trade and cultural diffusion.</p>
+                    <p>The legacy of ancient civilizations is evident in modern language, law, architecture, and philosophy. Concepts like democracy from Athens and legal codes from Hammurabi continue to influence contemporary society.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/8Nz3cT3TtSQ" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Pyramids of Egypt" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 2: The Pyramids of Giza, ancient Egypt.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>Which civilization is known for inventing cuneiform writing?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="historyquiz2" value="a"> Egypt</label>
+                            <label><input type="radio" name="historyquiz2" value="b"> Mesopotamia</label>
+                            <label><input type="radio" name="historyquiz2" value="c"> Greece</label>
+                            <label><input type="radio" name="historyquiz2" value="d"> Rome</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                    
+                    <div class="page-number">Page 1</div>
+                </div>
+                <div class="book-page" id="page2" style="display: none;">
+                    <h3 id="ch3">Chapter 3: The Middle Ages</h3>
+                    <p>The Middle Ages, also known as the Medieval period, spanned from the 5th to the 15th century in Europe.</p>
+                    <p>Key features include feudalism, the rise of Christianity, castles, knights, and the Black Death.</p>
+                    <p>The Renaissance began in Italy during the late Middle Ages, marking a rebirth of art, science, and learning.</p>
+                    
+                    <h4>Key Notes</h4>
+                    <p>The Middle Ages, spanning roughly from the 5th to the 15th century, was a period of significant transformation in Europe. It followed the fall of the Roman Empire and preceded the Renaissance, marking a time of feudalism, chivalry, and the rise of Christianity as a unifying force.</p>
+                    <p>Feudalism was a hierarchical social system where land was granted in exchange for loyalty and military service. Lords owned the land, knights provided protection, and serfs worked the fields, creating a rigid class structure that dominated medieval society.</p>
+                    <p>The Black Death, a devastating pandemic caused by the bubonic plague, killed an estimated 30-60% of Europe's population in the 14th century. This catastrophe led to labor shortages, social upheaval, and changes in economic structures, accelerating the decline of feudalism.</p>
+                    <p>The Crusades, a series of religious wars between Christians and Muslims, had profound effects on European society. They facilitated cultural exchanges, stimulated trade, and contributed to the growth of cities and commerce.</p>
+                    <p>The Renaissance, beginning in Italy around the 14th century, marked a rebirth of art, literature, and learning. Figures like Leonardo da Vinci and Michelangelo exemplified the era's emphasis on humanism, scientific inquiry, and artistic innovation.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/TKnH3r9d1Dw" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Medieval Castle" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 3: A medieval castle in Europe.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>What was the main cause of the Black Death?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="historyquiz3" value="a"> War</label>
+                            <label><input type="radio" name="historyquiz3" value="b"> Plague (bubonic)</label>
+                            <label><input type="radio" name="historyquiz3" value="c"> Famine</label>
+                            <label><input type="radio" name="historyquiz3" value="d"> Earthquake</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                    
+                    <h3 id="ch4">Chapter 4: The Age of Exploration</h3>
+                    <p>The Age of Exploration began in the 15th century with European voyages to find new trade routes.</p>
+                    <p>Explorers like Christopher Columbus, Vasco da Gama, and Ferdinand Magellan opened up the Americas, Africa, and Asia to European colonization.</p>
+                    <p>This period led to the Columbian Exchange, transferring plants, animals, and cultures between the Old and New Worlds.</p>
+                    
+                    <h4>Key Notes</h4>
+                    <p>The Age of Exploration, also known as the Age of Discovery, began in the late 15th century and lasted until the 17th century. It was driven by European desires for new trade routes, wealth, and resources, following the fall of Constantinople in 1453, which disrupted traditional trade with Asia.</p>
+                    <p>Key technological advancements, such as the compass, astrolabe, and improved shipbuilding techniques, enabled long-distance sea voyages. The caravel, a Portuguese ship design, was particularly suited for exploration.</p>
+                    <p>The Columbian Exchange involved the transfer of plants, animals, cultures, and technologies between the Old and New Worlds. This had profound ecological, economic, and social impacts, including the introduction of potatoes and tomatoes to Europe and horses to the Americas.</p>
+                    <p>European colonization led to the exploitation of indigenous populations, the transatlantic slave trade, and the establishment of colonial empires. These actions had long-lasting effects on global demographics, economies, and power structures.</p>
+                    <p>The Age of Exploration fundamentally changed the world, creating a more interconnected global economy and setting the stage for the modern era. It also raised ethical questions about conquest, cultural superiority, and human rights that continue to resonate today.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/8Nz3cT3TtSQ" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Explorer Ship" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 4: A ship from the Age of Exploration.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>Who sailed across the Atlantic in 1492?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="historyquiz4" value="a"> Vasco da Gama</label>
+                            <label><input type="radio" name="historyquiz4" value="b"> Christopher Columbus</label>
+                            <label><input type="radio" name="historyquiz4" value="c"> Ferdinand Magellan</label>
+                            <label><input type="radio" name="historyquiz4" value="d"> Marco Polo</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                    
+                    <h3 id="ch5">Chapter 5: The Industrial Revolution</h3>
+                    <p>The Industrial Revolution began in Britain in the late 18th century and spread to other parts of the world.</p>
+                    <p>It involved the transition from hand production to machines, factories, and mass production.</p>
+                    <p>Key inventions included the steam engine, spinning jenny, and power loom.</p>
+                    <p>Social changes included urbanization, child labor, and labor movements.</p>
+                    
+                    <h4>Key Notes</h4>
+                    <p>The Industrial Revolution, beginning in Britain around 1760 and spreading globally, marked a transition from agrarian economies to industrialized ones. It was characterized by mechanization, factory systems, and urbanization.</p>
+                    <p>Key inventions included the steam engine by James Watt, the spinning jenny by James Hargreaves, and the power loom by Edmund Cartwright. These innovations increased production efficiency and transformed textile manufacturing.</p>
+                    <p>Social changes were profound: rural populations migrated to cities for factory work, leading to overcrowding, poor living conditions, and child labor. Labor movements emerged to advocate for workers' rights, better wages, and safer conditions.</p>
+                    <p>The Industrial Revolution had global impacts, spreading to Europe, North America, and eventually Asia. It accelerated economic growth but also exacerbated inequalities, environmental degradation, and social unrest.</p>
+                    <p>Long-term effects include the rise of capitalism, consumerism, and modern urban life. The revolution laid the foundation for contemporary technological and economic systems, while highlighting the need for ethical industrial practices.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/zjK7PWmRRyg" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Factory" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 5: A factory during the Industrial Revolution.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>What invention is associated with James Watt?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="historyquiz5" value="a"> Spinning jenny</label>
+                            <label><input type="radio" name="historyquiz5" value="b"> Steam engine</label>
+                            <label><input type="radio" name="historyquiz5" value="c"> Power loom</label>
+                            <label><input type="radio" name="historyquiz5" value="d"> Telegraph</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                    
+                    <div class="page-number">Page 2</div>
+                </div>
+                <div class="book-page" id="page3" style="display: none;">
+                    <h3 id="ch6">Chapter 6: World Wars</h3>
+                    <p>The 20th century was marked by two devastating world wars that reshaped the global order.</p>
+                    <p>World War I (1914-1918) began with the assassination of Archduke Franz Ferdinand and involved major powers in Europe.</p>
+                    <p>World War II (1939-1945) was even more destructive, involving most of the world's nations and resulting in millions of deaths.</p>
+                    
+                    <h4>Key Notes</h4>
+                    <p>World War I (1914-1918) was triggered by the assassination of Archduke Franz Ferdinand of Austria and involved complex alliances, nationalism, and imperialism. It was the first truly global conflict, drawing in nations from Europe, Asia, Africa, and the Americas.</p>
+                    <p>The war introduced trench warfare, chemical weapons, and mechanized combat, resulting in unprecedented casualties. New technologies like tanks, airplanes, and submarines changed the nature of warfare.</p>
+                    <p>The Treaty of Versailles, which ended the war, imposed harsh penalties on Germany, sowing seeds of resentment that contributed to World War II. It also led to the redrawing of national boundaries and the collapse of empires.</p>
+                    <p>World War II (1939-1945) was even more devastating, with over 70 million deaths. It was marked by totalitarian regimes, the Holocaust, and the use of atomic weapons.</p>
+                    <p>The wars reshaped the global order, leading to the United Nations, decolonization, and the Cold War. They also accelerated technological and social changes, including advancements in medicine, women's rights, and international cooperation.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/9vMh9X8QD7w" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="World War II" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 6: Soldiers during World War II.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>When did World War II end?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="historyquiz6" value="a"> 1945</label>
+                            <label><input type="radio" name="historyquiz6" value="b"> 1918</label>
+                            <label><input type="radio" name="historyquiz6" value="c"> 1939</label>
+                            <label><input type="radio" name="historyquiz6" value="d"> 1950</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                    
+                    <h3 id="ch7">Chapter 7: The Cold War</h3>
+                    <p>The Cold War was a period of geopolitical tension between the United States and the Soviet Union from 1947 to 1991.</p>
+                    <p>It was characterized by ideological conflict, proxy wars, and the arms race.</p>
+                    <p>Key events include the Berlin Wall, Cuban Missile Crisis, and space race.</p>
+                    
+                    <h4>Key Notes</h4>
+                    <p>The Cold War (1947-1991) was a period of geopolitical tension between the United States and the Soviet Union, characterized by ideological rivalry between capitalism and communism. It never escalated to direct military conflict between the superpowers but involved proxy wars and arms races.</p>
+                    <p>Key events included the Berlin Airlift, the Cuban Missile Crisis, and the Vietnam War. The space race resulted in significant technological advancements, including the moon landing in 1969.</p>
+                    <p>The Iron Curtain divided Europe, with Western democracies aligned with the US and Eastern European countries under Soviet influence. This division led to economic and political isolation.</p>
+                    <p>The Cold War influenced global politics, culture, and economics. It spurred developments in nuclear technology, espionage, and international organizations like NATO and the Warsaw Pact.</p>
+                    <p>The Cold War ended with the dissolution of the Soviet Union in 1991, leading to the spread of democracy and market economies. However, it left legacies of nuclear proliferation and regional conflicts that persist today.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/9vMh9X8QD7w" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Berlin Wall" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 7: The Berlin Wall during the Cold War.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>What event marked the end of the Cold War?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="historyquiz7" value="a"> Fall of the Berlin Wall</label>
+                            <label><input type="radio" name="historyquiz7" value="b"> Cuban Missile Crisis</label>
+                            <label><input type="radio" name="historyquiz7" value="c"> Korean War</label>
+                            <label><input type="radio" name="historyquiz7" value="d"> Vietnam War</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                    
+                    <div class="page-number">Page 3</div>
+                </div>
+                <div class="book-page" id="page4" style="display: none;">
+                    <h3 id="ch8">Chapter 8: Modern Era</h3>
+                    <p>The Modern Era encompasses the late 20th and early 21st centuries, marked by rapid technological advancement and globalization.</p>
+                    <p>Key developments include the internet, digital revolution, and rise of social media.</p>
+                    <p>Political changes include the end of colonialism and the rise of new superpowers like China.</p>
+                    
+                    <h4>Key Notes</h4>
+                    <p>The Modern Era, encompassing the late 20th and early 21st centuries, is defined by rapid technological progress, globalization, and digital transformation. The internet, personal computers, and mobile devices have revolutionized communication and information access.</p>
+                    <p>Economic globalization has led to increased trade, multinational corporations, and interconnected financial systems. This has boosted economic growth but also raised concerns about inequality and job displacement.</p>
+                    <p>Political changes include the fall of communism, the rise of China as a global power, and the spread of democracy. However, challenges like terrorism, authoritarianism, and political polarization have emerged.</p>
+                    <p>Environmental issues, such as climate change and biodiversity loss, have become critical global concerns. The Paris Agreement and sustainable development goals reflect international efforts to address these challenges.</p>
+                    <p>Social movements for equality, including civil rights, women's rights, and LGBTQ+ rights, have gained momentum. Technology has both facilitated these movements and raised new ethical questions about privacy, surveillance, and artificial intelligence.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/9vMh9X8QD7w" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Modern Technology" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 8: Advances in modern technology.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>What has revolutionized communication in the modern era?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="historyquiz8" value="a"> Telegraph</label>
+                            <input type="radio" name="historyquiz8" value="b"> Internet</label>
+                            <label><input type="radio" name="historyquiz8" value="c"> Radio</label>
+                            <label><input type="radio" name="historyquiz8" value="d"> Telephone</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                    
+                    <h3 id="ch9">Chapter 9: Globalization</h3>
+                    <p>Globalization refers to the increasing interconnectedness of the world's economies, cultures, and populations.</p>
+                    <p>It has been driven by advances in transportation, communication, and trade.</p>
+                    <p>Benefits include economic growth and cultural exchange, but challenges include inequality and cultural homogenization.</p>
+                    
+                    <h4>Key Notes</h4>
+                    <p>Globalization refers to the increasing integration of economies, cultures, and societies worldwide. It has been facilitated by advancements in transportation, communication, and information technology, making the world more interconnected than ever before.</p>
+                    <p>Economic globalization involves the free flow of goods, services, capital, and labor across borders. International trade agreements, like NAFTA and the WTO, have reduced barriers and promoted economic growth.</p>
+                    <p>Cultural globalization leads to the exchange of ideas, values, and traditions. While this can promote understanding and diversity, it also raises concerns about cultural homogenization and the loss of local identities.</p>
+                    <p>Social globalization includes increased migration, diaspora communities, and global social movements. Issues like human rights, gender equality, and environmental protection have become transnational concerns.</p>
+                    <p>While globalization offers opportunities for prosperity and innovation, it also presents challenges such as economic inequality, environmental degradation, and cultural conflicts. Effective governance requires international cooperation and ethical considerations.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/9vMh9X8QD7w" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Global Trade" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 9: Global trade and commerce.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>What is a major driver of globalization?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="historyquiz9" value="a"> Wars</label>
+                            <label><input type="radio" name="historyquiz9" value="b"> Trade and technology</label>
+                            <label><input type="radio" name="historyquiz9" value="c"> Isolationism</label>
+                            <label><input type="radio" name="historyquiz9" value="d"> Colonialism</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                    
+                    <h3 id="ch10">Chapter 10: Future Challenges</h3>
+                    <p>The 21st century presents new challenges that require global cooperation and innovative solutions.</p>
+                    <p>Key issues include climate change, sustainable development, artificial intelligence, and cybersecurity.</p>
+                    <p>Citizenship in the future involves digital literacy, environmental stewardship, and ethical decision-making.</p>
+                    
+                    <h4>Key Notes</h4>
+                    <p>The 21st century presents unprecedented challenges that require innovative solutions and global collaboration. Climate change, driven by human activities, threatens ecosystems, economies, and human health, necessitating urgent action on emissions reduction and adaptation.</p>
+                    <p>Sustainable development aims to meet current needs without compromising future generations. This involves balancing economic growth, social equity, and environmental protection, as outlined in the UN's Sustainable Development Goals.</p>
+                    <p>Artificial intelligence and automation are transforming industries and labor markets. While they offer efficiency and new opportunities, they also raise concerns about job displacement, ethical use, and the need for reskilling.</p>
+                    <p>Cybersecurity has become critical as digital systems underpin modern life. Threats from hacking, data breaches, and misinformation require robust defenses and international cooperation.</p>
+                    <p>Education and technology will be key to addressing these challenges. Promoting digital literacy, critical thinking, and lifelong learning can empower individuals and societies to navigate an uncertain future.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/9vMh9X8QD7w" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Future Technology" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 10: Innovations for the future.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>What is a major future challenge?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="historyquiz10" value="a"> Climate change</label>
+                            <label><input type="radio" name="historyquiz10" value="b"> Ancient wars</label>
+                            <label><input type="radio" name="historyquiz10" value="c"> Feudalism</label>
+                            <label><input type="radio" name="historyquiz10" value="d"> Exploration</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                    
+                    <div class="page-number">Page 4</div>
+                </div>
+                <div class="book-navigation">
+                    <button disabled>Previous Page</button>
+                    <button>Next Page</button>
+                </div>
+            </section>
+            
+            <!-- Quiz Modal -->
+            <div id="quiz-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <i class="fas fa-check-circle" id="checkmark" style="display: none;"></i>
+                    <p id="modal-text"></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Dropdown functionality
+        document.querySelectorAll('.dropbtn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const dropdown = this.parentElement;
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+                dropdown.classList.toggle('show');
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+            }
+        });
+
+        function logout() {
+            alert('Logged out successfully!');
+        }
+
+        // Page navigation
+        let currentPage = 1;
+        const totalPages = 4;
+
+        function showPage(page) {
+            document.querySelectorAll('.book-page').forEach(p => p.style.display = 'none');
+            document.getElementById(`page${page}`).style.display = 'block';
+            document.querySelector('.book-navigation button:first-child').disabled = page === 1;
+            document.querySelector('.book-navigation button:last-child').disabled = page === totalPages;
+            window.scrollTo(0, 0);
+        }
+
+        document.querySelector('.book-navigation button:first-child').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        });
+
+        document.querySelector('.book-navigation button:last-child').addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        });
+
+        // Quiz functionality
+        document.querySelectorAll('.submit-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const quizDiv = this.parentElement;
+                const radios = quizDiv.querySelectorAll('input[type="radio"]');
+                let selected = null;
+                radios.forEach(radio => {
+                    if (radio.checked) selected = radio.value;
+                });
+                if (!selected) {
+                    document.getElementById('modal-text').textContent = 'Please select an answer.';
+                    document.getElementById('quiz-modal').style.display = 'block';
+                    return;
+                }
+                const quizName = radios[0].name;
+                let correct = '';
+                if (quizName === 'historyquiz1') correct = 'b';
+                else if (quizName === 'historyquiz2') correct = 'b';
+                else if (quizName === 'historyquiz3') correct = 'b';
+                else if (quizName === 'historyquiz4') correct = 'b';
+                else if (quizName === 'historyquiz5') correct = 'b';
+                else if (quizName === 'historyquiz6') correct = 'a';
+                else if (quizName === 'historyquiz7') correct = 'a';
+                else if (quizName === 'historyquiz8') correct = 'b';
+                else if (quizName === 'historyquiz9') correct = 'b';
+                else if (quizName === 'historyquiz10') correct = 'a';
+                let message = '';
+                const checkmark = document.getElementById('checkmark');
+                if (selected === correct) {
+                    message = 'Correct! Well done.';
+                    checkmark.style.display = 'block';
+                    setTimeout(() => {
+                        checkmark.classList.add('fade-out');
+                        setTimeout(() => {
+                            checkmark.style.display = 'none';
+                            checkmark.classList.remove('fade-out');
+                        }, 1000);
+                    }, 3000);
+                } else {
+                    message = 'Incorrect. Try again.';
+                    checkmark.style.display = 'none';
+                }
+                document.getElementById('modal-text').textContent = message;
+                document.getElementById('quiz-modal').style.display = 'block';
+            });
+        });
+
+        // Modal close
+        document.querySelector('.close').addEventListener('click', () => {
+            document.getElementById('quiz-modal').style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (event) => {
+            if (event.target === document.getElementById('quiz-modal')) {
+                document.getElementById('quiz-modal').style.display = 'none';
+            }
+        });
+
+        // Initialize
+        showPage(1);
+    </script>
+</body>
+</html>

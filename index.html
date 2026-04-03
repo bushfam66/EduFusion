@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Student Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="logo">
+            <h1>EduFusion</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="mathematics.html">Mathematics</a>
+                    <a href="biology.html">Biology</a>
+                    <a href="physics.html">Physics</a>
+                    <a href="chemistry.html">Chemistry</a>
+                    <a href="history.html">History</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Progress <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="overall-progress.html">Overall Progress</a>
+                    <a href="subject-wise-progress.html">Subject-wise Progress</a>
+                    <a href="achievements.html">Achievements</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Profile <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="view-profile.html">View Profile</a>
+                    <a href="account-settings.html">Account Settings</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+        <div class="user-actions">
+            <i class="fas fa-bell notification-icon"></i>
+            <div class="avatar">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </li>
+                <li>
+                    <i class="fas fa-book"></i>
+                    <span>My Subjects</span>
+                </li>
+                <li>
+                    <i class="fas fa-chart-line"></i>
+                    <span>Progress</span>
+                </li>
+                <li>
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section class="dashboard" id="dashboard">
+                <div class="welcome-banner">
+                    <h2>Welcome back, Student</h2>
+                    <p>Continue your learning journey today.</p>
+                </div>
+
+                <div class="subject-cards">
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3>Mathematics</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%;"></div>
+                        </div>
+                        <p>75% Complete</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3>Biology</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%;"></div>
+                        </div>
+                        <p>60% Complete</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <h3>Physics</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%;"></div>
+                        </div>
+                        <p>85% Complete</p>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <ul>
+                        <li>Completed Chapter 5 in Mathematics</li>
+                        <li>Watched video on Photosynthesis</li>
+                        <li>Scored 90% on Physics Quiz</li>
+                    </ul>
+                </div>
+
+                <div class="progress-chart">
+                    <h3>Progress Chart</h3>
+                    <div class="chart-placeholder">
+                        <!-- Placeholder for chart -->
+                        <canvas id="progressChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Digital Textbook Interface -->
+            <section class="textbook" id="textbook">
+                <div class="textbook-container">
+                    <!-- Left Panel: Chapter List -->
+                    <div class="left-panel">
+                        <h3>Chapters</h3>
+                        <ul class="chapter-list">
+                            <li class="chapter-item">
+                                <span>Chapter 1: Introduction</span>
+                                <ul class="sub-chapters">
+                                    <li>1.1 Overview</li>
+                                    <li>1.2 Key Concepts</li>
+                                </ul>
+                            </li>
+                            <li class="chapter-item">
+                                <span>Chapter 2: Concepts</span>
+                                <ul class="sub-chapters">
+                                    <li>2.1 Basic Principles</li>
+                                    <li>2.2 Advanced Topics</li>
+                                </ul>
+                            </li>
+                            <li class="chapter-item">
+                                <span>Chapter 3: Exercises</span>
+                                <ul class="sub-chapters">
+                                    <li>3.1 Practice Problems</li>
+                                    <li>3.2 Review Questions</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Center Panel: Content -->
+                    <div class="center-panel">
+                        <div class="text-content">
+                            <h2>Chapter 1: Introduction</h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            
+                            <div class="video-player">
+                                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                            </div>
+                            
+                            <div class="image-section">
+                                <img src="https://via.placeholder.com/600x300" alt="Diagram">
+                                <p>Figure 1: Illustrative diagram of the concept.</p>
+                            </div>
+                            
+                            <div class="inline-quiz">
+                                <h4>Quick Quiz</h4>
+                                <p>What is the capital of France?</p>
+                                <div class="quiz-options">
+                                    <label><input type="radio" name="quiz1" value="a"> Paris</label>
+                                    <label><input type="radio" name="quiz1" value="b"> London</label>
+                                    <label><input type="radio" name="quiz1" value="c"> Berlin</label>
+                                    <label><input type="radio" name="quiz1" value="d"> Madrid</label>
+                                </div>
+                                <button class="submit-btn">Submit Answer</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Panel: Notes and Bookmarks -->
+                    <div class="right-panel">
+                        <div class="notes-section">
+                            <h3>Notes</h3>
+                            <div class="sticky-note">
+                                <p>Key point: Remember the formula for...</p>
+                            </div>
+                            <div class="sticky-note">
+                                <p>Question: How does this relate to...</p>
+                            </div>
+                        </div>
+                        <div class="bookmarks-section">
+                            <h3>Bookmarks</h3>
+                            <ul>
+                                <li>Page 15: Important Definition</li>
+                                <li>Page 32: Diagram Reference</li>
+                            </ul>
+                        </div>
+                        <button class="quick-quiz-btn">Take Quick Quiz</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Dropdown functionality
+        document.querySelectorAll('.dropbtn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const dropdown = this.parentElement;
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+                dropdown.classList.toggle('show');
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+            }
+        });
+
+        // Sidebar navigation
+        const sidebarItems = document.querySelectorAll('.sidebar-menu li');
+        sidebarItems.forEach(item => {
+            item.addEventListener('click', function() {
+                sidebarItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                const text = this.querySelector('span').textContent;
+                const dashboard = document.getElementById('dashboard');
+                const textbook = document.getElementById('textbook');
+                if (text === 'Dashboard') {
+                    dashboard.style.display = 'block';
+                    textbook.style.display = 'none';
+                } else if (text === 'My Subjects') {
+                    dashboard.style.display = 'none';
+                    textbook.style.display = 'block';
+                } else {
+                    // For Progress and Settings, hide both or show placeholder
+                    dashboard.style.display = 'none';
+                    textbook.style.display = 'none';
+                }
+            });
+        });
+
+        function logout() {
+            alert('Logged out successfully!');
+        }
+
+        // Simple chart placeholder
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        const progressChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Progress',
+                    data: [20, 40, 60, 80],
+                    borderColor: '#4CAF50',
+                    backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

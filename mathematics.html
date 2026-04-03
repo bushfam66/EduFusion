@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Mathematics</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="logo">
+            <h1>EduFusion</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="mathematics.html">Mathematics</a>
+                    <a href="biology.html">Biology</a>
+                    <a href="physics.html">Physics</a>
+                    <a href="chemistry.html">Chemistry</a>
+                    <a href="history.html">History</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Progress <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="overall-progress.html">Overall Progress</a>
+                    <a href="subject-wise-progress.html">Subject-wise Progress</a>
+                    <a href="achievements.html">Achievements</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Profile <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="view-profile.html">View Profile</a>
+                    <a href="account-settings.html">Account Settings</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+        <div class="user-actions">
+            <i class="fas fa-bell notification-icon"></i>
+            <div class="avatar">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span><a href="index.html" style="color: inherit; text-decoration: none;">Dashboard</a></span>
+                </li>
+                <li class="active">
+                    <i class="fas fa-book"></i>
+                    <span>My Subjects</span>
+                </li>
+                <li>
+                    <i class="fas fa-chart-line"></i>
+                    <span><a href="overall-progress.html" style="color: inherit; text-decoration: none;">Progress</a></span>
+                </li>
+                <li>
+                    <i class="fas fa-cog"></i>
+                    <span><a href="account-settings.html" style="color: inherit; text-decoration: none;">Settings</a></span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="book-view">
+                <div class="book-page" id="page1">
+                    <h2>Mathematics Textbook</h2>
+                    <p>Explore the fundamentals of Mathematics through interactive lessons and exercises.</p>
+                                        <h2 id="toc">Table of Contents</h2>
+                    <ul>
+                        <li><a href="#" onclick="showPage(1); document.getElementById('ch1').scrollIntoView();">Chapter 1: Algebra</a></li>
+                        <li><a href="#" onclick="showPage(2); document.getElementById('ch2').scrollIntoView();">Chapter 2: Geometry</a></li>
+                        <li><a href="#" onclick="showPage(2); document.getElementById('ch3').scrollIntoView();">Chapter 3: Trigonometry</a></li>
+                        <li><a href="#" onclick="showPage(3); document.getElementById('ch4').scrollIntoView();">Chapter 4: Calculus</a></li>
+                        <li><a href="#" onclick="showPage(3); document.getElementById('ch5').scrollIntoView();">Chapter 5: Statistics</a></li>
+                        <li><a href="#" onclick="showPage(4); document.getElementById('ch6').scrollIntoView();">Chapter 6: Number Theory</a></li>
+                    </ul>
+                                        <h3>Chapter 1: Algebra</h3>
+                    <p>Algebra is the branch of mathematics that deals with symbols and the rules for manipulating those symbols. It is a unifying thread of almost all of mathematics.</p>
+                    <p>Algebra involves solving equations, inequalities, and systems of equations. It uses variables to represent unknown quantities and operations to manipulate these variables.</p>
+                    <p>Key concepts in algebra include:</p>
+                    <ul>
+                        <li>Variables and constants</li>
+                        <li>Expressions and equations</li>
+                        <li>Functions and graphs</li>
+                        <li>Polynomials and factoring</li>
+                    </ul>
+                    
+                    <h4>Key Notes</h4>
+                    <p>Remember the order of operations: PEMDAS (Parentheses, Exponents, Multiplication and Division, Addition and Subtraction).</p>
+                    <p>The quadratic formula is x = [-b ± √(b² - 4ac)] / 2a, used to solve quadratic equations.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/NybHckSEQBI" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Algebra Diagram" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 1: Basic algebraic equations and solutions.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>Solve for x: 2x + 3 = 7</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="mathquiz1" value="a"> x = 2</label>
+                            <label><input type="radio" name="mathquiz1" value="b"> x = 3</label>
+                            <label><input type="radio" name="mathquiz1" value="c"> x = 4</label>
+                            <label><input type="radio" name="mathquiz1" value="d"> x = 5</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                                        <div class="page-number">Page 1</div>
+                </div>
+                <div class="book-page" id="page2" style="display: none;">                    <h3>Chapter 2: Geometry</h3>
+                    <p>Geometry is the branch of mathematics concerned with the properties and relations of points, lines, surfaces, and solids. It deals with shapes, sizes, and the properties of space.</p>
+                    <p>Key concepts include points, lines, planes, angles, triangles, circles, and polygons. Geometry helps us understand the world around us and solve real-world problems.</p>
+                    
+                    <h4>Key Notes</h4>
+                    <p>The Pythagorean theorem states that in a right-angled triangle, the square of the hypotenuse is equal to the sum of the squares of the other two sides: a² + b² = c².</p>
+                    <p>The area of a circle is πr², and the circumference is 2πr. Pi (π) is approximately 3.14159, an irrational number.</p>
+                    <p>Similar triangles have the same shape but different sizes. Their corresponding angles are equal, and their corresponding sides are proportional.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/NybHckSEQBI" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Geometry Shapes" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 2: Basic geometric shapes and their properties.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>What is the area of a circle with radius 5?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="mathquiz2" value="a"> 25π</label>
+                            <label><input type="radio" name="mathquiz2" value="b"> 10π</label>
+                            <label><input type="radio" name="mathquiz2" value="c"> 5π</label>
+                            <label><input type="radio" name="mathquiz2" value="d"> 15π</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                    
+                    <h3>Chapter 3: Trigonometry</h3>
+                    <p>Trigonometry is the study of relationships between the angles and sides of triangles. It has applications in physics, engineering, and navigation.</p>
+                    <p>The six trigonometric functions are sine (sin), cosine (cos), tangent (tan), cosecant (csc), secant (sec), and cotangent (cot).</p>
+                    
+                    <h4>Key Notes</h4>
+                    <p>In a right triangle, sin θ = opposite/hypotenuse, cos θ = adjacent/hypotenuse, tan θ = opposite/adjacent.</p>
+                    <p>The unit circle is a circle with radius 1 centered at the origin. It helps visualize trigonometric functions.</p>
+                    <p>Trigonometric identities include Pythagorean identities like sin²θ + cos²θ = 1, and angle sum identities.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/NybHckSEQBI" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Trigonometry Triangle" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 3: Right triangle with trigonometric ratios.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>What is sin 30°?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="mathquiz3" value="a"> 0.5</label>
+                            <label><input type="radio" name="mathquiz3" value="b"> 1</label>
+                            <label><input type="radio" name="mathquiz3" value="c"> 0</label>
+                            <label><input type="radio" name="mathquiz3" value="d"> √3/2</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                                        <div class="page-number">Page 2</div>
+                </div>
+                <div class="book-page" id="page3" style="display: none;">                    <h3>Chapter 4: Calculus</h3>
+                    <p>Calculus is the mathematical study of continuous change. It has two main branches: differential calculus and integral calculus.</p>
+                    <p>Differential calculus deals with rates of change and slopes of curves. Integral calculus deals with accumulation and areas under curves.</p>
+                    
+                    <h4>Key Notes</h4>
+                    <p>The derivative of a function f(x) is denoted f'(x) or dy/dx, representing the instantaneous rate of change.</p>
+                    <p>The fundamental theorem of calculus links differentiation and integration: the integral of f'(x) is f(x) + C.</p>
+                    <p>Limits are fundamental to calculus, describing the behavior of functions as they approach certain values.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/NybHckSEQBI" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Calculus Graph" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 4: Graph showing derivative and integral concepts.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>What is the derivative of x²?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="mathquiz4" value="a"> x</label>
+                            <label><input type="radio" name="mathquiz4" value="b"> 2x</label>
+                            <label><input type="radio" name="mathquiz4" value="c"> x²</label>
+                            <label><input type="radio" name="mathquiz4" value="d"> 1</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                    
+                    <h3>Chapter 5: Statistics</h3>
+                    <p>Statistics is the science of collecting, analyzing, interpreting, and presenting data. It helps us make informed decisions based on data.</p>
+                    <p>Key concepts include mean, median, mode, standard deviation, probability, and data visualization.</p>
+                    
+                    <h4>Key Notes</h4>
+                    <p>The mean is the average of a set of numbers. The median is the middle value when numbers are sorted. The mode is the most frequent value.</p>
+                    <p>Probability measures the likelihood of events occurring. It ranges from 0 (impossible) to 1 (certain).</p>
+                    <p>Normal distribution is a bell-shaped curve that describes many natural phenomena. The empirical rule states that 68% of data falls within one standard deviation of the mean.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/NybHckSEQBI" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Statistics Chart" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 5: Bar chart and histogram examples in statistics.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>What is the mean of 2, 4, 6, 8, 10?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="mathquiz5" value="a"> 6</label>
+                            <label><input type="radio" name="mathquiz5" value="b"> 5</label>
+                            <label><input type="radio" name="mathquiz5" value="c"> 7</label>
+                            <label><input type="radio" name="mathquiz5" value="d"> 8</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                                        <div class="page-number">Page 3</div>
+                </div>
+                <div class="book-page" id="page4" style="display: none;">                    <h3>Chapter 6: Number Theory</h3>
+                    <p>Number theory is the study of integers and their properties. It explores prime numbers, divisibility, and modular arithmetic.</p>
+                    <p>Key concepts include prime numbers, greatest common divisor (GCD), least common multiple (LCM), and the fundamental theorem of arithmetic.</p>
+                    
+                    <h4>Key Notes</h4>
+                    <p>A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself.</p>
+                    <p>The Euclidean algorithm is used to find the GCD of two numbers. LCM can be found using the formula LCM(a,b) = (a*b)/GCD(a,b).</p>
+                    <p>Modular arithmetic deals with remainders. For example, 17 mod 5 = 2, since 17 divided by 5 leaves a remainder of 2.</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/NybHckSEQBI" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Number Theory" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 6: Prime numbers and number theory concepts.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>Is 17 a prime number?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="mathquiz6" value="a"> Yes</label>
+                            <label><input type="radio" name="mathquiz6" value="b"> No</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                    
+                    <div class="page-number">Page 4</div>
+                </div>
+                <div class="book-navigation">
+                    <button disabled>Previous Page</button>
+                    <button>Next Page</button>
+                </div>
+            </section>
+            
+            <!-- Quiz Modal -->
+            <div id="quiz-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <i class="fas fa-check-circle" id="checkmark" style="display: none;"></i>
+                    <p id="modal-text"></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Dropdown functionality
+        document.querySelectorAll('.dropbtn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const dropdown = this.parentElement;
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+                dropdown.classList.toggle('show');
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+            }
+        });
+
+        function logout() {
+            alert('Logged out successfully!');
+        }
+
+        // Page navigation
+        let currentPage = 1;
+        const totalPages = 4;
+
+        function showPage(page) {
+            document.querySelectorAll('.book-page').forEach(p => p.style.display = 'none');
+            document.getElementById(`page${page}`).style.display = 'block';
+            document.querySelector('.book-navigation button:first-child').disabled = page === 1;
+            document.querySelector('.book-navigation button:last-child').disabled = page === totalPages;
+            window.scrollTo(0, 0);
+        }
+
+        document.querySelector('.book-navigation button:first-child').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        });
+
+        document.querySelector('.book-navigation button:last-child').addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        });
+
+        // Quiz functionality
+        document.querySelectorAll('.submit-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const quizDiv = this.parentElement;
+                const radios = quizDiv.querySelectorAll('input[type="radio"]');
+                let selected = null;
+                radios.forEach(radio => {
+                    if (radio.checked) selected = radio.value;
+                });
+                if (!selected) {
+                    document.getElementById('modal-text').textContent = 'Please select an answer.';
+                    document.getElementById('quiz-modal').style.display = 'block';
+                    return;
+                }
+                const quizName = radios[0].name;
+                let correct = 'a'; // All math quizzes have correct answer 'a'
+                const checkmark = document.getElementById('checkmark');
+                if (selected === correct) {
+                    document.getElementById('modal-text').textContent = 'Correct! Well done.';
+                    checkmark.style.display = 'block';
+                    setTimeout(() => {
+                        checkmark.classList.add('fade-out');
+                        setTimeout(() => {
+                            checkmark.style.display = 'none';
+                            checkmark.classList.remove('fade-out');
+                        }, 1000);
+                    }, 3000);
+                } else {
+                    document.getElementById('modal-text').textContent = 'Incorrect. Try again.';
+                    checkmark.style.display = 'none';
+                }
+                document.getElementById('quiz-modal').style.display = 'block';
+            });
+        });
+
+        // Modal close
+        document.querySelector('.close').addEventListener('click', () => {
+            document.getElementById('quiz-modal').style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (event) => {
+            if (event.target === document.getElementById('quiz-modal')) {
+                document.getElementById('quiz-modal').style.display = 'none';
+            }
+        });
+
+        // Initialize
+        showPage(1);
+    </script>
+</body>
+</html>

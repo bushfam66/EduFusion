@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Physics</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="logo">
+            <h1>EduFusion</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="mathematics.html">Mathematics</a>
+                    <a href="biology.html">Biology</a>
+                    <a href="physics.html">Physics</a>
+                    <a href="chemistry.html">Chemistry</a>
+                    <a href="history.html">History</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Progress <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="overall-progress.html">Overall Progress</a>
+                    <a href="subject-wise-progress.html">Subject-wise Progress</a>
+                    <a href="achievements.html">Achievements</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Profile <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="view-profile.html">View Profile</a>
+                    <a href="account-settings.html">Account Settings</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+        <div class="user-actions">
+            <i class="fas fa-bell notification-icon"></i>
+            <div class="avatar">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span><a href="index.html" style="color: inherit; text-decoration: none;">Dashboard</a></span>
+                </li>
+                <li class="active">
+                    <i class="fas fa-book"></i>
+                    <span>My Subjects</span>
+                </li>
+                <li>
+                    <i class="fas fa-chart-line"></i>
+                    <span><a href="overall-progress.html" style="color: inherit; text-decoration: none;">Progress</a></span>
+                </li>
+                <li>
+                    <i class="fas fa-cog"></i>
+                    <span><a href="account-settings.html" style="color: inherit; text-decoration: none;">Settings</a></span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Physics Book View -->
+            <section class="book-view">
+                <div class="book-page">
+                    <h2>Physics Textbook</h2>
+                    <p>Understand the laws of nature through physics concepts.</p>
+                    
+                    <h3>Chapter 1: Mechanics</h3>
+                    <p>Mechanics is the branch of physics concerned with the motion of physical objects.</p>
+                    <p>It includes kinematics (study of motion) and dynamics (study of forces causing motion).</p>
+                    <p>Fundamental principles:</p>
+                    <ul>
+                        <li>Newton's Laws of Motion</li>
+                        <li>Conservation of Energy</li>
+                        <li>Conservation of Momentum</li>
+                        <li>Gravitational Force</li>
+                    </ul>
+                    
+                    <h4>Key Notes</h4>
+                    <p>F = ma (Newton's second law): Force equals mass times acceleration.</p>
+                    <p>Energy cannot be created or destroyed, only transformed (First Law of Thermodynamics).</p>
+                    
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/Zjw-7KCWqhY" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Physics Diagram" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 1: Newton's laws of motion illustrated.</p>
+                    </div>
+                    
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>What is the SI unit of force?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="physquiz1" value="a"> Joule</label>
+                            <label><input type="radio" name="physquiz1" value="b"> Newton</label>
+                            <label><input type="radio" name="physquiz1" value="c"> Watt</label>
+                            <label><input type="radio" name="physquiz1" value="d"> Pascal</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                    
+                    <div class="page-number">Page 1</div>
+                </div>
+                <div class="book-navigation">
+                    <button disabled>Previous Page</button>
+                    <button>Next Page</button>
+                </div>
+            </section>
+            
+            <!-- Quiz Modal -->
+            <div id="quiz-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <i class="fas fa-check-circle" id="checkmark" style="display: none;"></i>
+                    <p id="modal-text"></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Dropdown functionality
+        document.querySelectorAll('.dropbtn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const dropdown = this.parentElement;
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+                dropdown.classList.toggle('show');
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+            }
+        });
+
+        function logout() {
+            alert('Logged out successfully!');
+        }
+
+        // Page navigation
+        let currentPage = 1;
+        const totalPages = 4;
+
+        function showPage(page) {
+            document.querySelectorAll('.book-page').forEach(p => p.style.display = 'none');
+            document.getElementById(`page${page}`).style.display = 'block';
+            document.querySelector('.book-navigation button:first-child').disabled = page === 1;
+            document.querySelector('.book-navigation button:last-child').disabled = page === totalPages;
+            window.scrollTo(0, 0);
+        }
+
+        document.querySelector('.book-navigation button:first-child').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        });
+
+        document.querySelector('.book-navigation button:last-child').addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        });
+
+        // Quiz functionality
+        document.querySelectorAll('.submit-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const quizDiv = this.parentElement;
+                const radios = quizDiv.querySelectorAll('input[type="radio"]');
+                let selected = null;
+                radios.forEach(radio => {
+                    if (radio.checked) selected = radio.value;
+                });
+                if (!selected) {
+                    document.getElementById('modal-text').textContent = 'Please select an answer.';
+                    document.getElementById('quiz-modal').style.display = 'block';
+                    return;
+                }
+                const quizName = radios[0].name;
+                let correct = 'a'; // All physics quizzes have correct answer 'a'
+                const checkmark = document.getElementById('checkmark');
+                if (selected === correct) {
+                    document.getElementById('modal-text').textContent = 'Correct! Well done.';
+                    checkmark.style.display = 'block';
+                    setTimeout(() => {
+                        checkmark.classList.add('fade-out');
+                        setTimeout(() => {
+                            checkmark.style.display = 'none';
+                            checkmark.classList.remove('fade-out');
+                        }, 1000);
+                    }, 3000);
+                } else {
+                    document.getElementById('modal-text').textContent = 'Incorrect. Try again.';
+                    checkmark.style.display = 'none';
+                }
+                document.getElementById('quiz-modal').style.display = 'block';
+            });
+        });
+
+        // Modal close
+        document.querySelector('.close').addEventListener('click', () => {
+            document.getElementById('quiz-modal').style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (event) => {
+            if (event.target === document.getElementById('quiz-modal')) {
+                document.getElementById('quiz-modal').style.display = 'none';
+            }
+        });
+
+        // Initialize
+        showPage(1);
+    </script>
+</body>
+</html>

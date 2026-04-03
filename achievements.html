@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Achievements</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="logo">
+            <h1>EduFusion</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="mathematics.html">Mathematics</a>
+                    <a href="biology.html">Biology</a>
+                    <a href="physics.html">Physics</a>
+                    <a href="chemistry.html">Chemistry</a>
+                    <a href="history.html">History</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Progress <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="overall-progress.html">Overall Progress</a>
+                    <a href="subject-wise-progress.html">Subject-wise Progress</a>
+                    <a href="achievements.html">Achievements</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Profile <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="view-profile.html">View Profile</a>
+                    <a href="account-settings.html">Account Settings</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+        <div class="user-actions">
+            <i class="fas fa-bell notification-icon"></i>
+            <div class="avatar">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span><a href="index.html" style="color: inherit; text-decoration: none;">Dashboard</a></span>
+                </li>
+                <li>
+                    <i class="fas fa-book"></i>
+                    <span><a href="mathematics.html" style="color: inherit; text-decoration: none;">My Subjects</a></span>
+                </li>
+                <li class="active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Progress</span>
+                </li>
+                <li>
+                    <i class="fas fa-cog"></i>
+                    <span><a href="account-settings.html" style="color: inherit; text-decoration: none;">Settings</a></span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Achievements Interface -->
+            <section class="textbook">
+                <div class="textbook-container">
+                    <!-- Left Panel: Achievement Categories -->
+                    <div class="left-panel">
+                        <h3>Achievement Types</h3>
+                        <ul class="chapter-list">
+                            <li class="chapter-item">
+                                <span>Subject Milestones</span>
+                            </li>
+                            <li class="chapter-item">
+                                <span>Quiz Achievements</span>
+                            </li>
+                            <li class="chapter-item">
+                                <span>Study Streaks</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Center Panel: Achievements List -->
+                    <div class="center-panel">
+                        <div class="text-content">
+                            <h2>Achievements</h2>
+                            <p>Celebrate your learning milestones!</p>
+                            
+                            <div class="achievements-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                                <div class="card achievement">
+                                    <div class="achievement-icon">
+                                        <i class="fas fa-trophy" style="font-size: 3rem; color: gold;"></i>
+                                    </div>
+                                    <h4>Mathematics Master</h4>
+                                    <p>Completed all Mathematics chapters with 90%+ scores.</p>
+                                    <span class="date">Earned: March 15, 2026</span>
+                                </div>
+                                <div class="card achievement">
+                                    <div class="achievement-icon">
+                                        <i class="fas fa-brain" style="font-size: 3rem; color: #4CAF50;"></i>
+                                    </div>
+                                    <h4>Quiz Champion</h4>
+                                    <p>Scored 100% on 5 consecutive quizzes.</p>
+                                    <span class="date">Earned: March 10, 2026</span>
+                                </div>
+                                <div class="card achievement">
+                                    <div class="achievement-icon">
+                                        <i class="fas fa-fire" style="font-size: 3rem; color: #FF5722;"></i>
+                                    </div>
+                                    <h4>Study Streak</h4>
+                                    <p>Studied for 7 days in a row.</p>
+                                    <span class="date">Earned: March 8, 2026</span>
+                                </div>
+                                <div class="card achievement">
+                                    <div class="achievement-icon">
+                                        <i class="fas fa-star" style="font-size: 3rem; color: #2196F3;"></i>
+                                    </div>
+                                    <h4>Physics Expert</h4>
+                                    <p>Achieved 95% overall in Physics.</p>
+                                    <span class="date">Earned: March 5, 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Panel: Upcoming Achievements -->
+                    <div class="right-panel">
+                        <div class="notes-section">
+                            <h3>Upcoming Achievements</h3>
+                            <div class="sticky-note">
+                                <p>Complete Chemistry - 2 chapters left</p>
+                            </div>
+                            <div class="sticky-note">
+                                <p>Reach 10-day study streak</p>
+                            </div>
+                        </div>
+                        <div class="bookmarks-section">
+                            <h3>Badges Earned</h3>
+                            <ul>
+                                <li>🏆 First Quiz Passed</li>
+                                <li>📚 Bookworm (50 hours studied)</li>
+                                <li>🎯 Perfect Score</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Dropdown functionality
+        document.querySelectorAll('.dropbtn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const dropdown = this.parentElement;
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+                dropdown.classList.toggle('show');
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+            }
+        });
+
+        function logout() {
+            alert('Logged out successfully!');
+        }
+    </script>
+</body>
+</html>

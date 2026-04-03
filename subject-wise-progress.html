@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Subject-wise Progress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="logo">
+            <h1>EduFusion</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="mathematics.html">Mathematics</a>
+                    <a href="biology.html">Biology</a>
+                    <a href="physics.html">Physics</a>
+                    <a href="chemistry.html">Chemistry</a>
+                    <a href="history.html">History</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Progress <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="overall-progress.html">Overall Progress</a>
+                    <a href="subject-wise-progress.html">Subject-wise Progress</a>
+                    <a href="achievements.html">Achievements</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Profile <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="view-profile.html">View Profile</a>
+                    <a href="account-settings.html">Account Settings</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+        <div class="user-actions">
+            <i class="fas fa-bell notification-icon"></i>
+            <div class="avatar">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span><a href="index.html" style="color: inherit; text-decoration: none;">Dashboard</a></span>
+                </li>
+                <li>
+                    <i class="fas fa-book"></i>
+                    <span><a href="mathematics.html" style="color: inherit; text-decoration: none;">My Subjects</a></span>
+                </li>
+                <li class="active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Progress</span>
+                </li>
+                <li>
+                    <i class="fas fa-cog"></i>
+                    <span><a href="account-settings.html" style="color: inherit; text-decoration: none;">Settings</a></span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Subject-wise Progress Interface -->
+            <section class="textbook">
+                <div class="textbook-container">
+                    <!-- Left Panel: Subjects -->
+                    <div class="left-panel">
+                        <h3>Subjects</h3>
+                        <ul class="chapter-list">
+                            <li class="chapter-item">
+                                <span>Mathematics</span>
+                            </li>
+                            <li class="chapter-item">
+                                <span>Biology</span>
+                            </li>
+                            <li class="chapter-item">
+                                <span>Physics</span>
+                            </li>
+                            <li class="chapter-item">
+                                <span>Chemistry</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Center Panel: Progress Details -->
+                    <div class="center-panel">
+                        <div class="text-content">
+                            <h2>Subject-wise Progress</h2>
+                            <p>Detailed progress breakdown for each subject.</p>
+                            
+                            <div class="progress-chart" style="margin: 2rem 0;">
+                                <h3>Progress by Subject</h3>
+                                <canvas id="subjectProgressChart" width="600" height="300"></canvas>
+                            </div>
+                            
+                            <div class="subject-details" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                                <div class="card">
+                                    <h4>Mathematics</h4>
+                                    <div class="progress-bar" style="margin: 1rem 0;">
+                                        <div class="progress-fill" style="width: 75%;"></div>
+                                    </div>
+                                    <p>75% Complete - 12/16 Chapters</p>
+                                </div>
+                                <div class="card">
+                                    <h4>Biology</h4>
+                                    <div class="progress-bar" style="margin: 1rem 0;">
+                                        <div class="progress-fill" style="width: 60%;"></div>
+                                    </div>
+                                    <p>60% Complete - 9/15 Chapters</p>
+                                </div>
+                                <div class="card">
+                                    <h4>Physics</h4>
+                                    <div class="progress-bar" style="margin: 1rem 0;">
+                                        <div class="progress-fill" style="width: 85%;"></div>
+                                    </div>
+                                    <p>85% Complete - 17/20 Chapters</p>
+                                </div>
+                                <div class="card">
+                                    <h4>Chemistry</h4>
+                                    <div class="progress-bar" style="margin: 1rem 0;">
+                                        <div class="progress-fill" style="width: 50%;"></div>
+                                    </div>
+                                    <p>50% Complete - 8/16 Chapters</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Panel: Insights -->
+                    <div class="right-panel">
+                        <div class="notes-section">
+                            <h3>Insights</h3>
+                            <div class="sticky-note">
+                                <p>Physics is your strongest subject.</p>
+                            </div>
+                            <div class="sticky-note">
+                                <p>Chemistry needs more focus.</p>
+                            </div>
+                        </div>
+                        <div class="bookmarks-section">
+                            <h3>Recommendations</h3>
+                            <ul>
+                                <li>Review Chemistry Chapter 5</li>
+                                <li>Practice Biology quizzes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Dropdown functionality
+        document.querySelectorAll('.dropbtn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const dropdown = this.parentElement;
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+                dropdown.classList.toggle('show');
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+            }
+        });
+
+        // Subject Progress Chart
+        const ctx = document.getElementById('subjectProgressChart').getContext('2d');
+        const subjectProgressChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Mathematics', 'Biology', 'Physics', 'Chemistry'],
+                datasets: [{
+                    label: 'Progress (%)',
+                    data: [75, 60, 85, 50],
+                    backgroundColor: ['#4CAF50', '#2196F3', '#FF9800', '#E91E63'],
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+
+        function logout() {
+            alert('Logged out successfully!');
+        }
+    </script>
+</body>
+</html>

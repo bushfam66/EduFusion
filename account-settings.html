@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Account Settings</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="logo">
+            <h1>EduFusion</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="mathematics.html">Mathematics</a>
+                    <a href="biology.html">Biology</a>
+                    <a href="physics.html">Physics</a>
+                    <a href="chemistry.html">Chemistry</a>
+                    <a href="history.html">History</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Progress <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="overall-progress.html">Overall Progress</a>
+                    <a href="subject-wise-progress.html">Subject-wise Progress</a>
+                    <a href="achievements.html">Achievements</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Profile <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="view-profile.html">View Profile</a>
+                    <a href="account-settings.html">Account Settings</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+        <div class="user-actions">
+            <i class="fas fa-bell notification-icon"></i>
+            <div class="avatar">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span><a href="index.html" style="color: inherit; text-decoration: none;">Dashboard</a></span>
+                </li>
+                <li>
+                    <i class="fas fa-book"></i>
+                    <span><a href="mathematics.html" style="color: inherit; text-decoration: none;">My Subjects</a></span>
+                </li>
+                <li>
+                    <i class="fas fa-chart-line"></i>
+                    <span><a href="overall-progress.html" style="color: inherit; text-decoration: none;">Progress</a></span>
+                </li>
+                <li class="active">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Settings Interface -->
+            <section class="textbook">
+                <div class="textbook-container">
+                    <!-- Left Panel: Settings Menu -->
+                    <div class="left-panel">
+                        <h3>Settings Categories</h3>
+                        <ul class="chapter-list">
+                            <li class="chapter-item">
+                                <span>Profile Settings</span>
+                            </li>
+                            <li class="chapter-item">
+                                <span>Privacy Settings</span>
+                            </li>
+                            <li class="chapter-item">
+                                <span>Notification Settings</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Center Panel: Settings Form -->
+                    <div class="center-panel">
+                        <div class="text-content">
+                            <h2>Account Settings</h2>
+                            <p>Update your account preferences and information.</p>
+                            
+                            <form class="settings-form" style="background-color: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); margin: 2rem 0;">
+                                <h3>Profile Information</h3>
+                                <div class="form-group" style="margin-bottom: 1rem;">
+                                    <label for="name">Full Name</label>
+                                    <input type="text" id="name" value="John Doe" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 1rem;">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" value="john.doe@example.com" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 1rem;">
+                                    <label for="phone">Phone</label>
+                                    <input type="tel" id="phone" value="+1 (123) 456-7890" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                                
+                                <h3 style="margin-top: 2rem;">Preferences</h3>
+                                <div class="form-group" style="margin-bottom: 1rem;">
+                                    <label>
+                                        <input type="checkbox" checked> Email notifications for new content
+                                    </label>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 1rem;">
+                                    <label>
+                                        <input type="checkbox" checked> Weekly progress reports
+                                    </label>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 1rem;">
+                                    <label>
+                                        <input type="checkbox"> Dark mode (coming soon)
+                                    </label>
+                                </div>
+                                
+                                <button type="submit" class="submit-btn" style="margin-top: 1rem;">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Right Panel: Help and Support -->
+                    <div class="right-panel">
+                        <div class="notes-section">
+                            <h3>Help & Support</h3>
+                            <div class="sticky-note">
+                                <p>Need help? Contact support</p>
+                            </div>
+                            <div class="sticky-note">
+                                <p>FAQ: How to change password</p>
+                            </div>
+                        </div>
+                        <div class="bookmarks-section">
+                            <h3>Account Actions</h3>
+                            <ul>
+                                <li><a href="#" onclick="logout()" style="color: inherit; text-decoration: none;">Logout from all devices</a></li>
+                                <li>Delete Account</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Dropdown functionality
+        document.querySelectorAll('.dropbtn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const dropdown = this.parentElement;
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+                dropdown.classList.toggle('show');
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+            }
+        });
+
+        function logout() {
+            alert('Logged out successfully!');
+        }
+    </script>
+</body>
+</html>
