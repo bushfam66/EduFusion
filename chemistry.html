@@ -6,6 +6,7 @@
     <title>EduFusion - Chemistry</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <!-- Top Navigation Bar -->
@@ -119,6 +120,46 @@
                     
                     <div class="page-number">Page 1</div>
                 </div>
+                <div class="book-page" id="page2" style="display: none;">
+                    <h3 id="exam">Final Exam</h3>
+                    <p>This exam covers Grade 10 Chemistry topics.</p>
+                    
+                    <div class="exam-questions">
+                        <div class="question">
+                            <p>1. What is the atomic number?</p>
+                            <input type="text" id="q1" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <p>2. What is a chemical reaction?</p>
+                            <input type="text" id="q2" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <p>3. What is the pH of water?</p>
+                            <input type="text" id="q3" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <p>4. What is an element?</p>
+                            <input type="text" id="q4" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <p>5. What is the formula for water?</p>
+                            <input type="text" id="q5" placeholder="Enter your answer">
+                        </div>
+                    </div>
+                    
+                    <button id="submit-exam" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; margin-top: 2rem;">Submit Exam</button>
+                    
+                    <div id="solutions" style="display: none; margin-top: 2rem; background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px;">
+                        <h4>Detailed Solutions</h4>
+                        <p><strong>1.</strong> Number of protons in an atom</p>
+                        <p><strong>2.</strong> Process where substances change into new substances</p>
+                        <p><strong>3.</strong> 7</p>
+                        <p><strong>4.</strong> Pure substance made of one type of atom</p>
+                        <p><strong>5.</strong> H2O</p>
+                    </div>
+                    
+                    <div class="page-number">Page 2</div>
+                </div>
                 <div class="book-navigation">
                     <button disabled>Previous Page</button>
                     <button>Next Page</button>
@@ -160,7 +201,7 @@
 
         // Page navigation
         let currentPage = 1;
-        const totalPages = 4;
+        const totalPages = 2;
 
         function showPage(page) {
             document.querySelectorAll('.book-page').forEach(p => p.style.display = 'none');
@@ -218,6 +259,188 @@
                 document.getElementById('quiz-modal').style.display = 'block';
             });
         });
+
+        // Global variable to store exam data
+        let examData = {};
+
+        // Enhanced answer checking function
+        function checkAnswer(userAnswer, correctAnswer) {
+            const user = userAnswer.trim().toLowerCase().replace(/\s+/g, ' ');
+            const correct = correctAnswer.trim().toLowerCase().replace(/\s+/g, ' ');
+            
+            if (user === correct) return { correct: true, marks: 1 };
+            
+            const correctParts = correct.split(/\s+or\s+|,|\s+and\s+|;/);
+            let matchedParts = 0;
+            for (let part of correctParts) {
+                part = part.trim();
+                if (part && user.includes(part.substring(0, Math.max(3, part.length / 2)))) {
+                    matchedParts++;
+                }
+            }
+            if (matchedParts > 0) {
+                const marks = (matchedParts / Math.max(correctParts.length, 1)) * 0.8;
+                return { correct: marks >= 0.5, marks: marks };
+            }
+            
+            const userNum = parseFloat(user.replace(/[^0-9.-]/g, ''));
+            const correctNum = parseFloat(correct.replace(/[^0-9.-]/g, ''));
+            if (!isNaN(userNum) && !isNaN(correctNum)) {
+                const diff = Math.abs(userNum - correctNum);
+                const tolerance = Math.abs(correctNum) * 0.1;
+                if (diff <= tolerance) return { correct: true, marks: 1 };
+                else if (diff <= tolerance * 2) return { correct: false, marks: 0.5 };
+            }
+            
+            return { correct: false, marks: 0 };
+        }
+
+        // Exam functionality
+        const submitExamBtn = document.getElementById('submit-exam');
+        if (submitExamBtn) {
+            submitExamBtn.addEventListener('click', function() {
+            // Prompt for student name
+            const studentName = prompt('Please enter your name for the report card:', 'Student Name');
+            if (!studentName || studentName.trim() === '') {
+                alert('Name is required for the report card.');
+                return;
+            }
+            
+            const correctAnswers = {
+                q1: 'number of protons',
+                q2: 'process where substances change',
+                q3: '7',
+                q4: 'pure substance',
+                q5: 'h2o'
+            };
+
+            let totalMarks = 0;
+            let earnedMarks = 0;
+
+            for (let key in correctAnswers) {
+                const input = document.getElementById(key);
+                if (input) {
+                    const userAnswer = input.value.trim();
+                    const correctAnswer = correctAnswers[key];
+                    const result = checkAnswer(userAnswer, correctAnswer);
+                    totalMarks += 1;
+                    earnedMarks += result.marks;
+                }
+            }
+
+            const percentage = (earnedMarks / totalMarks) * 100;
+            let comments = '';
+            let emoji = '';
+            if (percentage >= 90) {
+                comments = 'Excellent work! 🎉';
+                emoji = '🎉';
+            } else if (percentage >= 80) {
+                comments = 'Great job! 👍';
+                emoji = '👍';
+            } else if (percentage >= 70) {
+                comments = 'Good effort! 😊';
+                emoji = '😊';
+            } else if (percentage >= 60) {
+                comments = 'Keep practicing! 📚';
+                emoji = '📚';
+            } else {
+                comments = 'Need more practice. 💪';
+                emoji = '💪';
+            }
+
+            // Calculate ranking
+            const scores = JSON.parse(localStorage.getItem('eduFusion_scores') || '[]');
+            const subjectScores = scores.filter(s => s.subject === 'Chemistry');
+            subjectScores.push({ name: studentName, score: percentage, date: new Date().toISOString() });
+            subjectScores.sort((a, b) => b.score - a.score);
+            
+            const userRank = subjectScores.findIndex(s => s.name === studentName && s.score === percentage) + 1;
+            const totalStudents = subjectScores.length;
+            
+            // Save updated scores
+            const updatedScores = scores.filter(s => s.subject !== 'Chemistry').concat(subjectScores);
+            localStorage.setItem('eduFusion_scores', JSON.stringify(updatedScores));
+
+            // Store in examData
+            examData = {
+                earnedMarks: earnedMarks,
+                totalMarks: totalMarks,
+                percentage: percentage,
+                comments: comments,
+                emoji: emoji,
+                subject: 'Chemistry',
+                studentName: studentName,
+                rank: userRank,
+                totalStudents: totalStudents
+            };
+
+            document.getElementById('modal-text').innerHTML = `
+                <div style="text-align: center;">
+                    <img src="https://via.placeholder.com/100" alt="Avatar" style="border-radius: 50%;"><br>
+                    <h3>Exam Results</h3>
+                    <p><strong>${studentName}</strong></p>
+                    <p>Score: ${examData.earnedMarks.toFixed(1)}/${examData.totalMarks} (${examData.percentage.toFixed(2)}%)</p>
+                    <p>Rank: ${userRank} out of ${totalStudents} students</p>
+                    <p>${examData.comments}</p>
+                    <button id="generate-pdf" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Generate Report Card PDF</button>
+                </div>
+            `;
+            document.getElementById('quiz-modal').style.display = 'block';
+            document.getElementById('solutions').style.display = 'block';
+
+            // Generate PDF
+            document.getElementById('generate-pdf').addEventListener('click', function() {
+                try {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF();
+
+                    // EduFusion logo area (avatar style)
+                    doc.setFillColor(0, 100, 0);
+                    doc.rect(15, 15, 180, 15, 'F');
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFontSize(16);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text('EduFusion', 85, 26);
+                    doc.setTextColor(0, 0, 0);
+                    doc.setFont('helvetica', 'normal');
+
+                    // Title
+                    doc.setFontSize(20);
+                    doc.text('Academic Report Card', 50, 40);
+
+                    // Student info
+                    doc.setFontSize(12);
+                    doc.text(`Student: ${examData.studentName}`, 10, 50);
+                    doc.text(`Subject: ${examData.subject}`, 10, 60);
+                    doc.text('Exam: Grade 10 Final', 10, 70);
+                    doc.text(`Class Rank: ${examData.rank} out of ${examData.totalStudents} students`, 10, 80);
+
+                    // Score - with color
+                    doc.setFontSize(16);
+                    doc.setTextColor(0, 100, 0); // Green color for score
+                    doc.text(`Score: ${examData.earnedMarks.toFixed(1)}/${examData.totalMarks} (${examData.percentage.toFixed(2)}%)`, 10, 100);
+                    
+                    // Comments
+                    doc.setTextColor(0, 0, 0); // Black text
+                    // Remove emoji from PDF comments for clean rendering
+                    const cleanComments = examData.comments.replace(/[^\x20-\x7E]/g, '').trim();
+                    doc.text(`Comments: ${cleanComments}`, 10, 110);
+
+                    // Performance bar
+                    doc.setFillColor(0, 128, 0);
+                    doc.rect(10, 130, examData.percentage * 1.5, 10, 'F');
+                    doc.setFontSize(10);
+                    doc.setTextColor(0, 0, 0);
+                    doc.text('Performance Bar', 10, 145);
+
+                    // Save with subject-specific name
+                    doc.save(`EduFusion_Report_${examData.subject}.pdf`);
+                } catch (error) {
+                    alert('Error generating PDF: ' + error.message);
+                }
+            });
+            });
+        }
 
         // Modal close
         document.querySelector('.close').addEventListener('click', () => {

@@ -6,6 +6,7 @@
     <title>EduFusion - Biology</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <!-- Top Navigation Bar -->
@@ -119,6 +120,47 @@
                     
                     <div class="page-number">Page 1</div>
                 </div>
+                <div class="book-page" id="page2" style="display: none;">
+                    <h3 id="exam">Final Exam</h3>
+                    <p>This exam covers Grade 10 Biology topics.</p>
+                    
+                    <div class="exam-questions">
+                        <div class="question">
+                            <p>1. What is the powerhouse of the cell?</p>
+                            <input type="text" id="q1" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <p>2. What process do plants use to make food?</p>
+                            <input type="text" id="q2" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <p>3. What is the basic unit of life?</p>
+                            <input type="text" id="q3" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <p>4. What carries genetic information?</p>
+                            <input type="text" id="q4" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <p>5. What is homeostasis?</p>
+                            <input type="text" id="q5" placeholder="Enter your answer">
+                        </div>
+                        <!-- Add more if needed -->
+                    </div>
+                    
+                    <button id="submit-exam" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; margin-top: 2rem;">Submit Exam</button>
+                    
+                    <div id="solutions" style="display: none; margin-top: 2rem; background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px;">
+                        <h4>Detailed Solutions</h4>
+                        <p><strong>1.</strong> Mitochondria</p>
+                        <p><strong>2.</strong> Photosynthesis</p>
+                        <p><strong>3.</strong> Cell</p>
+                        <p><strong>4.</strong> DNA</p>
+                        <p><strong>5.</strong> Maintaining internal balance</p>
+                    </div>
+                    
+                    <div class="page-number">Page 2</div>
+                </div>
                 <div class="book-navigation">
                     <button disabled>Previous Page</button>
                     <button>Next Page</button>
@@ -160,7 +202,7 @@
 
         // Page navigation
         let currentPage = 1;
-        const totalPages = 4;
+        const totalPages = 2;
 
         function showPage(page) {
             document.querySelectorAll('.book-page').forEach(p => p.style.display = 'none');
@@ -218,6 +260,177 @@
                 document.getElementById('quiz-modal').style.display = 'block';
             });
         });
+
+        // Global variable to store exam data
+        let examData = {};
+
+        // Enhanced answer checking function
+        function checkAnswer(userAnswer, correctAnswer) {
+            const user = userAnswer.trim().toLowerCase().replace(/\s+/g, ' ');
+            const correct = correctAnswer.trim().toLowerCase().replace(/\s+/g, ' ');
+            
+            if (user === correct) return { correct: true, marks: 1 };
+            
+            const correctParts = correct.split(/\s+or\s+|,|\s+and\s+|;/);
+            let matchedParts = 0;
+            for (let part of correctParts) {
+                part = part.trim();
+                if (part && user.includes(part.substring(0, Math.max(3, part.length / 2)))) {
+                    matchedParts++;
+                }
+            }
+            if (matchedParts > 0) {
+                const marks = (matchedParts / Math.max(correctParts.length, 1)) * 0.8;
+                return { correct: marks >= 0.5, marks: marks };
+            }
+            
+            const userNum = parseFloat(user.replace(/[^0-9.-]/g, ''));
+            const correctNum = parseFloat(correct.replace(/[^0-9.-]/g, ''));
+            if (!isNaN(userNum) && !isNaN(correctNum)) {
+                const diff = Math.abs(userNum - correctNum);
+                const tolerance = Math.abs(correctNum) * 0.1;
+                if (diff <= tolerance) return { correct: true, marks: 1 };
+                else if (diff <= tolerance * 2) return { correct: false, marks: 0.5 };
+            }
+            
+            return { correct: false, marks: 0 };
+        }
+
+        // Exam functionality
+        const submitExamBtn = document.getElementById('submit-exam');
+        if (submitExamBtn) {
+            submitExamBtn.addEventListener('click', function() {
+            // Prompt for student name
+            const studentName = prompt('Please enter your name for the report card:', 'Student Name');
+            if (!studentName || studentName.trim() === '') {
+                alert('Name is required for the report card.');
+                return;
+            }
+            
+            const correctAnswers = {
+                q1: 'mitochondria',
+                q2: 'photosynthesis',
+                q3: 'cell',
+                q4: 'dna',
+                q5: 'maintaining internal balance'
+            };
+
+            let totalMarks = 0;
+            let earnedMarks = 0;
+
+            for (let key in correctAnswers) {
+                const input = document.getElementById(key);
+                if (input) {
+                    const userAnswer = input.value.trim();
+                    const correctAnswer = correctAnswers[key];
+                    const result = checkAnswer(userAnswer, correctAnswer);
+                    totalMarks += 1;
+                    earnedMarks += result.marks;
+                }
+            }
+
+            const percentage = (earnedMarks / totalMarks) * 100;
+            let comments = '';
+            let emoji = '';
+            if (percentage >= 90) {
+                comments = 'Excellent work! 🎉';
+                emoji = '🎉';
+            } else if (percentage >= 80) {
+                comments = 'Great job! 👍';
+                emoji = '👍';
+            } else if (percentage >= 70) {
+                comments = 'Good effort! 😊';
+                emoji = '😊';
+            } else if (percentage >= 60) {
+                comments = 'Keep practicing! 📚';
+                emoji = '📚';
+            } else {
+                comments = 'Need more practice. 💪';
+                emoji = '💪';
+            }
+
+            // Calculate ranking
+            const scores = JSON.parse(localStorage.getItem('eduFusion_scores') || '[]');
+            const subjectScores = scores.filter(s => s.subject === 'Biology');
+            subjectScores.push({ name: studentName, score: percentage, date: new Date().toISOString() });
+            subjectScores.sort((a, b) => b.score - a.score);
+            
+            const userRank = subjectScores.findIndex(s => s.name === studentName && s.score === percentage) + 1;
+            const totalStudents = subjectScores.length;
+            
+            // Save updated scores
+            const updatedScores = scores.filter(s => s.subject !== 'Biology').concat(subjectScores);
+            localStorage.setItem('eduFusion_scores', JSON.stringify(updatedScores));
+
+            // Store exam data globally
+            examData = {
+                earnedMarks: earnedMarks,
+                totalMarks: totalMarks,
+                percentage: percentage,
+                comments: comments,
+                emoji: emoji,
+                subject: 'Biology',
+                studentName: studentName,
+                rank: userRank,
+                totalStudents: totalStudents
+            };
+
+            document.getElementById('modal-text').innerHTML = `
+                <div style="text-align: center;">
+                    <img src="https://via.placeholder.com/100" alt="Avatar" style="border-radius: 50%;"><br>
+                    <h3>Exam Results</h3>
+                    <p><strong>${studentName}</strong></p>
+                    <p>Score: ${earnedMarks.toFixed(1)}/${totalMarks} (${percentage.toFixed(2)}%)</p>
+                    <p>Rank: ${userRank} out of ${totalStudents} students</p>
+                    <p>${comments}</p>
+                    <button id="generate-pdf" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Generate Report Card PDF</button>
+                </div>
+            `;
+            document.getElementById('quiz-modal').style.display = 'block';
+            document.getElementById('solutions').style.display = 'block';
+
+            // Generate PDF
+            document.getElementById('generate-pdf').addEventListener('click', function() {
+                try {
+                    if (!window.jspdf) {
+                        alert('PDF library not loaded.');
+                        return;
+                    }
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF();
+                    
+                    doc.setFontSize(20);
+                    doc.text('EduFusion Report Card', 50, 20);
+                    doc.setFontSize(12);
+                    doc.text(`Student: ${examData.studentName}`, 10, 50);
+                    doc.text(`Subject: ${examData.subject}`, 10, 60);
+                    doc.text(`Date: ${new Date().toLocaleDateString()}`, 10, 70);
+                    doc.text(`Class Rank: ${examData.rank} out of ${examData.totalStudents} students`, 10, 80);
+                    
+                    doc.setFontSize(14);
+                    doc.setTextColor(0, 100, 0);
+                    doc.text(`Score: ${examData.earnedMarks.toFixed(1)}/${examData.totalMarks} (${examData.percentage.toFixed(2)}%)`, 10, 90);
+                    doc.setTextColor(0, 0, 0);
+                    doc.setFontSize(12);
+                    // Remove emoji from PDF comments for clean rendering
+                    const cleanComments = examData.comments.replace(/[^\x20-\x7E]/g, '').trim();
+                    doc.text(`Comments: ${cleanComments}`, 10, 110);
+                    
+                    doc.setFillColor(0, 128, 0);
+                    const barWidth = Math.min(examData.percentage * 1.5, 150);
+                    doc.rect(10, 130, barWidth, 15, 'F');
+                    
+                    doc.setFontSize(9);
+                    doc.setTextColor(100, 100, 100);
+                    doc.text('Generated by EduFusion', 10, 270);
+                    
+                    doc.save('EduFusion_Report_' + examData.subject + '.pdf');
+                } catch (error) {
+                    alert('Error: ' + error.message);
+                }
+            });
+            });
+        }
 
         // Modal close
         document.querySelector('.close').addEventListener('click', () => {

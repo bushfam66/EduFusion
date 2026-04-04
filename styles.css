@@ -178,6 +178,40 @@ body {
     margin-bottom: 2rem;
 }
 
+.quick-links {
+    margin-bottom: 2rem;
+}
+
+.link-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.quick-link-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    color: #333;
+}
+
+.quick-link-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.quick-link-card i {
+    font-size: 1.6rem;
+    color: #4CAF50;
+}
+
 .card {
     background-color: #fff;
     padding: 1.5rem;
