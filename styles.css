@@ -384,8 +384,16 @@ body {
     background-color: #fff9c4;
     padding: 1rem;
     border-radius: 5px;
-    margin-bottom: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: 150px;
+}
+
+.notes-section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .bookmarks-section ul {
@@ -500,6 +508,15 @@ body {
         font-size: 0.8rem;
         bottom: 0.5rem;
         right: 1rem;
+    }
+
+    .notes-section {
+        flex-direction: column;
+    }
+
+    .sticky-note {
+        flex: none;
+        width: 100%;
     }
 }
 

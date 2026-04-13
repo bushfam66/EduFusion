@@ -615,6 +615,8 @@
                             checkmark.classList.remove('fade-out');
                         }, 1000);
                     }, 3000);
+                    // Store completion
+                    localStorage.setItem('history_quiz_' + quizName, 'completed');
                 } else {
                     message = 'Incorrect. Try again.';
                     checkmark.style.display = 'none';

@@ -76,94 +76,131 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Biology Book View -->
-            <section class="book-view">
-                <div class="book-page">
-                    <h2>Biology Textbook</h2>
-                    <p>Dive into the study of life with interactive biology lessons.</p>
-                    
-                    <h3>Chapter 1: Cell Biology</h3>
-                    <p>The cell is the basic structural and functional unit of all living organisms. Cells are the building blocks of life.</p>
-                    <p>Cells can be prokaryotic or eukaryotic. Eukaryotic cells contain membrane-bound organelles, while prokaryotic cells do not.</p>
-                    <p>Key organelles include:</p>
-                    <ul>
-                        <li>Nucleus: Contains DNA</li>
-                        <li>Mitochondria: Produces energy</li>
-                        <li>Ribosomes: Synthesize proteins</li>
-                        <li>Endoplasmic Reticulum: Modifies proteins</li>
-                    </ul>
-                    
-                    <h4>Key Notes</h4>
-                    <p>Cells have organelles that perform specific functions, allowing for division of labor within the cell.</p>
-                    <p>DNA is the genetic material that carries hereditary information.</p>
-                    
-                    <div class="video-player">
-                        <iframe src="https://www.youtube.com/embed/URUJD5NEXC8" allowfullscreen></iframe>
+            <!-- Biology Textbook Interface -->
+            <section class="textbook">
+                <div class="textbook-container">
+                    <!-- Left Panel: Chapter List -->
+                    <div class="left-panel">
+                        <h3>Chapters</h3>
+                        <ul class="chapter-list">
+                            <li class="chapter-item">
+                                <span>Chapter 1: Cell Biology</span>
+                            </li>
+                            <li class="chapter-item">
+                                <span>Final Exam</span>
+                            </li>
+                        </ul>
                     </div>
-                    
-                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
-                        <img src="https://via.placeholder.com/600x300" alt="Cell Diagram" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                        <p>Figure 1: Structure of a typical animal cell with labeled organelles.</p>
+
+                    <!-- Center Panel: Content -->
+                    <div class="center-panel">
+                        <div class="text-content">
+                            <div class="book-page" id="page1">
+                                <h2>Biology Textbook - Grade 10</h2>
+                                <p>Dive into the study of life with interactive biology lessons.</p>
+                                
+                                <h3 id="ch1">Chapter 1: Cell Biology</h3>
+                                <p>The cell is the basic structural and functional unit of all living organisms. Cells are the building blocks of life.</p>
+                                <p>Cells can be prokaryotic or eukaryotic. Eukaryotic cells contain membrane-bound organelles, while prokaryotic cells do not.</p>
+                                <p>Key organelles include:</p>
+                                <ul>
+                                    <li>Nucleus: Contains DNA</li>
+                                    <li>Mitochondria: Produces energy</li>
+                                    <li>Ribosomes: Synthesize proteins</li>
+                                    <li>Endoplasmic Reticulum: Modifies proteins</li>
+                                </ul>
+                                
+                                <h4>Key Notes</h4>
+                                <p>Cells have organelles that perform specific functions, allowing for division of labor within the cell.</p>
+                                <p>DNA is the genetic material that carries hereditary information.</p>
+                                
+                                <div class="video-player">
+                                    <iframe src="https://www.youtube.com/embed/URUJD5NEXC8" allowfullscreen></iframe>
+                                </div>
+                                
+                                <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                                    <img src="https://via.placeholder.com/600x300" alt="Cell Diagram" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                    <p>Figure 1: Structure of a typical animal cell with labeled organelles.</p>
+                                </div>
+                                
+                                <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                                    <h4>Quick Quiz</h4>
+                                    <p>What is the powerhouse of the cell?</p>
+                                    <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                                        <label><input type="radio" name="bioquiz1" value="a"> Nucleus</label>
+                                        <label><input type="radio" name="bioquiz1" value="b"> Mitochondria</label>
+                                        <label><input type="radio" name="bioquiz1" value="c"> Ribosome</label>
+                                        <label><input type="radio" name="bioquiz1" value="d"> Endoplasmic Reticulum</label>
+                                    </div>
+                                    <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                                </div>
+                                
+                                <div class="page-number">Page 1</div>
+                            </div>
+                            <div class="book-page" id="page2" style="display: none;">
+                                <h3 id="exam">Final Exam</h3>
+                                <p>This exam covers Grade 10 Biology topics.</p>
+                                
+                                <div class="exam-questions">
+                                    <div class="question">
+                                        <p>1. What is the powerhouse of the cell?</p>
+                                        <input type="text" id="q1" placeholder="Enter your answer">
+                                    </div>
+                                    <div class="question">
+                                        <p>2. What process do plants use to make food?</p>
+                                        <input type="text" id="q2" placeholder="Enter your answer">
+                                    </div>
+                                    <div class="question">
+                                        <p>3. What is the basic unit of life?</p>
+                                        <input type="text" id="q3" placeholder="Enter your answer">
+                                    </div>
+                                    <div class="question">
+                                        <p>4. What carries genetic information?</p>
+                                        <input type="text" id="q4" placeholder="Enter your answer">
+                                    </div>
+                                    <div class="question">
+                                        <p>5. What is homeostasis?</p>
+                                        <input type="text" id="q5" placeholder="Enter your answer">
+                                    </div>
+                                    <!-- Add more if needed -->
+                                </div>
+                                
+                                <button id="submit-exam" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; margin-top: 2rem;">Submit Exam</button>
+                                
+                                <div id="solutions" style="display: none; margin-top: 2rem; background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px;">
+                                    <h4>Detailed Solutions</h4>
+                                    <p><strong>1.</strong> Mitochondria</p>
+                                    <p><strong>2.</strong> Photosynthesis</p>
+                                    <p><strong>3.</strong> Cell</p>
+                                    <p><strong>4.</strong> DNA</p>
+                                    <p><strong>5.</strong> Maintaining internal balance</p>
+                                </div>
+                                
+                                <div class="page-number">Page 2</div>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
-                        <h4>Quick Quiz</h4>
-                        <p>What is the powerhouse of the cell?</p>
-                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
-                            <label><input type="radio" name="bioquiz1" value="a"> Nucleus</label>
-                            <label><input type="radio" name="bioquiz1" value="b"> Mitochondria</label>
-                            <label><input type="radio" name="bioquiz1" value="c"> Ribosome</label>
-                            <label><input type="radio" name="bioquiz1" value="d"> Endoplasmic Reticulum</label>
+
+                    <!-- Right Panel: Notes and Bookmarks -->
+                    <div class="right-panel">
+                        <div class="notes-section">
+                            <h3>Notes</h3>
+                            <div class="sticky-note">
+                                <p>Key point: Cells are the basic unit of life.</p>
+                            </div>
+                            <div class="sticky-note">
+                                <p>Question: How do organelles work together?</p>
+                            </div>
                         </div>
-                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                        <div class="bookmarks-section">
+                            <h3>Bookmarks</h3>
+                            <ul>
+                                <li>Cell Structure: Important organelles</li>
+                                <li>DNA: Genetic material</li>
+                            </ul>
+                        </div>
+                        <button class="quick-quiz-btn">Take Quick Quiz</button>
                     </div>
-                    
-                    <div class="page-number">Page 1</div>
-                </div>
-                <div class="book-page" id="page2" style="display: none;">
-                    <h3 id="exam">Final Exam</h3>
-                    <p>This exam covers Grade 10 Biology topics.</p>
-                    
-                    <div class="exam-questions">
-                        <div class="question">
-                            <p>1. What is the powerhouse of the cell?</p>
-                            <input type="text" id="q1" placeholder="Enter your answer">
-                        </div>
-                        <div class="question">
-                            <p>2. What process do plants use to make food?</p>
-                            <input type="text" id="q2" placeholder="Enter your answer">
-                        </div>
-                        <div class="question">
-                            <p>3. What is the basic unit of life?</p>
-                            <input type="text" id="q3" placeholder="Enter your answer">
-                        </div>
-                        <div class="question">
-                            <p>4. What carries genetic information?</p>
-                            <input type="text" id="q4" placeholder="Enter your answer">
-                        </div>
-                        <div class="question">
-                            <p>5. What is homeostasis?</p>
-                            <input type="text" id="q5" placeholder="Enter your answer">
-                        </div>
-                        <!-- Add more if needed -->
-                    </div>
-                    
-                    <button id="submit-exam" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; margin-top: 2rem;">Submit Exam</button>
-                    
-                    <div id="solutions" style="display: none; margin-top: 2rem; background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px;">
-                        <h4>Detailed Solutions</h4>
-                        <p><strong>1.</strong> Mitochondria</p>
-                        <p><strong>2.</strong> Photosynthesis</p>
-                        <p><strong>3.</strong> Cell</p>
-                        <p><strong>4.</strong> DNA</p>
-                        <p><strong>5.</strong> Maintaining internal balance</p>
-                    </div>
-                    
-                    <div class="page-number">Page 2</div>
-                </div>
-                <div class="book-navigation">
-                    <button disabled>Previous Page</button>
-                    <button>Next Page</button>
                 </div>
             </section>
             

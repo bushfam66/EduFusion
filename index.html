@@ -129,9 +129,9 @@
                         </div>
                         <h3>History</h3>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 65%;"></div>
+                            <div class="progress-fill" id="history-progress-fill" style="width: 65%;"></div>
                         </div>
-                        <p>65% Complete</p>
+                        <p id="history-progress-text">65% Complete</p>
                     </div>
                 </div>
 
@@ -332,6 +332,23 @@
                 }
             }
         });
+
+        // Update history progress based on completed quizzes
+        function updateHistoryProgress() {
+            let completed = 0;
+            const total = 10; // 10 inline quizzes
+            for (let i = 1; i <= total; i++) {
+                if (localStorage.getItem('history_quiz_historyquiz' + i) === 'completed') {
+                    completed++;
+                }
+            }
+            const percentage = (completed / total) * 100;
+            document.getElementById('history-progress-fill').style.width = percentage + '%';
+            document.getElementById('history-progress-text').textContent = Math.round(percentage) + '% Complete';
+        }
+
+        // Call on page load
+        updateHistoryProgress();
     </script>
 </body>
 </html>
