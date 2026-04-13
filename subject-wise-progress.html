@@ -159,6 +159,10 @@
                                 <li>Practice Biology quizzes</li>
                             </ul>
                         </div>
+                        <div class="review-section">
+                            <h3>Areas to Review</h3>
+                            <ul id="review-list"></ul>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -203,6 +207,27 @@
                         beginAtZero: true,
                         max: 100
                     }
+                }
+            }
+        });
+
+        // Populate review list
+        const reviewList = document.getElementById('review-list');
+        const subjects = [
+            { name: 'history', prefix: 'historyquiz', max: 10 },
+            { name: 'math', prefix: 'mathquiz', max: 6 },
+            { name: 'biology', prefix: 'bioquiz', max: 1 },
+            { name: 'physics', prefix: 'physquiz', max: 1 },
+            { name: 'chemistry', prefix: 'chemquiz', max: 1 }
+        ];
+        subjects.forEach(sub => {
+            for (let i = 1; i <= sub.max; i++) {
+                const key = 'wrong_' + sub.name + '_quiz_' + sub.prefix + i;
+                if (localStorage.getItem(key) === 'true') {
+                    const li = document.createElement('li');
+                    li.style.color = 'red';
+                    li.innerHTML = `<i class="fas fa-flag"></i> ${sub.name.charAt(0).toUpperCase() + sub.name.slice(1)} Chapter ${i}`;
+                    reviewList.appendChild(li);
                 }
             }
         });

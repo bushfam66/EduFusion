@@ -204,12 +204,25 @@
                 </div>
             </section>
             
+            <!-- Quiz Report Card -->
+            <section class="report-card" id="report-card" style="margin-top: 2rem; padding: 2rem; background-color: #f9f9f9; border-radius: 10px;">
+                <h2>Quiz Report Card & Analysis</h2>
+                <p>Get detailed analysis of your quiz performance with corrections and improvement suggestions.</p>
+                <div id="report-content"></div>
+                <button id="generate-report" style="background-color: #2196F3; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; margin-top: 1rem;">Generate Report</button>
+                <p style="margin-top: 1rem; font-size: 0.9em; color: #666;">For personalized AI analysis, ask Microsoft Copilot: "Analyze my EduFusion biology quiz mistakes"</p>
+            </section>
+            
             <!-- Quiz Modal -->
             <div id="quiz-modal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
                     <i class="fas fa-check-circle" id="checkmark" style="display: none;"></i>
                     <p id="modal-text"></p>
+                    <div id="modal-buttons" style="display: none; margin-top: 1rem;">
+                        <button id="submit-progress-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin-right: 0.5rem;">Submit to Progress</button>
+                        <button id="cancel-submit-btn" style="background-color: #f44336; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Cancel</button>
+                    </div>
                 </div>
             </div>
         </main>
@@ -236,6 +249,61 @@
         function logout() {
             alert('Logged out successfully!');
         }
+
+        // Quiz data for report
+        const quizData = {
+            'bioquiz1': {
+                question: 'What is the powerhouse of the cell?',
+                options: {a: 'Mitochondria', b: 'Nucleus', c: 'Ribosome', d: 'Vacuole'},
+                correct: 'a',
+                analysis: 'Mitochondria are the powerhouse of the cell, responsible for energy production. If incorrect, review cell organelles and their functions.'
+            }
+        };
+
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Prompt copied to clipboard! Paste it into Microsoft Copilot for AI analysis.');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        // Generate report function
+        function generateReport() {
+            const reportContent = document.getElementById('report-content');
+            reportContent.innerHTML = '';
+            let hasAnswers = false;
+            for (const quizName in quizData) {
+                const userAnswer = localStorage.getItem('answer_' + quizName);
+                if (userAnswer) {
+                    hasAnswers = true;
+                    const data = quizData[quizName];
+                    const isCorrect = userAnswer === data.correct;
+                    const div = document.createElement('div');
+                    div.style.marginBottom = '1rem';
+                    div.style.padding = '1rem';
+                    div.style.border = '1px solid #ddd';
+                    div.style.borderRadius = '5px';
+                    div.innerHTML = `
+                        <h4>Quiz 1: ${data.question}</h4>
+                        <p><strong>Your Answer:</strong> ${data.options[userAnswer]}</p>
+                        <p><strong>Correct Answer:</strong> ${data.options[data.correct]}</p>
+                        <p><strong>Status:</strong> ${isCorrect ? '<span style="color: green;">Correct</span>' : '<span style="color: red;">Incorrect</span>'}</p>
+                        <p><strong>Analysis:</strong> ${data.analysis}</p>
+                        ${!isCorrect ? '<p><strong>Improvement:</strong> Review the relevant chapter and try similar questions.</p>' : ''}
+                        <button onclick="copyToClipboard('Help me understand why I got biology quiz 1 wrong. Question: ${data.question}, My answer: ${data.options[userAnswer]}, Correct answer: ${data.options[data.correct]}, Analysis: ${data.analysis}')" style="background-color: #2196F3; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin-top: 0.5rem;">Get AI Analysis</button>
+                    `;
+                    reportContent.appendChild(div);
+                }
+            }
+            if (!hasAnswers) {
+                reportContent.innerHTML = '<p>No quiz answers found. Take some quizzes first!</p>';
+            }
+        }
+
+        // Event listener for generate report button
+        document.getElementById('generate-report').addEventListener('click', generateReport);
 
         // Page navigation
         let currentPage = 1;
@@ -278,21 +346,57 @@
                     return;
                 }
                 const quizName = radios[0].name;
+                localStorage.setItem('answer_' + quizName, selected);
                 let correct = 'a'; // All biology quizzes have correct answer 'a'
                 const checkmark = document.getElementById('checkmark');
                 if (selected === correct) {
-                    document.getElementById('modal-text').textContent = 'Correct! Well done.';
+                    document.getElementById('modal-text').textContent = 'Correct! Do you want to submit this to your progress? (Auto-submit in 7 seconds)';
+                    document.getElementById('modal-buttons').style.display = 'block';
                     checkmark.style.display = 'block';
-                    setTimeout(() => {
+                    let countdown = 7;
+                    const countdownInterval = setInterval(() => {
+                        countdown--;
+                        document.getElementById('modal-text').textContent = `Correct! Do you want to submit this to your progress? (Auto-submit in ${countdown} seconds)`;
+                        if (countdown <= 0) {
+                            clearInterval(countdownInterval);
+                            localStorage.setItem('biology_quiz_' + quizName, 'completed');
+                            document.getElementById('quiz-modal').style.display = 'none';
+                            document.getElementById('modal-buttons').style.display = 'none';
+                            setTimeout(() => {
+                                checkmark.classList.add('fade-out');
+                                setTimeout(() => {
+                                    checkmark.style.display = 'none';
+                                    checkmark.classList.remove('fade-out');
+                                }, 1000);
+                            }, 0);
+                        }
+                    }, 1000);
+                    document.getElementById('submit-progress-btn').onclick = () => {
+                        clearInterval(countdownInterval);
+                        localStorage.setItem('biology_quiz_' + quizName, 'completed');
+                        document.getElementById('quiz-modal').style.display = 'none';
+                        document.getElementById('modal-buttons').style.display = 'none';
                         checkmark.classList.add('fade-out');
                         setTimeout(() => {
                             checkmark.style.display = 'none';
                             checkmark.classList.remove('fade-out');
                         }, 1000);
-                    }, 3000);
+                    };
+                    document.getElementById('cancel-submit-btn').onclick = () => {
+                        clearInterval(countdownInterval);
+                        document.getElementById('quiz-modal').style.display = 'none';
+                        document.getElementById('modal-buttons').style.display = 'none';
+                        checkmark.classList.add('fade-out');
+                        setTimeout(() => {
+                            checkmark.style.display = 'none';
+                            checkmark.classList.remove('fade-out');
+                        }, 1000);
+                    };
                 } else {
                     document.getElementById('modal-text').textContent = 'Incorrect. Try again.';
+                    document.getElementById('modal-buttons').style.display = 'none';
                     checkmark.style.display = 'none';
+                    localStorage.setItem('wrong_biology_quiz_' + quizName, 'true');
                 }
                 document.getElementById('quiz-modal').style.display = 'block';
             });

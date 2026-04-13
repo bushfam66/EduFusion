@@ -77,104 +77,324 @@
         <main class="main-content">
             <!-- Dashboard Section -->
             <section class="dashboard" id="dashboard">
-                <div class="welcome-banner">
-                    <h2>Welcome back, Student</h2>
-                    <p>Continue your learning journey today.</p>
-                </div>
-
-                <div class="subject-cards">
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-square-root-alt"></i>
+                <!-- Hero Section -->
+                <div class="hero-section">
+                    <div class="hero-content">
+                        <h1>Welcome back, Student! 👋</h1>
+                        <p>Ready to continue your learning journey? You've made great progress this week.</p>
+                        <div class="hero-stats">
+                            <div class="hero-stat">
+                                <span class="stat-number">68%</span>
+                                <span class="stat-label">Overall Progress</span>
+                            </div>
+                            <div class="hero-stat">
+                                <span class="stat-number">12</span>
+                                <span class="stat-label">Quizzes Completed</span>
+                            </div>
+                            <div class="hero-stat">
+                                <span class="stat-number">5</span>
+                                <span class="stat-label">Day Streak</span>
+                            </div>
                         </div>
-                        <h3>Mathematics</h3>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 75%;"></div>
-                        </div>
-                        <p>75% Complete</p>
                     </div>
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-dna"></i>
-                        </div>
-                        <h3>Biology</h3>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 60%;"></div>
-                        </div>
-                        <p>60% Complete</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-atom"></i>
-                        </div>
-                        <h3>Physics</h3>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 85%;"></div>
-                        </div>
-                        <p>85% Complete</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-flask"></i>
-                        </div>
-                        <h3>Chemistry</h3>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 70%;"></div>
-                        </div>
-                        <p>70% Complete</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-landmark"></i>
-                        </div>
-                        <h3>History</h3>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="history-progress-fill" style="width: 65%;"></div>
-                        </div>
-                        <p id="history-progress-text">65% Complete</p>
+                    <div class="hero-actions">
+                        <button class="btn-primary" onclick="startLearning()">
+                            <i class="fas fa-play"></i> Continue Learning
+                        </button>
+                        <button class="btn-secondary" onclick="takeQuiz()">
+                            <i class="fas fa-brain"></i> Take a Quiz
+                        </button>
                     </div>
                 </div>
 
-                <div class="quick-links">
-                    <h3>Quick Links</h3>
-                    <div class="link-cards">
-                        <a href="overall-progress.html" class="quick-link-card">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Overall Progress</span>
-                        </a>
-                        <a href="subject-wise-progress.html" class="quick-link-card">
-                            <i class="fas fa-th-large"></i>
-                            <span>Subject-wise Progress</span>
-                        </a>
-                        <a href="achievements.html" class="quick-link-card">
-                            <i class="fas fa-trophy"></i>
-                            <span>Achievements</span>
-                        </a>
-                        <a href="view-profile.html" class="quick-link-card">
-                            <i class="fas fa-user"></i>
-                            <span>View Profile</span>
-                        </a>
-                        <a href="account-settings.html" class="quick-link-card">
-                            <i class="fas fa-cog"></i>
-                            <span>Account Settings</span>
-                        </a>
+                <!-- Metrics Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>45 Hours</h3>
+                            <p>Total Study Time</p>
+                            <span class="metric-change positive">+12% this week</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>12/15</h3>
+                            <p>Quizzes Passed</p>
+                            <span class="metric-change positive">+3 this week</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>85%</h3>
+                            <p>Average Score</p>
+                            <span class="metric-change positive">+5% this week</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>7 Days</h3>
+                            <p>Current Streak</p>
+                            <span class="metric-change positive">Keep it up!</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="recent-activity">
-                    <h3>Recent Activity</h3>
-                    <ul>
-                        <li>Completed Chapter 5 in Mathematics</li>
-                        <li>Watched video on Photosynthesis</li>
-                        <li>Scored 90% on Physics Quiz</li>
-                    </ul>
+                <!-- Progress Overview -->
+                <div class="progress-overview">
+                    <div class="section-header">
+                        <h2>Your Progress</h2>
+                        <a href="overall-progress.html" class="view-all">View All Progress</a>
+                    </div>
+                    <div class="progress-chart-container">
+                        <canvas id="progressChart" width="600" height="250"></canvas>
+                    </div>
                 </div>
 
-                <div class="progress-chart">
-                    <h3>Progress Chart</h3>
-                    <div class="chart-placeholder">
-                        <!-- Placeholder for chart -->
-                        <canvas id="progressChart" width="400" height="200"></canvas>
+                <!-- Subject Progress Grid -->
+                <div class="subjects-section">
+                    <div class="section-header">
+                        <h2>Subject Progress</h2>
+                        <a href="subject-wise-progress.html" class="view-all">View Details</a>
+                    </div>
+                    <div class="subject-cards">
+                        <a href="mathematics.html" class="subject-card-link">
+                            <div class="subject-card">
+                                <div class="subject-header">
+                                    <div class="subject-icon">
+                                        <i class="fas fa-square-root-alt"></i>
+                                    </div>
+                                    <div class="subject-info">
+                                        <h3>Mathematics</h3>
+                                        <span class="subject-status">In Progress</span>
+                                    </div>
+                                </div>
+                                <div class="subject-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="math-progress-fill"></div>
+                                    </div>
+                                    <span class="progress-text" id="math-progress-text">75% Complete</span>
+                                </div>
+                                <div class="subject-meta">
+                                    <span><i class="fas fa-clock"></i> 2h 30m left</span>
+                                    <span><i class="fas fa-book"></i> 3 chapters</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="biology.html" class="subject-card-link">
+                            <div class="subject-card">
+                                <div class="subject-header">
+                                    <div class="subject-icon">
+                                        <i class="fas fa-dna"></i>
+                                    </div>
+                                    <div class="subject-info">
+                                        <h3>Biology</h3>
+                                        <span class="subject-status">In Progress</span>
+                                    </div>
+                                </div>
+                                <div class="subject-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="biology-progress-fill"></div>
+                                    </div>
+                                    <span class="progress-text" id="biology-progress-text">60% Complete</span>
+                                </div>
+                                <div class="subject-meta">
+                                    <span><i class="fas fa-clock"></i> 4h 15m left</span>
+                                    <span><i class="fas fa-book"></i> 5 chapters</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="physics.html" class="subject-card-link">
+                            <div class="subject-card">
+                                <div class="subject-header">
+                                    <div class="subject-icon">
+                                        <i class="fas fa-atom"></i>
+                                    </div>
+                                    <div class="subject-info">
+                                        <h3>Physics</h3>
+                                        <span class="subject-status">Advanced</span>
+                                    </div>
+                                </div>
+                                <div class="subject-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="physics-progress-fill"></div>
+                                    </div>
+                                    <span class="progress-text" id="physics-progress-text">85% Complete</span>
+                                </div>
+                                <div class="subject-meta">
+                                    <span><i class="fas fa-clock"></i> 1h 45m left</span>
+                                    <span><i class="fas fa-book"></i> 2 chapters</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="chemistry.html" class="subject-card-link">
+                            <div class="subject-card">
+                                <div class="subject-header">
+                                    <div class="subject-icon">
+                                        <i class="fas fa-flask"></i>
+                                    </div>
+                                    <div class="subject-info">
+                                        <h3>Chemistry</h3>
+                                        <span class="subject-status">In Progress</span>
+                                    </div>
+                                </div>
+                                <div class="subject-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="chemistry-progress-fill"></div>
+                                    </div>
+                                    <span class="progress-text" id="chemistry-progress-text">70% Complete</span>
+                                </div>
+                                <div class="subject-meta">
+                                    <span><i class="fas fa-clock"></i> 3h 20m left</span>
+                                    <span><i class="fas fa-book"></i> 4 chapters</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="history.html" class="subject-card-link">
+                            <div class="subject-card">
+                                <div class="subject-header">
+                                    <div class="subject-icon">
+                                        <i class="fas fa-landmark"></i>
+                                    </div>
+                                    <div class="subject-info">
+                                        <h3>History</h3>
+                                        <span class="subject-status">In Progress</span>
+                                    </div>
+                                </div>
+                                <div class="subject-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="history-progress-fill"></div>
+                                    </div>
+                                    <span class="progress-text" id="history-progress-text">65% Complete</span>
+                                </div>
+                                <div class="subject-meta">
+                                    <span><i class="fas fa-clock"></i> 5h 10m left</span>
+                                    <span><i class="fas fa-book"></i> 6 chapters</span>
+                                </div>
+                            </div>
+                        </a>
+                </div>
+
+                <!-- Activity Feed & Recommendations -->
+                <div class="activity-recommendations">
+                    <div class="activity-section">
+                        <div class="section-header">
+                            <h2>Recent Activity</h2>
+                        </div>
+                        <div class="activity-feed">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>Completed Mathematics Quiz 3</p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>Earned "Physics Master" achievement</p>
+                                    <span class="activity-time">1 day ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>Started Biology Chapter 4</p>
+                                    <span class="activity-time">2 days ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recommendations-section">
+                        <div class="section-header">
+                            <h2>Recommended for You</h2>
+                        </div>
+                        <div class="recommendations-list">
+                            <div class="recommendation-item">
+                                <div class="recommendation-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div class="recommendation-content">
+                                    <h4>Practice Chemistry Equations</h4>
+                                    <p>Based on your recent quiz performance</p>
+                                </div>
+                            </div>
+                            <div class="recommendation-item">
+                                <div class="recommendation-icon">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <div class="recommendation-content">
+                                    <h4>Watch History Documentary</h4>
+                                    <p>Enhance your understanding of World War II</p>
+                                </div>
+                            </div>
+                            <div class="recommendation-item">
+                                <div class="recommendation-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <div class="recommendation-content">
+                                    <h4>Take a Break</h4>
+                                    <p>You've been studying for 3 hours straight</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievements -->
+                <div class="achievements-section">
+                    <div class="section-header">
+                        <h2>Recent Achievements</h2>
+                        <a href="achievements.html" class="view-all">View All</a>
+                    </div>
+                    <div class="achievements-grid">
+                        <div class="achievement-card">
+                            <div class="achievement-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="achievement-content">
+                                <h4>Quiz Champion</h4>
+                                <p>Completed 10 quizzes with 90%+ score</p>
+                                <span class="achievement-date">Earned today</span>
+                            </div>
+                        </div>
+                        <div class="achievement-card">
+                            <div class="achievement-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="achievement-content">
+                                <h4>Study Streak</h4>
+                                <p>7 days of consistent learning</p>
+                                <span class="achievement-date">Earned yesterday</span>
+                            </div>
+                        </div>
+                        <div class="achievement-card">
+                            <div class="achievement-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="achievement-content">
+                                <h4>Knowledge Seeker</h4>
+                                <p>Explored 5 different subjects</p>
+                                <span class="achievement-date">Earned 3 days ago</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -310,28 +530,125 @@
             alert('Logged out successfully!');
         }
 
-        // Simple chart placeholder
+        // Initialize progress chart
         const ctx = document.getElementById('progressChart').getContext('2d');
         const progressChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
                 datasets: [{
-                    label: 'Progress',
-                    data: [20, 40, 60, 80],
+                    label: 'Overall Progress',
+                    data: [15, 35, 55, 70, 85, 92],
                     borderColor: '#4CAF50',
-                    backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#4CAF50',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
                 }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                elements: {
+                    point: {
+                        hoverBorderWidth: 3
                     }
                 }
             }
         });
+
+        // Update progress for all subjects
+        function updateAllProgress() {
+            updateMathProgress();
+            updateBiologyProgress();
+            updatePhysicsProgress();
+            updateChemistryProgress();
+            updateHistoryProgress();
+        }
+
+        // Update math progress based on completed quizzes
+        function updateMathProgress() {
+            let completed = 0;
+            const total = 6; // 6 inline quizzes
+            for (let i = 1; i <= total; i++) {
+                if (localStorage.getItem('math_quiz_mathquiz' + i) === 'completed') {
+                    completed++;
+                }
+            }
+            const percentage = (completed / total) * 100;
+            const fillElement = document.getElementById('math-progress-fill');
+            const textElement = document.getElementById('math-progress-text');
+            if (fillElement) fillElement.style.width = percentage + '%';
+            if (textElement) textElement.textContent = Math.round(percentage) + '% Complete';
+        }
+
+        // Update biology progress based on completed quizzes
+        function updateBiologyProgress() {
+            let completed = 0;
+            const total = 1; // 1 inline quiz
+            if (localStorage.getItem('biology_quiz_bioquiz1') === 'completed') {
+                completed++;
+            }
+            const percentage = (completed / total) * 100;
+            const fillElement = document.getElementById('biology-progress-fill');
+            const textElement = document.getElementById('biology-progress-text');
+            if (fillElement) fillElement.style.width = percentage + '%';
+            if (textElement) textElement.textContent = Math.round(percentage) + '% Complete';
+        }
+
+        // Update physics progress based on completed quizzes
+        function updatePhysicsProgress() {
+            let completed = 0;
+            const total = 1; // 1 inline quiz
+            if (localStorage.getItem('physics_quiz_physquiz1') === 'completed') {
+                completed++;
+            }
+            const percentage = (completed / total) * 100;
+            const fillElement = document.getElementById('physics-progress-fill');
+            const textElement = document.getElementById('physics-progress-text');
+            if (fillElement) fillElement.style.width = percentage + '%';
+            if (textElement) textElement.textContent = Math.round(percentage) + '% Complete';
+        }
+
+        // Update chemistry progress based on completed quizzes
+        function updateChemistryProgress() {
+            let completed = 0;
+            const total = 1; // 1 inline quiz
+            if (localStorage.getItem('chemistry_quiz_chemquiz1') === 'completed') {
+                completed++;
+            }
+            const percentage = (completed / total) * 100;
+            const fillElement = document.getElementById('chemistry-progress-fill');
+            const textElement = document.getElementById('chemistry-progress-text');
+            if (fillElement) fillElement.style.width = percentage + '%';
+            if (textElement) textElement.textContent = Math.round(percentage) + '% Complete';
+        }
 
         // Update history progress based on completed quizzes
         function updateHistoryProgress() {
@@ -343,12 +660,22 @@
                 }
             }
             const percentage = (completed / total) * 100;
-            document.getElementById('history-progress-fill').style.width = percentage + '%';
-            document.getElementById('history-progress-text').textContent = Math.round(percentage) + '% Complete';
+            const fillElement = document.getElementById('history-progress-fill');
+            const textElement = document.getElementById('history-progress-text');
+            if (fillElement) fillElement.style.width = percentage + '%';
+            if (textElement) textElement.textContent = Math.round(percentage) + '% Complete';
         }
 
+        // Initialize dashboard on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateAllProgress();
+
+            // Update progress every 5 seconds to reflect any changes
+            setInterval(updateAllProgress, 5000);
+        });
+
         // Call on page load
-        updateHistoryProgress();
+        updateAllProgress();
     </script>
 </body>
 </html>

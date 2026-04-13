@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Learning Center</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Learning Center Specific Styles */
+        .learning-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .learning-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+
+        .learning-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .learning-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .learning-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-btn.primary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .action-btn.primary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .action-btn.secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .action-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .progress-tracker {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 3rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .progress-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-percentage {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .progress-bar-container {
+            background: #e0e0e0;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            border-radius: 6px;
+            transition: width 1s ease-in-out;
+        }
+
+        .progress-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .progress-stat {
+            text-align: center;
+        }
+
+        .progress-stat .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+
+        .progress-stat .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .quiz-inventory {
+            margin-bottom: 3rem;
+        }
+
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .subject-section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .subject-header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .subject-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .subject-info h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .subject-progress {
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+        }
+
+        .subject-progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .subject-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            transition: width 0.3s;
+        }
+
+        .subject-progress-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .quiz-list {
+            padding: 1.5rem;
+        }
+
+        .quiz-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.3s;
+        }
+
+        .quiz-item:hover {
+            background: #f8f9fa;
+        }
+
+        .quiz-item:last-child {
+            border-bottom: none;
+        }
+
+        .quiz-info h4 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .quiz-meta {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        .quiz-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .quiz-status.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .quiz-status.available {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .quiz-status.locked {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .problem-of-week {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .problem-of-week::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .problem-of-week h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .problem-of-week p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .problem-content {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .problem-question {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .problem-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .problem-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .problem-submit {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .problem-submit:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Quiz Modal Styles */
+        .quiz-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .quiz-modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .quiz-modal h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .quiz-modal p {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .quiz-modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-btn.primary {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .modal-btn.primary:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .modal-btn.secondary {
+            background: #f44336;
+            color: white;
+        }
+
+        .modal-btn.secondary:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+        /* Completion Animation */
+        .completion-animation {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .completion-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+        }
+
+        .completion-icon {
+            font-size: 5rem;
+            color: #4CAF50;
+            margin-bottom: 1rem;
+            animation: bounceIn 0.8s ease-out;
+        }
+
+        .completion-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .completion-message {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+
+        .completion-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            animation: slideUp 0.8s ease-out 0.6s both;
+        }
+
+        .completion-stat {
+            text-align: center;
+        }
+
+        .completion-stat .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .completion-stat .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .completion-actions {
+            animation: slideUp 0.8s ease-out 0.8s both;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enhanced Answer Bars */
+        .answer-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin-bottom: 1rem;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .answer-input:hover {
+            border-color: #4CAF50;
+        }
+
+        .submit-answer-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .submit-answer-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        .submit-answer-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .learning-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .learning-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .inventory-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .completion-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="logo">
+            <h1>EduFusion</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="mathematics.html">Mathematics</a>
+                    <a href="biology.html">Biology</a>
+                    <a href="physics.html">Physics</a>
+                    <a href="chemistry.html">Chemistry</a>
+                    <a href="history.html">History</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Progress <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="overall-progress.html">Overall Progress</a>
+                    <a href="subject-wise-progress.html">Subject-wise Progress</a>
+                    <a href="achievements.html">Achievements</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Profile <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="view-profile.html">View Profile</a>
+                    <a href="account-settings.html">Account Settings</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+        <div class="user-actions">
+            <i class="fas fa-bell notification-icon"></i>
+            <div class="avatar">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <main class="main-content">
+            <div class="dashboard">
+                <!-- Learning Hero Section -->
+                <div class="learning-hero">
+                    <h1>🚀 Learning Center</h1>
+                    <p>Master your subjects with AI-powered quizzes and track your progress</p>
+                    <div class="learning-actions">
+                        <a href="#quiz-inventory" class="action-btn primary">
+                            <i class="fas fa-play-circle"></i> Take a Quiz
+                        </a>
+                        <a href="#progress-tracker" class="action-btn secondary">
+                            <i class="fas fa-chart-line"></i> Continue Learning
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Progress Tracker -->
+                <div id="progress-tracker" class="progress-tracker">
+                    <div class="progress-header">
+                        <h2 class="progress-title">Overall Learning Progress</h2>
+                        <span class="progress-percentage" id="overall-percentage">0%</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="overall-progress-fill" style="width: 0%;"></div>
+                    </div>
+                    <div class="progress-details">
+                        <div class="progress-stat">
+                            <span class="stat-number" id="total-quizzes">0</span>
+                            <span class="stat-label">Total Quizzes</span>
+                        </div>
+                        <div class="progress-stat">
+                            <span class="stat-number" id="completed-quizzes">0</span>
+                            <span class="stat-label">Completed</span>
+                        </div>
+                        <div class="progress-stat">
+                            <span class="stat-number" id="average-score">0%</span>
+                            <span class="stat-label">Avg Score</span>
+                        </div>
+                        <div class="progress-stat">
+                            <span class="stat-number" id="study-streak">0</span>
+                            <span class="stat-label">Day Streak</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem of the Week -->
+                <div class="problem-of-week">
+                    <h2>🧠 Problem of the Week</h2>
+                    <p>Challenge yourself with this advanced mathematics problem</p>
+                    <div class="problem-content">
+                        <div class="problem-question">
+                            <strong>Advanced Calculus Challenge:</strong><br>
+                            Evaluate the following integral: ∫(x² + 3x + 2)/(x³ + 2x² + x) dx
+                        </div>
+                        <input type="text" class="problem-input" placeholder="Enter your solution (show your work)" id="problem-answer">
+                        <button class="problem-submit" onclick="submitProblemOfWeek()">
+                            <i class="fas fa-paper-plane"></i> Submit Solution
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Inventory -->
+                <div id="quiz-inventory" class="quiz-inventory">
+                    <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem; color: #333;">Quiz Inventory</h2>
+                    <div class="inventory-grid">
+                        <!-- Mathematics -->
+                        <div class="subject-section">
+                            <div class="subject-header">
+                                <div class="subject-icon">
+                                    <i class="fas fa-square-root-alt"></i>
+                                </div>
+                                <div class="subject-info">
+                                    <h3>Mathematics</h3>
+                                    <span id="math-progress-text">0% Complete</span>
+                                </div>
+                            </div>
+                            <div class="subject-progress">
+                                <div class="subject-progress-bar">
+                                    <div class="subject-progress-fill" id="math-progress-fill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <div class="quiz-list">
+                                <div class="quiz-item" onclick="startQuiz('math', 'algebra-basics')">
+                                    <div class="quiz-info">
+                                        <h4>Algebra Basics</h4>
+                                        <div class="quiz-meta">10 questions • 15 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                                <div class="quiz-item" onclick="startQuiz('math', 'geometry-fundamentals')">
+                                    <div class="quiz-info">
+                                        <h4>Geometry Fundamentals</h4>
+                                        <div class="quiz-meta">8 questions • 12 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                                <div class="quiz-item" onclick="startQuiz('math', 'calculus-intro')">
+                                    <div class="quiz-info">
+                                        <h4>Introduction to Calculus</h4>
+                                        <div class="quiz-meta">12 questions • 20 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                                <div class="quiz-item" onclick="startQuiz('math', 'statistics-probability')">
+                                    <div class="quiz-info">
+                                        <h4>Statistics & Probability</h4>
+                                        <div class="quiz-meta">10 questions • 18 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Physics -->
+                        <div class="subject-section">
+                            <div class="subject-header">
+                                <div class="subject-icon">
+                                    <i class="fas fa-atom"></i>
+                                </div>
+                                <div class="subject-info">
+                                    <h3>Physics</h3>
+                                    <span id="physics-progress-text">0% Complete</span>
+                                </div>
+                            </div>
+                            <div class="subject-progress">
+                                <div class="subject-progress-bar">
+                                    <div class="subject-progress-fill" id="physics-progress-fill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <div class="quiz-list">
+                                <div class="quiz-item" onclick="startQuiz('physics', 'mechanics-basics')">
+                                    <div class="quiz-info">
+                                        <h4>Mechanics Basics</h4>
+                                        <div class="quiz-meta">8 questions • 15 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                                <div class="quiz-item" onclick="startQuiz('physics', 'thermodynamics')">
+                                    <div class="quiz-info">
+                                        <h4>Thermodynamics</h4>
+                                        <div class="quiz-meta">10 questions • 18 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                                <div class="quiz-item" onclick="startQuiz('physics', 'electromagnetism')">
+                                    <div class="quiz-info">
+                                        <h4>Electromagnetism</h4>
+                                        <div class="quiz-meta">12 questions • 20 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chemistry -->
+                        <div class="subject-section">
+                            <div class="subject-header">
+                                <div class="subject-icon">
+                                    <i class="fas fa-flask"></i>
+                                </div>
+                                <div class="subject-info">
+                                    <h3>Chemistry</h3>
+                                    <span id="chemistry-progress-text">0% Complete</span>
+                                </div>
+                            </div>
+                            <div class="subject-progress">
+                                <div class="subject-progress-bar">
+                                    <div class="subject-progress-fill" id="chemistry-progress-fill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <div class="quiz-list">
+                                <div class="quiz-item" onclick="startQuiz('chemistry', 'atomic-structure')">
+                                    <div class="quiz-info">
+                                        <h4>Atomic Structure</h4>
+                                        <div class="quiz-meta">8 questions • 12 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                                <div class="quiz-item" onclick="startQuiz('chemistry', 'chemical-bonding')">
+                                    <div class="quiz-info">
+                                        <h4>Chemical Bonding</h4>
+                                        <div class="quiz-meta">10 questions • 15 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                                <div class="quiz-item" onclick="startQuiz('chemistry', 'organic-chemistry')">
+                                    <div class="quiz-info">
+                                        <h4>Organic Chemistry</h4>
+                                        <div class="quiz-meta">12 questions • 18 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Biology -->
+                        <div class="subject-section">
+                            <div class="subject-header">
+                                <div class="subject-icon">
+                                    <i class="fas fa-dna"></i>
+                                </div>
+                                <div class="subject-info">
+                                    <h3>Biology</h3>
+                                    <span id="biology-progress-text">0% Complete</span>
+                                </div>
+                            </div>
+                            <div class="subject-progress">
+                                <div class="subject-progress-bar">
+                                    <div class="subject-progress-fill" id="biology-progress-fill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <div class="quiz-list">
+                                <div class="quiz-item" onclick="startQuiz('biology', 'cell-biology')">
+                                    <div class="quiz-info">
+                                        <h4>Cell Biology</h4>
+                                        <div class="quiz-meta">10 questions • 15 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                                <div class="quiz-item" onclick="startQuiz('biology', 'genetics')">
+                                    <div class="quiz-info">
+                                        <h4>Genetics</h4>
+                                        <div class="quiz-meta">8 questions • 12 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                                <div class="quiz-item" onclick="startQuiz('biology', 'ecology')">
+                                    <div class="quiz-info">
+                                        <h4>Ecology</h4>
+                                        <div class="quiz-meta">10 questions • 16 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- History -->
+                        <div class="subject-section">
+                            <div class="subject-header">
+                                <div class="subject-icon">
+                                    <i class="fas fa-landmark"></i>
+                                </div>
+                                <div class="subject-info">
+                                    <h3>History</h3>
+                                    <span id="history-progress-text">0% Complete</span>
+                                </div>
+                            </div>
+                            <div class="subject-progress">
+                                <div class="subject-progress-bar">
+                                    <div class="subject-progress-fill" id="history-progress-fill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <div class="quiz-list">
+                                <div class="quiz-item" onclick="startQuiz('history', 'ancient-civilizations')">
+                                    <div class="quiz-info">
+                                        <h4>Ancient Civilizations</h4>
+                                        <div class="quiz-meta">12 questions • 18 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                                <div class="quiz-item" onclick="startQuiz('history', 'world-wars')">
+                                    <div class="quiz-info">
+                                        <h4>World Wars</h4>
+                                        <div class="quiz-meta">15 questions • 22 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                                <div class="quiz-item" onclick="startQuiz('history', 'modern-history')">
+                                    <div class="quiz-info">
+                                        <h4>Modern History</h4>
+                                        <div class="quiz-meta">10 questions • 16 min</div>
+                                    </div>
+                                    <span class="quiz-status available">Available</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Quiz Modal -->
+    <div id="quiz-modal" class="quiz-modal">
+        <div class="quiz-modal-content">
+            <h3 id="modal-title">Start Quiz</h3>
+            <p id="modal-text">Are you ready to begin this quiz?</p>
+            <div class="quiz-modal-buttons">
+                <button class="modal-btn primary" onclick="confirmStartQuiz()">Start Quiz</button>
+                <button class="modal-btn secondary" onclick="closeQuizModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completion Animation -->
+    <div id="completion-animation" class="completion-animation">
+        <div class="completion-content">
+            <div class="completion-icon">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h2 class="completion-title">Quiz Completed!</h2>
+            <p class="completion-message">Congratulations on finishing your quiz</p>
+            <div class="completion-stats">
+                <div class="completion-stat">
+                    <span class="stat-number" id="completion-score">95%</span>
+                    <span class="stat-label">Score</span>
+                </div>
+                <div class="completion-stat">
+                    <span class="stat-number" id="completion-time">12:34</span>
+                    <span class="stat-label">Time</span>
+                </div>
+                <div class="completion-stat">
+                    <span class="stat-number" id="completion-questions">10/10</span>
+                    <span class="stat-label">Questions</span>
+                </div>
+            </div>
+            <div class="completion-actions">
+                <button class="action-btn primary" onclick="closeCompletionAnimation()">
+                    <i class="fas fa-home"></i> Back to Learning Center
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentQuiz = null;
+        let quizStartTime = null;
+
+        // Dropdown functionality
+        document.querySelectorAll('.dropbtn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const dropdown = this.parentElement;
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+                dropdown.classList.toggle('show');
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+            }
+        });
+
+        // Logout function
+        function logout() {
+            alert('Logged out successfully!');
+        }
+
+        // Initialize progress on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateOverallProgress();
+            updateSubjectProgress();
+        });
+
+        // Update overall progress
+        function updateOverallProgress() {
+            // Calculate total quizzes and completed quizzes
+            const subjects = ['math', 'physics', 'chemistry', 'biology', 'history'];
+            let totalQuizzes = 0;
+            let completedQuizzes = 0;
+            let totalScore = 0;
+            let scoreCount = 0;
+
+            subjects.forEach(subject => {
+                const subjectQuizzes = getSubjectQuizzes(subject);
+                totalQuizzes += subjectQuizzes.length;
+
+                subjectQuizzes.forEach(quiz => {
+                    const quizKey = `${subject}_quiz_${quiz.id}`;
+                    if (localStorage.getItem(quizKey) === 'completed') {
+                        completedQuizzes++;
+                        const score = localStorage.getItem(`${quizKey}_score`);
+                        if (score) {
+                            totalScore += parseInt(score);
+                            scoreCount++;
+                        }
+                    }
+                });
+            });
+
+            const overallPercentage = totalQuizzes > 0 ? Math.round((completedQuizzes / totalQuizzes) * 100) : 0;
+            const averageScore = scoreCount > 0 ? Math.round(totalScore / scoreCount) : 0;
+
+            document.getElementById('overall-percentage').textContent = overallPercentage + '%';
+            document.getElementById('overall-progress-fill').style.width = overallPercentage + '%';
+            document.getElementById('total-quizzes').textContent = totalQuizzes;
+            document.getElementById('completed-quizzes').textContent = completedQuizzes;
+            document.getElementById('average-score').textContent = averageScore + '%';
+
+            // Calculate study streak (simplified)
+            const today = new Date().toDateString();
+            const lastStudyDate = localStorage.getItem('last_study_date');
+            let streak = parseInt(localStorage.getItem('study_streak') || '0');
+
+            if (lastStudyDate !== today && completedQuizzes > 0) {
+                localStorage.setItem('last_study_date', today);
+                streak++;
+                localStorage.setItem('study_streak', streak.toString());
+            }
+
+            document.getElementById('study-streak').textContent = streak;
+        }
+
+        // Update subject-specific progress
+        function updateSubjectProgress() {
+            const subjects = ['math', 'physics', 'chemistry', 'biology', 'history'];
+
+            subjects.forEach(subject => {
+                const subjectQuizzes = getSubjectQuizzes(subject);
+                let completed = 0;
+
+                subjectQuizzes.forEach(quiz => {
+                    if (localStorage.getItem(`${subject}_quiz_${quiz.id}`) === 'completed') {
+                        completed++;
+                    }
+                });
+
+                const percentage = subjectQuizzes.length > 0 ? Math.round((completed / subjectQuizzes.length) * 100) : 0;
+
+                const progressFill = document.getElementById(`${subject}-progress-fill`);
+                const progressText = document.getElementById(`${subject}-progress-text`);
+
+                if (progressFill) progressFill.style.width = percentage + '%';
+                if (progressText) progressText.textContent = percentage + '% Complete';
+            });
+        }
+
+        // Get quizzes for a subject
+        function getSubjectQuizzes(subject) {
+            const quizData = {
+                math: [
+                    { id: 'algebra-basics', name: 'Algebra Basics' },
+                    { id: 'geometry-fundamentals', name: 'Geometry Fundamentals' },
+                    { id: 'calculus-intro', name: 'Introduction to Calculus' },
+                    { id: 'statistics-probability', name: 'Statistics & Probability' }
+                ],
+                physics: [
+                    { id: 'mechanics-basics', name: 'Mechanics Basics' },
+                    { id: 'thermodynamics', name: 'Thermodynamics' },
+                    { id: 'electromagnetism', name: 'Electromagnetism' }
+                ],
+                chemistry: [
+                    { id: 'atomic-structure', name: 'Atomic Structure' },
+                    { id: 'chemical-bonding', name: 'Chemical Bonding' },
+                    { id: 'organic-chemistry', name: 'Organic Chemistry' }
+                ],
+                biology: [
+                    { id: 'cell-biology', name: 'Cell Biology' },
+                    { id: 'genetics', name: 'Genetics' },
+                    { id: 'ecology', name: 'Ecology' }
+                ],
+                history: [
+                    { id: 'ancient-civilizations', name: 'Ancient Civilizations' },
+                    { id: 'world-wars', name: 'World Wars' },
+                    { id: 'modern-history', name: 'Modern History' }
+                ]
+            };
+
+            return quizData[subject] || [];
+        }
+
+        // Start quiz function
+        function startQuiz(subject, quizId) {
+            currentQuiz = { subject, quizId };
+            document.getElementById('modal-title').textContent = 'Start Quiz';
+            document.getElementById('modal-text').textContent = `Are you ready to begin the ${getSubjectQuizzes(subject).find(q => q.id === quizId)?.name} quiz?`;
+            document.getElementById('quiz-modal').style.display = 'block';
+        }
+
+        // Confirm start quiz
+        function confirmStartQuiz() {
+            if (currentQuiz) {
+                quizStartTime = new Date();
+                // Redirect to subject page with quiz parameter
+                window.location.href = `${currentQuiz.subject}.html?quiz=${currentQuiz.quizId}`;
+            }
+            closeQuizModal();
+        }
+
+        // Close quiz modal
+        function closeQuizModal() {
+            document.getElementById('quiz-modal').style.display = 'none';
+            currentQuiz = null;
+        }
+
+        // Submit Problem of the Week
+        function submitProblemOfWeek() {
+            const answer = document.getElementById('problem-answer').value.trim();
+            if (!answer) {
+                alert('Please enter your solution first!');
+                return;
+            }
+
+            // Simulate AI evaluation (in real implementation, this would call an AI service)
+            const score = Math.floor(Math.random() * 40) + 60; // Random score between 60-100
+
+            // Show completion animation
+            showCompletionAnimation(score, 'Problem of the Week', '15:30');
+
+            // Clear the input
+            document.getElementById('problem-answer').value = '';
+        }
+
+        // Show completion animation
+        function showCompletionAnimation(score, quizName, time) {
+            document.getElementById('completion-score').textContent = score + '%';
+            document.getElementById('completion-time').textContent = time;
+            document.getElementById('completion-questions').textContent = '1/1';
+            document.getElementById('completion-message').textContent = `Great job on completing ${quizName}!`;
+
+            const animation = document.getElementById('completion-animation');
+            animation.style.display = 'block';
+
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                closeCompletionAnimation();
+            }, 5000);
+        }
+
+        // Close completion animation
+        function closeCompletionAnimation() {
+            document.getElementById('completion-animation').style.display = 'none';
+            updateOverallProgress();
+            updateSubjectProgress();
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
