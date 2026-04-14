@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - All Subjects</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="top-nav">
+        <div class="logo">
+            <h1>EduFusion</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="subjects.html">All Subjects</a>
+                    <a href="mathematics.html">Mathematics</a>
+                    <a href="biology.html">Biology</a>
+                    <a href="physics.html">Physics</a>
+                    <a href="chemistry.html">Chemistry</a>
+                    <a href="history.html">History</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Progress <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="overall-progress.html">Overall Progress</a>
+                    <a href="subject-wise-progress.html">Subject-wise Progress</a>
+                    <a href="achievements.html">Achievements</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Profile <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="view-profile.html">View Profile</a>
+                    <a href="account-settings.html">Account Settings</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+        <div class="user-actions">
+            <i class="fas fa-bell notification-icon"></i>
+            <div class="avatar">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <main class="main-content">
+            <section class="dashboard">
+                <div class="learning-hero" style="margin-bottom: 2rem; padding: 2rem; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                    <h1>All Subjects</h1>
+                    <p>Browse every subject available and jump into the topic you want to learn next.</p>
+                    <div class="learning-actions" style="margin-top: 1rem; gap: 1rem; display: flex; flex-wrap: wrap;">
+                        <a href="index.html" class="btn-secondary"><i class="fas fa-home"></i> Back to Dashboard</a>
+                        <a href="subject-wise-progress.html" class="btn-primary"><i class="fas fa-chart-line"></i> View Progress</a>
+                    </div>
+                </div>
+
+                <div class="subjects-section">
+                    <div class="section-header">
+                        <h2>Subject Inventory</h2>
+                        <span>Pick a subject to continue learning.</span>
+                    </div>
+                    <div class="subject-cards">
+                        <a href="mathematics.html" class="subject-card-link">
+                            <div class="subject-card">
+                                <div class="subject-header">
+                                    <div class="subject-icon"><i class="fas fa-square-root-alt"></i></div>
+                                    <div class="subject-info">
+                                        <h3>Mathematics</h3>
+                                        <span class="subject-status In-Progress">In Progress</span>
+                                        <span class="subject-tag subject-tag-core">Core subject</span>
+                                    </div>
+                                </div>
+                                <div class="subject-progress">
+                                    <div class="progress-bar"><div id="math-progress-fill" class="progress-fill" style="width: 0%;"></div></div>
+                                    <span id="math-progress-text" class="progress-text">0% Complete</span>
+                                </div>
+                                <div class="subject-meta">
+                                    <span><i class="fas fa-book"></i> 12 lessons</span>
+                                    <span><i class="fas fa-clock"></i> 2h 30m</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="biology.html" class="subject-card-link">
+                            <div class="subject-card">
+                                <div class="subject-header">
+                                    <div class="subject-icon"><i class="fas fa-dna"></i></div>
+                                    <div class="subject-info">
+                                        <h3>Biology</h3>
+                                        <span class="subject-status In-Progress">In Progress</span>
+                                        <span class="subject-tag subject-tag-elective">Elective</span>
+                                    </div>
+                                </div>
+                                <div class="subject-progress">
+                                    <div class="progress-bar"><div id="biology-progress-fill" class="progress-fill" style="width: 0%;"></div></div>
+                                    <span id="biology-progress-text" class="progress-text">0% Complete</span>
+                                </div>
+                                <div class="subject-meta">
+                                    <span><i class="fas fa-book"></i> 10 lessons</span>
+                                    <span><i class="fas fa-clock"></i> 3h 10m</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="physics.html" class="subject-card-link">
+                            <div class="subject-card">
+                                <div class="subject-header">
+                                    <div class="subject-icon"><i class="fas fa-atom"></i></div>
+                                    <div class="subject-info">
+                                        <h3>Physics</h3>
+                                        <span class="subject-status Advanced">Advanced</span>
+                                        <span class="subject-tag subject-tag-elective">Elective</span>
+                                    </div>
+                                </div>
+                                <div class="subject-progress">
+                                    <div class="progress-bar"><div id="physics-progress-fill" class="progress-fill" style="width: 0%;"></div></div>
+                                    <span id="physics-progress-text" class="progress-text">0% Complete</span>
+                                </div>
+                                <div class="subject-meta">
+                                    <span><i class="fas fa-book"></i> 9 lessons</span>
+                                    <span><i class="fas fa-clock"></i> 1h 45m</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="chemistry.html" class="subject-card-link">
+                            <div class="subject-card">
+                                <div class="subject-header">
+                                    <div class="subject-icon"><i class="fas fa-vials"></i></div>
+                                    <div class="subject-info">
+                                        <h3>Chemistry</h3>
+                                        <span class="subject-status In-Progress">In Progress</span>
+                                        <span class="subject-tag subject-tag-elective">Elective</span>
+                                    </div>
+                                </div>
+                                <div class="subject-progress">
+                                    <div class="progress-bar"><div id="chemistry-progress-fill" class="progress-fill" style="width: 0%;"></div></div>
+                                    <span id="chemistry-progress-text" class="progress-text">0% Complete</span>
+                                </div>
+                                <div class="subject-meta">
+                                    <span><i class="fas fa-book"></i> 11 lessons</span>
+                                    <span><i class="fas fa-clock"></i> 2h 50m</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="history.html" class="subject-card-link">
+                            <div class="subject-card">
+                                <div class="subject-header">
+                                    <div class="subject-icon"><i class="fas fa-landmark"></i></div>
+                                    <div class="subject-info">
+                                        <h3>History</h3>
+                                        <span class="subject-status Completed">Completed</span>
+                                        <span class="subject-tag subject-tag-elective">Elective</span>
+                                    </div>
+                                </div>
+                                <div class="subject-progress">
+                                    <div class="progress-bar"><div id="history-progress-fill" class="progress-fill" style="width: 0%;"></div></div>
+                                    <span id="history-progress-text" class="progress-text">0% Complete</span>
+                                </div>
+                                <div class="subject-meta">
+                                    <span><i class="fas fa-book"></i> 8 lessons</span>
+                                    <span><i class="fas fa-clock"></i> 1h 20m</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        // Check authentication on page load
+        function checkUserLogin() {
+            const currentUser = localStorage.getItem('edufusion_current_user');
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            return JSON.parse(currentUser);
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('edufusion_current_user');
+                localStorage.removeItem('edufusion_remember_me');
+                window.location.href = 'login.html';
+            }
+        }
+
+        function updateAllProgress() {
+            updateMathProgress();
+            updateBiologyProgress();
+            updatePhysicsProgress();
+            updateChemistryProgress();
+            updateHistoryProgress();
+        }
+
+        function updateMathProgress() {
+            let completed = 0;
+            const total = 6;
+            for (let i = 1; i <= total; i++) {
+                if (localStorage.getItem('math_quiz_mathquiz' + i) === 'completed') {
+                    completed++;
+                }
+            }
+            const percentage = (completed / total) * 100;
+            const fillElement = document.getElementById('math-progress-fill');
+            const textElement = document.getElementById('math-progress-text');
+            if (fillElement) fillElement.style.width = Math.round(percentage) + '%';
+            if (textElement) textElement.textContent = Math.round(percentage) + '% Complete';
+        }
+
+        function updateBiologyProgress() {
+            let completed = 0;
+            const total = 1;
+            if (localStorage.getItem('biology_quiz_bioquiz1') === 'completed') {
+                completed++;
+            }
+            const percentage = (completed / total) * 100;
+            const fillElement = document.getElementById('biology-progress-fill');
+            const textElement = document.getElementById('biology-progress-text');
+            if (fillElement) fillElement.style.width = Math.round(percentage) + '%';
+            if (textElement) textElement.textContent = Math.round(percentage) + '% Complete';
+        }
+
+        function updatePhysicsProgress() {
+            let completed = 0;
+            const total = 1;
+            if (localStorage.getItem('physics_quiz_physquiz1') === 'completed') {
+                completed++;
+            }
+            const percentage = (completed / total) * 100;
+            const fillElement = document.getElementById('physics-progress-fill');
+            const textElement = document.getElementById('physics-progress-text');
+            if (fillElement) fillElement.style.width = Math.round(percentage) + '%';
+            if (textElement) textElement.textContent = Math.round(percentage) + '% Complete';
+        }
+
+        function updateChemistryProgress() {
+            let completed = 0;
+            const total = 1;
+            if (localStorage.getItem('chemistry_quiz_chemquiz1') === 'completed') {
+                completed++;
+            }
+            const percentage = (completed / total) * 100;
+            const fillElement = document.getElementById('chemistry-progress-fill');
+            const textElement = document.getElementById('chemistry-progress-text');
+            if (fillElement) fillElement.style.width = Math.round(percentage) + '%';
+            if (textElement) textElement.textContent = Math.round(percentage) + '% Complete';
+        }
+
+        function updateHistoryProgress() {
+            let completed = 0;
+            const total = 10;
+            for (let i = 1; i <= total; i++) {
+                if (localStorage.getItem('history_quiz_historyquiz' + i) === 'completed') {
+                    completed++;
+                }
+            }
+            const percentage = (completed / total) * 100;
+            const fillElement = document.getElementById('history-progress-fill');
+            const textElement = document.getElementById('history-progress-text');
+            if (fillElement) fillElement.style.width = Math.round(percentage) + '%';
+            if (textElement) textElement.textContent = Math.round(percentage) + '% Complete';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUserLogin();
+            updateAllProgress();
+            setInterval(updateAllProgress, 5000);
+        });
+    </script>
+</body>
+</html>
+            if (textElement) textElement.textContent = Math.round(percentage) + '% Complete';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateAllProgress();
+            setInterval(updateAllProgress, 5000);
+        });
+    </script>
+</body>
+</html>

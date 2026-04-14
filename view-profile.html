@@ -102,27 +102,38 @@
                             
                             <div class="profile-card" style="background-color: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); margin: 2rem 0;">
                                 <div class="profile-header" style="display: flex; align-items: center; margin-bottom: 2rem;">
-                                    <img src="https://via.placeholder.com/100" alt="Profile Picture" style="border-radius: 50%; margin-right: 2rem;">
+                                    <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; margin-right: 2rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: bold;">
+                                        <span id="userInitial">U</span>
+                                    </div>
                                     <div>
-                                        <h3>John Doe</h3>
-                                        <p>Student ID: 123456</p>
-                                        <p>Email: john.doe@example.com</p>
+                                        <h3 id="profileUserName">Loading...</h3>
+                                        <p id="profileUserId" style="color: #666;">Account ID: <span id="accountId">--</span></p>
+                                        <p id="profileUserEmail" style="color: #666;">Email: <span id="userEmail">--</span></p>
                                     </div>
                                 </div>
                                 
                                 <div class="profile-details" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                                    <div>
-                                        <h4>Personal Information</h4>
-                                        <p><strong>Name:</strong> John Doe</p>
-                                        <p><strong>Date of Birth:</strong> January 1, 2005</p>
-                                        <p><strong>Phone:</strong> +1 (123) 456-7890</p>
+                                    <div style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #4CAF50;">
+                                        <h4 style="color: #333; margin-bottom: 1rem;">Personal Information</h4>
+                                        <p><strong>Name:</strong> <span id="detailName">--</span></p>
+                                        <p><strong>Email:</strong> <span id="detailEmail">--</span></p>
+                                        <p><strong>Member Since:</strong> <span id="memberSince">--</span></p>
+                                        <p><strong>Account Status:</strong> <span id="accountStatus" style="color: #4CAF50; font-weight: bold;">Active</span></p>
                                     </div>
-                                    <div>
-                                        <h4>Academic Information</h4>
-                                        <p><strong>Grade:</strong> 12th</p>
-                                        <p><strong>School:</strong> EduFusion High School</p>
-                                        <p><strong>Enrolled Subjects:</strong> Math, Bio, Physics, Chemistry</p>
+                                    <div style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2196F3;">
+                                        <h4 style="color: #333; margin-bottom: 1rem;">Learning Progress</h4>
+                                        <p><strong>Subjects Enrolled:</strong> 5</p>
+                                        <p><strong>Overall Progress:</strong> <span id="overallProgress">0%</span></p>
+                                        <p><strong>Quizzes Completed:</strong> <span id="quizzesCompleted">0</span></p>
+                                        <p><strong>Last Active:</strong> <span id="lastActive">Today</span></p>
                                     </div>
+                                </div>
+
+                                <div style="background-color: #e8f5e9; padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 4px solid #4CAF50;">
+                                    <h4 style="color: #2e7d32; margin-top: 0;">Account Information</h4>
+                                    <p id="fullAccountInfo" style="color: #555; margin: 0.5rem 0;">
+                                        Welcome, <strong id="welcomeName">User</strong>! Your profile is complete and your account is in good standing.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -154,6 +165,98 @@
     </div>
 
     <script>
+        // Check authentication on page load
+        function checkUserLogin() {
+            const currentUser = localStorage.getItem('edufusion_current_user');
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            return JSON.parse(currentUser);
+        }
+
+        // Load and display user profile information
+        function loadUserProfile() {
+            const user = checkUserLogin();
+            if (!user) return;
+
+            // Get user initial
+            const initial = user.name.charAt(0).toUpperCase();
+            document.getElementById('userInitial').textContent = initial;
+
+            // Profile header
+            document.getElementById('profileUserName').textContent = user.name;
+            document.getElementById('profileUserEmail').textContent = 'Email: ' + user.email;
+            document.getElementById('accountId').textContent = user.id;
+            document.getElementById('userEmail').textContent = user.email;
+
+            // Personal information section
+            document.getElementById('detailName').textContent = user.name;
+            document.getElementById('detailEmail').textContent = user.email;
+
+            // Member since (format the creation date)
+            const createdDate = new Date(user.createdAt);
+            const formattedDate = createdDate.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            document.getElementById('memberSince').textContent = formattedDate;
+
+            // Welcome message
+            document.getElementById('welcomeName').textContent = user.name.split(' ')[0];
+
+            // Calculate progress stats
+            calculateProgressStats();
+        }
+
+        // Calculate learning progress
+        function calculateProgressStats() {
+            let totalQuizzes = 0;
+            let completedQuizzes = 0;
+
+            // Count math quizzes
+            for (let i = 1; i <= 6; i++) {
+                if (localStorage.getItem('math_quiz_mathquiz' + i) === 'completed') {
+                    completedQuizzes++;
+                }
+                totalQuizzes++;
+            }
+
+            // Count other quizzes
+            if (localStorage.getItem('biology_quiz_bioquiz1') === 'completed') completedQuizzes++;
+            totalQuizzes++;
+            
+            if (localStorage.getItem('physics_quiz_physquiz1') === 'completed') completedQuizzes++;
+            totalQuizzes++;
+            
+            if (localStorage.getItem('chemistry_quiz_chemquiz1') === 'completed') completedQuizzes++;
+            totalQuizzes++;
+
+            // Count history quizzes
+            for (let i = 1; i <= 10; i++) {
+                if (localStorage.getItem('history_quiz_historyquiz' + i) === 'completed') {
+                    completedQuizzes++;
+                }
+                totalQuizzes++;
+            }
+
+            // Calculate overall progress
+            const overallProgress = totalQuizzes > 0 ? Math.round((completedQuizzes / totalQuizzes) * 100) : 0;
+
+            // Update UI
+            document.getElementById('overallProgress').textContent = overallProgress + '%';
+            document.getElementById('quizzesCompleted').textContent = completedQuizzes + ' / ' + totalQuizzes;
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('edufusion_current_user');
+                localStorage.removeItem('edufusion_remember_me');
+                window.location.href = 'login.html';
+            }
+        }
+
         // Dropdown functionality
         document.querySelectorAll('.dropbtn').forEach(btn => {
             btn.addEventListener('click', function(e) {
@@ -171,9 +274,10 @@
             }
         });
 
-        function logout() {
-            alert('Logged out successfully!');
-        }
+        // Initialize authentication and load profile
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserProfile();
+        });
     </script>
 </body>
 </html>

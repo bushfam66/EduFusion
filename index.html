@@ -14,7 +14,7 @@
             <h1>EduFusion</h1>
         </div>
         <nav class="nav-links">
-            <a href="#">Home</a>
+            <a href="index.html">Home</a>
             <div class="dropdown">
                 <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
                 <div class="dropdown-content">
@@ -98,9 +98,9 @@
                         </div>
                     </div>
                     <div class="hero-actions">
-                        <button class="btn-primary" onclick="startLearning()">
+                        <a href="subjects.html" class="btn-primary">
                             <i class="fas fa-play"></i> Continue Learning
-                        </button>
+                        </a>
                         <button class="btn-secondary" onclick="takeQuiz()">
                             <i class="fas fa-brain"></i> Take a Quiz
                         </button>
@@ -178,6 +178,7 @@
                                     <div class="subject-info">
                                         <h3>Mathematics</h3>
                                         <span class="subject-status">In Progress</span>
+                                        <span class="subject-tag subject-tag-core">Core subject</span>
                                     </div>
                                 </div>
                                 <div class="subject-progress">
@@ -201,6 +202,7 @@
                                     <div class="subject-info">
                                         <h3>Biology</h3>
                                         <span class="subject-status">In Progress</span>
+                                        <span class="subject-tag subject-tag-elective">Elective</span>
                                     </div>
                                 </div>
                                 <div class="subject-progress">
@@ -224,6 +226,7 @@
                                     <div class="subject-info">
                                         <h3>Physics</h3>
                                         <span class="subject-status">Advanced</span>
+                                        <span class="subject-tag subject-tag-elective">Elective</span>
                                     </div>
                                 </div>
                                 <div class="subject-progress">
@@ -247,6 +250,7 @@
                                     <div class="subject-info">
                                         <h3>Chemistry</h3>
                                         <span class="subject-status">In Progress</span>
+                                        <span class="subject-tag subject-tag-elective">Elective</span>
                                     </div>
                                 </div>
                                 <div class="subject-progress">
@@ -270,6 +274,7 @@
                                     <div class="subject-info">
                                         <h3>History</h3>
                                         <span class="subject-status">In Progress</span>
+                                        <span class="subject-tag subject-tag-elective">Elective</span>
                                     </div>
                                 </div>
                                 <div class="subject-progress">
@@ -486,6 +491,29 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Check authentication on page load
+        function checkUserLogin() {
+            const currentUser = localStorage.getItem('edufusion_current_user');
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            return JSON.parse(currentUser);
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('edufusion_current_user');
+                localStorage.removeItem('edufusion_remember_me');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Verify user is logged in on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUserLogin();
+        });
+
         // Dropdown functionality
         document.querySelectorAll('.dropbtn').forEach(btn => {
             btn.addEventListener('click', function(e) {
@@ -528,6 +556,10 @@
 
         function logout() {
             alert('Logged out successfully!');
+        }
+
+        function takeQuiz() {
+            alert('Quiz feature coming soon!');
         }
 
         // Initialize progress chart

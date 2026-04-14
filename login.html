@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Login & Register</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>EduFusion</h1>
+                <p>Your Learning Companion</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active-form">
+                <h2>Login</h2>
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="loginEmail" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required>
+                    </div>
+                </div>
+                <div class="form-options">
+                    <label>
+                        <input type="checkbox" id="rememberMe"> Remember me
+                    </label>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+                <button type="submit" class="auth-btn">Login</button>
+                <p class="form-toggle">
+                    Don't have an account? 
+                    <a href="#" onclick="toggleForms(event)">Register here</a>
+                </p>
+                <div id="loginError" class="error-message"></div>
+                <div id="loginSuccess" class="success-message"></div>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form">
+                <h2>Create Account</h2>
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="registerName" name="name" placeholder="Enter your full name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="registerEmail" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="registerPassword" name="password" placeholder="Create a strong password" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirm">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-check-circle"></i>
+                        <input type="password" id="registerConfirm" name="confirm" placeholder="Confirm your password" required>
+                    </div>
+                </div>
+                <div class="password-strength">
+                    <p>Password Strength: <span id="strengthText">Weak</span></p>
+                    <div class="strength-bar">
+                        <div id="strengthIndicator" class="strength-level weak"></div>
+                    </div>
+                </div>
+                <div class="form-agreement">
+                    <label>
+                        <input type="checkbox" id="agreeTerms" required> 
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                    </label>
+                </div>
+                <button type="submit" class="auth-btn">Create Account</button>
+                <p class="form-toggle">
+                    Already have an account? 
+                    <a href="#" onclick="toggleForms(event)">Login here</a>
+                </p>
+                <div id="registerError" class="error-message"></div>
+                <div id="registerSuccess" class="success-message"></div>
+            </form>
+
+            <!-- Demo Users Info -->
+            <div class="demo-info">
+                <p><strong>Demo Credentials:</strong></p>
+                <p>Email: <code>demo@edufusion.com</code></p>
+                <p>Password: <code>Demo@123</code></p>
+            </div>
+        </div>
+
+        <!-- Background Decoration -->
+        <div class="auth-decoration">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize demo user on first load
+        function initializeDemoUser() {
+            const users = JSON.parse(localStorage.getItem('edufusion_users') || '[]');
+            const demoExists = users.some(u => u.email === 'demo@edufusion.com');
+            
+            if (!demoExists) {
+                users.push({
+                    id: Date.now(),
+                    name: 'Demo User',
+                    email: 'demo@edufusion.com',
+                    password: 'Demo@123', // In production, this would be hashed
+                    createdAt: new Date().toISOString()
+                });
+                localStorage.setItem('edufusion_users', JSON.stringify(users));
+            }
+        }
+
+        // Toggle between login and register forms
+        function toggleForms(e) {
+            e.preventDefault();
+            document.getElementById('loginForm').classList.toggle('active-form');
+            document.getElementById('registerForm').classList.toggle('active-form');
+            clearMessages();
+        }
+
+        // Clear all error and success messages
+        function clearMessages() {
+            document.getElementById('loginError').textContent = '';
+            document.getElementById('loginSuccess').textContent = '';
+            document.getElementById('registerError').textContent = '';
+            document.getElementById('registerSuccess').textContent = '';
+        }
+
+        // Password strength indicator
+        document.getElementById('registerPassword')?.addEventListener('input', function(e) {
+            const password = e.target.value;
+            const strength = checkPasswordStrength(password);
+            const indicator = document.getElementById('strengthIndicator');
+            const text = document.getElementById('strengthText');
+            
+            indicator.className = `strength-level ${strength}`;
+            text.textContent = strength.charAt(0).toUpperCase() + strength.slice(1);
+        });
+
+        function checkPasswordStrength(password) {
+            if (password.length === 0) return 'weak';
+            if (password.length < 6) return 'weak';
+            if (password.length < 8) return 'fair';
+            
+            const hasUpper = /[A-Z]/.test(password);
+            const hasLower = /[a-z]/.test(password);
+            const hasNumber = /\d/.test(password);
+            const hasSpecial = /[!@#$%^&*]/.test(password);
+            
+            let strength = 0;
+            if (hasUpper) strength++;
+            if (hasLower) strength++;
+            if (hasNumber) strength++;
+            if (hasSpecial) strength++;
+            
+            if (strength === 1 || strength === 2) return password.length >= 8 ? 'fair' : 'weak';
+            if (strength === 3) return 'good';
+            return 'strong';
+        }
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            clearMessages();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            const users = JSON.parse(localStorage.getItem('edufusion_users') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                // Set session
+                localStorage.setItem('edufusion_current_user', JSON.stringify({
+                    id: user.id,
+                    name: user.name,
+                    email: user.email
+                }));
+                
+                if (rememberMe) {
+                    localStorage.setItem('edufusion_remember_me', JSON.stringify({
+                        email: user.email,
+                        password: user.password
+                    }));
+                }
+                
+                document.getElementById('loginSuccess').textContent = 'Login successful! Redirecting...';
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            } else {
+                document.getElementById('loginError').textContent = 'Invalid email or password. Please try again.';
+            }
+        });
+
+        // Register form submission
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            clearMessages();
+            
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirm = document.getElementById('registerConfirm').value;
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+            
+            // Validation
+            if (!agreeTerms) {
+                document.getElementById('registerError').textContent = 'You must agree to the terms and conditions.';
+                return;
+            }
+            
+            if (password !== confirm) {
+                document.getElementById('registerError').textContent = 'Passwords do not match.';
+                return;
+            }
+            
+            if (password.length < 6) {
+                document.getElementById('registerError').textContent = 'Password must be at least 6 characters long.';
+                return;
+            }
+            
+            if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
+                document.getElementById('registerError').textContent = 'Please enter a valid email address.';
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('edufusion_users') || '[]');
+            
+            if (users.some(u => u.email === email)) {
+                document.getElementById('registerError').textContent = 'This email is already registered. Please login instead.';
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                password: password,
+                createdAt: new Date().toISOString()
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('edufusion_users', JSON.stringify(users));
+            
+            document.getElementById('registerSuccess').textContent = 'Account created successfully! Logging you in...';
+            
+            setTimeout(() => {
+                localStorage.setItem('edufusion_current_user', JSON.stringify({
+                    id: newUser.id,
+                    name: newUser.name,
+                    email: newUser.email
+                }));
+                window.location.href = 'index.html';
+            }, 1500);
+        });
+
+        // Load saved login if "Remember me" was checked
+        function loadSavedLogin() {
+            const saved = localStorage.getItem('edufusion_remember_me');
+            if (saved) {
+                const data = JSON.parse(saved);
+                document.getElementById('loginEmail').value = data.email;
+                document.getElementById('loginPassword').value = data.password;
+                document.getElementById('rememberMe').checked = true;
+            }
+        }
+
+        // Check if already logged in
+        function checkIfLoggedIn() {
+            const currentUser = localStorage.getItem('edufusion_current_user');
+            if (currentUser) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDemoUser();
+            checkIfLoggedIn();
+            loadSavedLogin();
+        });
+    </script>
+</body>
+</html>

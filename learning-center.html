@@ -965,6 +965,24 @@
     </div>
 
     <script>
+        // Check authentication on page load
+        function checkUserLogin() {
+            const currentUser = localStorage.getItem('edufusion_current_user');
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            return JSON.parse(currentUser);
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('edufusion_current_user');
+                localStorage.removeItem('edufusion_remember_me');
+                window.location.href = 'login.html';
+            }
+        }
+
         // Global variables
         let currentQuiz = null;
         let quizStartTime = null;
@@ -1181,6 +1199,11 @@
                     });
                 }
             });
+        });
+
+        // Initialize authentication
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUserLogin();
         });
     </script>
 </body>
