@@ -23,6 +23,7 @@
                     <a href="physics.html">Physics</a>
                     <a href="chemistry.html">Chemistry</a>
                     <a href="history.html">History</a>
+                    <a href="computer-science.html">Computer Science</a>
                 </div>
             </div>
             <div class="dropdown">
@@ -211,11 +212,11 @@
         const subjectProgressChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Mathematics', 'Biology', 'Physics', 'Chemistry'],
+                labels: ['Mathematics', 'Biology', 'Physics', 'Chemistry', 'History', 'Computer Science'],
                 datasets: [{
                     label: 'Progress (%)',
-                    data: [75, 60, 85, 50],
-                    backgroundColor: ['#4CAF50', '#2196F3', '#FF9800', '#E91E63'],
+                    data: [75, 60, 85, 50, 65, 0],
+                    backgroundColor: ['#4CAF50', '#2196F3', '#FF9800', '#E91E63', '#9C27B0', '#00BCD4'],
                 }]
             },
             options: {
@@ -236,7 +237,8 @@
             { name: 'math', prefix: 'mathquiz', max: 6 },
             { name: 'biology', prefix: 'bioquiz', max: 1 },
             { name: 'physics', prefix: 'physquiz', max: 1 },
-            { name: 'chemistry', prefix: 'chemquiz', max: 1 }
+            { name: 'chemistry', prefix: 'chemquiz', max: 1 },
+            { name: 'computer science', prefix: 'csquiz', max: 6 }
         ];
         subjects.forEach(sub => {
             for (let i = 1; i <= sub.max; i++) {

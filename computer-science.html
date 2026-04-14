@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Computer Science</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="logo">
+            <h1>EduFusion</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="mathematics.html">Mathematics</a>
+                    <a href="biology.html">Biology</a>
+                    <a href="physics.html">Physics</a>
+                    <a href="chemistry.html">Chemistry</a>
+                    <a href="history.html">History</a>
+                    <a href="computer-science.html">Computer Science</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Progress <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="overall-progress.html">Overall Progress</a>
+                    <a href="subject-wise-progress.html">Subject-wise Progress</a>
+                    <a href="achievements.html">Achievements</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Profile <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="view-profile.html">View Profile</a>
+                    <a href="account-settings.html">Account Settings</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+        <div class="user-actions">
+            <i class="fas fa-bell notification-icon"></i>
+            <div class="avatar">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span><a href="index.html" style="color: inherit; text-decoration: none;">Dashboard</a></span>
+                </li>
+                <li class="active">
+                    <i class="fas fa-book"></i>
+                    <span>My Subjects</span>
+                </li>
+                <li>
+                    <i class="fas fa-chart-line"></i>
+                    <span><a href="overall-progress.html" style="color: inherit; text-decoration: none;">Progress</a></span>
+                </li>
+                <li>
+                    <i class="fas fa-cog"></i>
+                    <span><a href="account-settings.html" style="color: inherit; text-decoration: none;">Settings</a></span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="book-view">
+                <div class="book-page" id="page1">
+                    <h2>Computer Science Textbook</h2>
+                    <p>Explore the fundamentals of Computer Science through interactive lessons and coding exercises.</p>
+                                        <h2 id="toc">Table of Contents</h2>
+                    <ul>
+                        <li><a href="#" onclick="showPage(1); document.getElementById('ch1').scrollIntoView();">Chapter 1: Introduction to Programming</a></li>
+                        <li><a href="#" onclick="showPage(2); document.getElementById('ch2').scrollIntoView();">Chapter 2: Data Structures</a></li>
+                        <li><a href="#" onclick="showPage(2); document.getElementById('ch3').scrollIntoView();">Chapter 3: Algorithms</a></li>
+                        <li><a href="#" onclick="showPage(3); document.getElementById('ch4').scrollIntoView();">Chapter 4: Web Development</a></li>
+                        <li><a href="#" onclick="showPage(3); document.getElementById('ch5').scrollIntoView();">Chapter 5: Databases</a></li>
+                        <li><a href="#" onclick="showPage(4); document.getElementById('ch6').scrollIntoView();">Chapter 6: Computer Networks</a></li>
+                        <li><a href="#" onclick="showPage(5); document.getElementById('exam').scrollIntoView();">Final Exam</a></li>
+                    </ul>
+                                        <h3>Chapter 1: Introduction to Programming</h3>
+                    <p>Programming is the process of creating instructions for computers to follow. It involves writing code in programming languages that computers can understand and execute.</p>
+                    <p>Computer Science is the study of computers and computational systems, including their theory, design, development, and application.</p>
+                    <p>Key concepts in programming include:</p>
+                    <ul>
+                        <li>Variables and data types</li>
+                        <li>Control structures (loops, conditionals)</li>
+                        <li>Functions and procedures</li>
+                        <li>Object-oriented programming</li>
+                    </ul>
+
+                    <h4>Key Programming Languages</h4>
+                    <p>Python: Beginner-friendly, versatile language used for web development, data science, and automation.</p>
+                    <p>JavaScript: Essential for web development, runs in browsers and on servers (Node.js).</p>
+                    <p>Java: Object-oriented language used for enterprise applications and Android development.</p>
+                    <p>C++: High-performance language used for system programming and game development.</p>
+
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/kqtD5dpn9C8" allowfullscreen></iframe>
+                    </div>
+
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Programming Languages" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 1: Popular programming languages and their use cases.</p>
+                    </div>
+
+                    <div class="code-example" style="background-color: #f5f5f5; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Sample Python Code</h4>
+                        <pre><code># Hello World in Python
+print("Hello, World!")
+
+# Variables and data types
+name = "Alice"
+age = 16
+height = 5.6
+is_student = True
+
+# Basic operations
+print(f"My name is {name} and I am {age} years old.")</code></pre>
+                    </div>
+
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>Which of the following is NOT a programming language?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="csquiz1" value="a"> Python</label>
+                            <label><input type="radio" name="csquiz1" value="b"> JavaScript</label>
+                            <label><input type="radio" name="csquiz1" value="c"> HTML</label>
+                            <label><input type="radio" name="csquiz1" value="d"> Photoshop</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                                        <div class="page-number">Page 1</div>
+                </div>
+                <div class="book-page" id="page2" style="display: none;">                    <h3>Chapter 2: Data Structures</h3>
+                    <p>Data structures are ways of organizing and storing data so that it can be accessed and modified efficiently. They are fundamental to computer science and programming.</p>
+                    <p>Common data structures include arrays, linked lists, stacks, queues, trees, and graphs. Each has its own advantages and use cases.</p>
+
+                    <h4>Key Notes</h4>
+                    <p>Arrays: Fixed-size collections of elements of the same type, stored in contiguous memory locations.</p>
+                    <p>Linked Lists: Dynamic data structures where elements are linked using pointers.</p>
+                    <p>Stacks: Last-In-First-Out (LIFO) data structures, like a stack of plates.</p>
+                    <p>Queues: First-In-First-Out (FIFO) data structures, like a line at a store.</p>
+
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/DuDz6B4cqVc" allowfullscreen></iframe>
+                    </div>
+
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Data Structures" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 2: Common data structures and their operations.</p>
+                    </div>
+
+                    <div class="code-example" style="background-color: #f5f5f5; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Stack Implementation in Python</h4>
+                        <pre><code>class Stack:
+    def __init__(self):
+        self.items = []
+
+    def push(self, item):
+        self.items.append(item)
+
+    def pop(self):
+        if not self.is_empty():
+            return self.items.pop()
+
+    def peek(self):
+        if not self.is_empty():
+            return self.items[-1]
+
+    def is_empty(self):
+        return len(self.items) == 0
+
+# Usage
+stack = Stack()
+stack.push(1)
+stack.push(2)
+print(stack.pop())  # Output: 2</code></pre>
+                    </div>
+
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>Which data structure follows Last-In-First-Out (LIFO) principle?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="csquiz2" value="a"> Queue</label>
+                            <label><input type="radio" name="csquiz2" value="b"> Stack</label>
+                            <label><input type="radio" name="csquiz2" value="c"> Array</label>
+                            <label><input type="radio" name="csquiz2" value="d"> Linked List</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+
+                    <h3>Chapter 3: Algorithms</h3>
+                    <p>Algorithms are step-by-step procedures for solving problems. They are the heart of computer science and determine how efficiently a problem can be solved.</p>
+                    <p>Algorithm analysis involves studying the time and space complexity of algorithms, usually expressed using Big O notation.</p>
+
+                    <h4>Key Notes</h4>
+                    <p>Time Complexity: How the runtime of an algorithm grows with input size.</p>
+                    <p>Space Complexity: How much memory an algorithm uses.</p>
+                    <p>Common complexities: O(1), O(log n), O(n), O(n log n), O(n²), O(2^n)</p>
+                    <p>Sorting algorithms: Bubble sort, Quick sort, Merge sort, etc.</p>
+                    <p>Searching algorithms: Linear search, Binary search</p>
+
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/0IAPZzGSbME" allowfullscreen></iframe>
+                    </div>
+
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Algorithm Complexity" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 3: Big O notation and algorithm complexity comparison.</p>
+                    </div>
+
+                    <div class="code-example" style="background-color: #f5f5f5; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Binary Search Algorithm</h4>
+                        <pre><code>def binary_search(arr, target):
+    left, right = 0, len(arr) - 1
+
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return -1  # Target not found
+
+# Usage
+arr = [1, 3, 5, 7, 9, 11, 13]
+print(binary_search(arr, 7))  # Output: 3</code></pre>
+                    </div>
+
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>What is the time complexity of binary search on a sorted array?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="csquiz3" value="a"> O(1)</label>
+                            <label><input type="radio" name="csquiz3" value="b"> O(log n)</label>
+                            <label><input type="radio" name="csquiz3" value="c"> O(n)</label>
+                            <label><input type="radio" name="csquiz3" value="d"> O(n²)</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                                        <div class="page-number">Page 2</div>
+                </div>
+                <div class="book-page" id="page3" style="display: none;">                    <h3>Chapter 4: Web Development</h3>
+                    <p>Web development involves creating websites and web applications. It encompasses both frontend (client-side) and backend (server-side) development.</p>
+                    <p>Frontend technologies include HTML, CSS, and JavaScript. Backend technologies include server-side languages like Python, Java, or Node.js, and databases.</p>
+
+                    <h4>Key Notes</h4>
+                    <p>HTML: Structure and content of web pages</p>
+                    <p>CSS: Styling and layout of web pages</p>
+                    <p>JavaScript: Interactivity and dynamic behavior</p>
+                    <p>Responsive Design: Websites that work on all devices</p>
+                    <p>APIs: Interfaces for communication between different software systems</p>
+
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/UB1O30fR-EE" allowfullscreen></iframe>
+                    </div>
+
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Web Development" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 4: Frontend and backend components of web development.</p>
+                    </div>
+
+                    <div class="code-example" style="background-color: #f5f5f5; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Basic HTML Structure</h4>
+                        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;My Website&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello, World!&lt;/h1&gt;
+    &lt;p&gt;This is my first web page.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>Which technology is primarily responsible for the styling of web pages?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="csquiz4" value="a"> HTML</label>
+                            <label><input type="radio" name="csquiz4" value="b"> CSS</label>
+                            <label><input type="radio" name="csquiz4" value="c"> JavaScript</label>
+                            <label><input type="radio" name="csquiz4" value="d"> Python</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+
+                    <h3>Chapter 5: Databases</h3>
+                    <p>Databases are organized collections of data that can be easily accessed, managed, and updated. They are essential for storing and retrieving data in applications.</p>
+                    <p>There are two main types of databases: relational (SQL) and non-relational (NoSQL). Each has its strengths and use cases.</p>
+
+                    <h4>Key Notes</h4>
+                    <p>SQL Databases: Use structured query language, have predefined schemas, good for complex queries</p>
+                    <p>NoSQL Databases: Flexible schemas, good for large amounts of unstructured data</p>
+                    <p>CRUD Operations: Create, Read, Update, Delete - basic database operations</p>
+                    <p>Normalization: Process of organizing data to reduce redundancy</p>
+
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/wR0jg0eQsZA" allowfullscreen></iframe>
+                    </div>
+
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Database Types" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 5: SQL vs NoSQL database comparison.</p>
+                    </div>
+
+                    <div class="code-example" style="background-color: #f5f5f5; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>SQL Query Example</h4>
+                        <pre><code>-- Create a table
+CREATE TABLE students (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    age INTEGER,
+    grade TEXT
+);
+
+-- Insert data
+INSERT INTO students (name, age, grade) VALUES ('Alice', 16, 'A');
+
+-- Query data
+SELECT * FROM students WHERE grade = 'A';
+
+-- Update data
+UPDATE students SET age = 17 WHERE name = 'Alice';</code></pre>
+                    </div>
+
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>Which SQL command is used to retrieve data from a database?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="csquiz5" value="a"> INSERT</label>
+                            <label><input type="radio" name="csquiz5" value="b"> UPDATE</label>
+                            <label><input type="radio" name="csquiz5" value="c"> SELECT</label>
+                            <label><input type="radio" name="csquiz5" value="d"> DELETE</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+                                        <div class="page-number">Page 3</div>
+                </div>
+                <div class="book-page" id="page4" style="display: none;">                    <h3>Chapter 6: Computer Networks</h3>
+                    <p>Computer networks allow computers to communicate and share resources. They form the backbone of the internet and modern computing.</p>
+                    <p>Networks can be classified by size (LAN, WAN), topology (star, bus, ring), or technology (Ethernet, Wi-Fi).</p>
+
+                    <h4>Key Notes</h4>
+                    <p>IP Addresses: Unique identifiers for devices on a network</p>
+                    <p>TCP/IP: Protocols that govern internet communication</p>
+                    <p>HTTP/HTTPS: Protocols for web communication</p>
+                    <p>Network Security: Firewalls, encryption, authentication</p>
+                    <p>Cloud Computing: Remote servers and services over the internet</p>
+
+                    <div class="video-player">
+                        <iframe src="https://www.youtube.com/embed/3QhU9jdlsa8" allowfullscreen></iframe>
+                    </div>
+
+                    <div class="image-section" style="text-align: center; margin: 2rem 0;">
+                        <img src="https://via.placeholder.com/600x300" alt="Network Topology" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <p>Figure 6: Common network topologies and their characteristics.</p>
+                    </div>
+
+                    <div class="code-example" style="background-color: #f5f5f5; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Simple Client-Server Communication (Python)</h4>
+                        <pre><code>import socket
+
+# Simple TCP client
+def tcp_client():
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket.connect(('localhost', 12345))
+
+    message = "Hello, Server!"
+    client_socket.send(message.encode())
+
+    response = client_socket.recv(1024).decode()
+    print(f"Server response: {response}")
+
+    client_socket.close()
+
+tcp_client()</code></pre>
+                    </div>
+
+                    <div class="inline-quiz" style="background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; border-left: 4px solid #4CAF50;">
+                        <h4>Quick Quiz</h4>
+                        <p>What does LAN stand for?</p>
+                        <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;">
+                            <label><input type="radio" name="csquiz6" value="a"> Large Area Network</label>
+                            <label><input type="radio" name="csquiz6" value="b"> Local Area Network</label>
+                            <label><input type="radio" name="csquiz6" value="c"> Linked Access Network</label>
+                            <label><input type="radio" name="csquiz6" value="d"> Logical Area Network</label>
+                        </div>
+                        <button class="submit-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">Submit Answer</button>
+                    </div>
+
+                    <div class="page-number">Page 4</div>
+                </div>
+                <div class="book-page" id="page5" style="display: none;">
+                    <h3 id="exam">Final Exam</h3>
+                    <p>This exam covers all the topics in Computer Science. Answer all questions. Show your workings where necessary.</p>
+
+                    <div class="exam-questions">
+                        <div class="question">
+                            <p>1. What is the output of the following Python code?<br>print(2 ** 3)</p>
+                            <input type="text" id="q1" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <p>2. Which data structure follows First-In-First-Out (FIFO) principle?</p>
+                            <input type="text" id="q2" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <p>3. What is the time complexity of accessing an element in an array by index?</p>
+                            <input type="text" id="q3" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <p>4. Which HTML tag is used to create a hyperlink?</p>
+                            <input type="text" id="q4" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <p>5. What does SQL stand for?</p>
+                            <input type="text" id="q5" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <p>6. What is the purpose of a firewall in computer networks?</p>
+                            <input type="text" id="q6" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <p>7. Write a Python function to calculate the factorial of a number.</p>
+                            <textarea id="q7" placeholder="Write your function here" rows="4"></textarea>
+                        </div>
+                        <div class="question">
+                            <p>8. Explain the difference between compiled and interpreted languages.</p>
+                            <textarea id="q8" placeholder="Explain here" rows="4"></textarea>
+                        </div>
+                        <div class="question">
+                            <p>9. What is the binary representation of the decimal number 13?</p>
+                            <input type="text" id="q9" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <p>10. Design a simple algorithm to find the maximum number in an array.</p>
+                            <textarea id="q10" placeholder="Describe your algorithm here" rows="4"></textarea>
+                        </div>
+                    </div>
+
+                    <button id="submit-exam" style="background-color: #4CAF50; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; margin-top: 2rem;">Submit Exam</button>
+
+                    <div id="solutions" style="display: none; margin-top: 2rem; background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px;">
+                        <h4>Detailed Solutions</h4>
+                        <p><strong>1.</strong> 8 (2 raised to the power of 3)</p>
+                        <p><strong>2.</strong> Queue</p>
+                        <p><strong>3.</strong> O(1) - constant time</p>
+                        <p><strong>4.</strong> &lt;a&gt; tag</p>
+                        <p><strong>5.</strong> Structured Query Language</p>
+                        <p><strong>6.</strong> To protect a network from unauthorized access and threats</p>
+                        <p><strong>7.</strong> def factorial(n):<br>&nbsp;&nbsp;&nbsp;&nbsp;if n == 0 or n == 1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1<br>&nbsp;&nbsp;&nbsp;&nbsp;else:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return n * factorial(n-1)</p>
+                        <p><strong>8.</strong> Compiled languages are translated to machine code before execution (e.g., C++, Java). Interpreted languages are translated line by line during execution (e.g., Python, JavaScript).</p>
+                        <p><strong>9.</strong> 1101</p>
+                        <p><strong>10.</strong> Initialize max = array[0]<br>For each element in the array:<br>&nbsp;&nbsp;&nbsp;&nbsp;If current element > max:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max = current element<br>Return max</p>
+                    </div>
+
+                    <div class="page-number">Page 5</div>
+                </div>
+                <div class="book-navigation">
+                    <button disabled>Previous Page</button>
+                    <button>Next Page</button>
+                </div>
+            </section>
+
+            <!-- Quiz Report Card -->
+            <section class="report-card" id="report-card" style="margin-top: 2rem; padding: 2rem; background-color: #f9f9f9; border-radius: 10px;">
+                <h2>Quiz Report Card & Analysis</h2>
+                <p>Get detailed analysis of your quiz performance with corrections and improvement suggestions.</p>
+                <div id="report-content"></div>
+                <button id="generate-report" style="background-color: #2196F3; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; margin-top: 1rem;">Generate Report</button>
+                <p style="margin-top: 1rem; font-size: 0.9em; color: #666;">For personalized AI analysis, ask Microsoft Copilot: "Analyze my EduFusion computer science quiz mistakes"</p>
+            </section>
+
+            <!-- Quiz Modal -->
+            <div id="quiz-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <i class="fas fa-check-circle" id="checkmark" style="display: none;"></i>
+                    <p id="modal-text"></p>
+                    <div id="modal-buttons" style="display: none; margin-top: 1rem;">
+                        <button id="submit-progress-btn" style="background-color: #4CAF50; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin-right: 0.5rem;">Submit to Progress</button>
+                        <button id="cancel-submit-btn" style="background-color: #f44336; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        // Page navigation
+        let currentPage = 1;
+        const totalPages = 5;
+
+        function showPage(pageNum) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.book-page');
+            pages.forEach(page => page.style.display = 'none');
+
+            // Show selected page
+            document.getElementById('page' + pageNum).style.display = 'block';
+            currentPage = pageNum;
+
+            // Update navigation buttons
+            const prevBtn = document.querySelector('.book-navigation button:first-child');
+            const nextBtn = document.querySelector('.book-navigation button:last-child');
+
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+
+            prevBtn.textContent = currentPage === 1 ? 'Previous Page' : 'Previous Page';
+            nextBtn.textContent = currentPage === totalPages ? 'Next Page' : 'Next Page';
+        }
+
+        // Navigation event listeners
+        document.querySelector('.book-navigation button:first-child').addEventListener('click', () => {
+            if (currentPage > 1) {
+                showPage(currentPage - 1);
+            }
+        });
+
+        document.querySelector('.book-navigation button:last-child').addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                showPage(currentPage + 1);
+            }
+        });
+
+        // Quiz functionality
+        const quizAnswers = {
+            csquiz1: 'd', // Photoshop is not a programming language
+            csquiz2: 'b', // Stack follows LIFO
+            csquiz3: 'b', // Binary search is O(log n)
+            csquiz4: 'b', // CSS is for styling
+            csquiz5: 'c', // SELECT retrieves data
+            csquiz6: 'b'  // Local Area Network
+        };
+
+        // Handle quiz submissions
+        document.querySelectorAll('.submit-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const quizName = this.parentElement.querySelector('input[type="radio"]').name;
+                const selectedAnswer = this.parentElement.querySelector(`input[name="${quizName}"]:checked`);
+
+                if (!selectedAnswer) {
+                    alert('Please select an answer!');
+                    return;
+                }
+
+                const isCorrect = selectedAnswer.value === quizAnswers[quizName];
+                const modal = document.getElementById('quiz-modal');
+                const modalText = document.getElementById('modal-text');
+                const checkmark = document.getElementById('checkmark');
+                const modalButtons = document.getElementById('modal-buttons');
+
+                if (isCorrect) {
+                    modalText.textContent = 'Correct! Well done!';
+                    checkmark.style.display = 'inline-block';
+                    modalButtons.style.display = 'block';
+                } else {
+                    modalText.textContent = 'Incorrect. Try again!';
+                    checkmark.style.display = 'none';
+                    modalButtons.style.display = 'none';
+                }
+
+                modal.style.display = 'block';
+
+                // Store quiz result
+                const quizResults = JSON.parse(localStorage.getItem('edufusion_cs_quiz_results') || '{}');
+                quizResults[quizName] = isCorrect;
+                localStorage.setItem('edufusion_cs_quiz_results', JSON.stringify(quizResults));
+            });
+        });
+
+        // Submit to progress
+        document.getElementById('submit-progress-btn').addEventListener('click', () => {
+            const user = getCurrentUser();
+            if (user) {
+                const progress = JSON.parse(localStorage.getItem('edufusion_progress') || '{}');
+                if (!progress[user.email]) {
+                    progress[user.email] = {};
+                }
+                if (!progress[user.email].computer_science) {
+                    progress[user.email].computer_science = { quizzes: 0, completed: false };
+                }
+
+                const quizResults = JSON.parse(localStorage.getItem('edufusion_cs_quiz_results') || '{}');
+                const completedQuizzes = Object.values(quizResults).filter(result => result === true).length;
+
+                progress[user.email].computer_science.quizzes = completedQuizzes;
+                progress[user.email].computer_science.completed = completedQuizzes >= 6;
+
+                localStorage.setItem('edufusion_progress', JSON.stringify(progress));
+
+                document.getElementById('quiz-modal').style.display = 'none';
+                alert('Progress updated successfully!');
+            }
+        });
+
+        // Cancel submission
+        document.getElementById('cancel-submit-btn').addEventListener('click', () => {
+            document.getElementById('quiz-modal').style.display = 'none';
+        });
+
+        // Exam submission
+        document.getElementById('submit-exam').addEventListener('click', () => {
+            const answers = {};
+            for (let i = 1; i <= 10; i++) {
+                const input = document.getElementById('q' + i);
+                answers['q' + i] = input ? input.value : '';
+            }
+
+            // Store exam answers
+            localStorage.setItem('edufusion_cs_exam_answers', JSON.stringify(answers));
+
+            // Show solutions
+            document.getElementById('solutions').style.display = 'block';
+            document.getElementById('submit-exam').disabled = true;
+            document.getElementById('submit-exam').textContent = 'Exam Submitted';
+
+            // Update progress
+            const user = getCurrentUser();
+            if (user) {
+                const progress = JSON.parse(localStorage.getItem('edufusion_progress') || '{}');
+                if (!progress[user.email]) {
+                    progress[user.email] = {};
+                }
+                progress[user.email].computer_science = progress[user.email].computer_science || { quizzes: 0, completed: false };
+                progress[user.email].computer_science.exam_completed = true;
+                localStorage.setItem('edufusion_progress', JSON.stringify(progress));
+            }
+        });
+
+        // Generate report
+        document.getElementById('generate-report').addEventListener('click', () => {
+            const quizResults = JSON.parse(localStorage.getItem('edufusion_cs_quiz_results') || '{}');
+            const examAnswers = JSON.parse(localStorage.getItem('edufusion_cs_exam_answers') || '{}');
+
+            const totalQuizzes = 6;
+            const correctQuizzes = Object.values(quizResults).filter(result => result === true).length;
+            const quizScore = (correctQuizzes / totalQuizzes) * 100;
+
+            let report = `<h3>Computer Science Performance Report</h3>`;
+            report += `<p><strong>Quiz Performance:</strong> ${correctQuizzes}/${totalQuizzes} correct (${quizScore.toFixed(1)}%)</p>`;
+
+            if (Object.keys(examAnswers).length > 0) {
+                report += `<p><strong>Final Exam:</strong> Completed</p>`;
+            } else {
+                report += `<p><strong>Final Exam:</strong> Not attempted</p>`;
+            }
+
+            // Performance analysis
+            let analysis = '';
+            if (quizScore >= 80) {
+                analysis = 'Excellent performance! You have a strong understanding of Computer Science fundamentals.';
+            } else if (quizScore >= 60) {
+                analysis = 'Good performance! Review the topics you missed and try again.';
+            } else {
+                analysis = 'Needs improvement. Focus on the fundamental concepts and practice more exercises.';
+            }
+
+            report += `<p><strong>Analysis:</strong> ${analysis}</p>`;
+
+            // Recommendations
+            const recommendations = [];
+            if (correctQuizzes < totalQuizzes) {
+                recommendations.push('Review the quiz questions you answered incorrectly');
+                recommendations.push('Practice coding exercises regularly');
+                recommendations.push('Study algorithm complexity and data structures');
+            }
+            if (!examAnswers.q7 || examAnswers.q7.trim() === '') {
+                recommendations.push('Work on programming problem-solving skills');
+            }
+            if (Object.keys(examAnswers).length === 0) {
+                recommendations.push('Complete the final exam to test your knowledge');
+            }
+
+            if (recommendations.length > 0) {
+                report += `<p><strong>Recommendations:</strong></p><ul>`;
+                recommendations.forEach(rec => {
+                    report += `<li>${rec}</li>`;
+                });
+                report += `</ul>`;
+            }
+
+            document.getElementById('report-content').innerHTML = report;
+        });
+
+        // Modal close
+        document.querySelector('.close').addEventListener('click', () => {
+            document.getElementById('quiz-modal').style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (event) => {
+            if (event.target === document.getElementById('quiz-modal')) {
+                document.getElementById('quiz-modal').style.display = 'none';
+            }
+        });
+
+        // Initialize
+        checkUserLogin();
+        showPage(1);
+    </script>
+</body>
+</html></content>
+<parameter name="filePath">c:\Users\Administrator\Desktop\EduFusion\computer-science.html
