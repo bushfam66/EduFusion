@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Account Setup</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Complete Your Profile</h1>
+                <p>Tell us more about your school and subjects so EduFusion can personalize your learning.</p>
+            </div>
+            <form id="setupForm" class="auth-form active-form">
+                <div class="form-group">
+                    <label for="schoolName">School Name</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-school"></i>
+                        <input type="text" id="schoolName" name="school" placeholder="Enter your school name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="studentAge">Age</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user-graduate"></i>
+                        <input type="number" id="studentAge" name="age" placeholder="Enter your age" min="10" max="30" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="studentClass">Class</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-chalkboard"></i>
+                        <input type="text" id="studentClass" name="class" placeholder="Enter your class / form" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="studentPathway">Pathway</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-stream"></i>
+                        <select id="studentPathway" name="pathway" required>
+                            <option value="">Select your pathway</option>
+                            <option value="arts">Arts & Sports</option>
+                            <option value="stem">STEM</option>
+                            <option value="social">Social Science</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p><strong>Compulsory subjects:</strong></p>
+                    <ul style="margin-left: 1rem; margin-bottom: 1rem; color: #4a5568;">
+                        <li>Mathematics</li>
+                        <li>English</li>
+                        <li>Kiswahili</li>
+                        <li>Community Service Learning</li>
+                        <li>Physical Education</li>
+                    </ul>
+                    <p><strong>Select exactly 3 additional subjects for your pathway:</strong></p>
+                    <div id="optionalSubjects" class="subject-options" style="display: grid; gap: 0.75rem;"></div>
+                </div>
+                <div class="form-agreement" style="margin-bottom: 1rem;">
+                    <p>Select exactly 3 optional subjects before you proceed.</p>
+                </div>
+                <button type="submit" class="auth-btn">Save and Continue</button>
+                <div id="setupError" class="error-message"></div>
+                <div id="setupSuccess" class="success-message"></div>
+            </form>
+        </div>
+        <div class="auth-decoration">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </div>
+
+    <script>
+        function getCurrentUser() {
+            const currentUser = localStorage.getItem('edufusion_current_user');
+            return currentUser ? JSON.parse(currentUser) : null;
+        }
+
+        function getUsers() {
+            return JSON.parse(localStorage.getItem('edufusion_users') || '[]');
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem('edufusion_users', JSON.stringify(users));
+        }
+
+        function redirectToLogin() {
+            window.location.href = 'login.html';
+        }
+
+        function redirectToDashboard() {
+            window.location.href = 'index.html';
+        }
+
+        function updateOptionalSubjects(pathway) {
+            const optionalSubjects = {
+                arts: ['Sports and Recreation', 'Film', 'Acting'],
+                social: ['History', 'CRE', 'Geography', 'Literature', 'Fasihi ya Kiswahili'],
+                stem: ['Biology', 'Chemistry', 'Physics', 'Computer', 'Building and Construction', 'Power Mechanics', 'Electricity']
+            };
+
+            const container = document.getElementById('optionalSubjects');
+            container.innerHTML = '';
+
+            if (!pathway || !optionalSubjects[pathway]) {
+                return;
+            }
+
+            optionalSubjects[pathway].forEach(subject => {
+                const checkboxId = `subject-${subject.replace(/\s+/g, '-')}`;
+                const item = document.createElement('div');
+                item.className = 'form-group';
+                item.innerHTML = `
+                    <label for="${checkboxId}" style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                        <input type="checkbox" id="${checkboxId}" name="optionalSubjects" value="${subject}" style="width: auto; margin: 0;">
+                        <span>${subject}</span>
+                    </label>
+                `;
+                container.appendChild(item);
+            });
+
+            const checkboxes = container.querySelectorAll('input[name="optionalSubjects"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const checkedBoxes = container.querySelectorAll('input[name="optionalSubjects"]:checked');
+                    if (checkedBoxes.length > 3) {
+                        this.checked = false;
+                        document.getElementById('setupError').textContent = 'You must select exactly 3 optional subjects.';
+                    } else {
+                        document.getElementById('setupError').textContent = '';
+                    }
+                });
+            });
+        }
+
+        function initForm() {
+            const user = getCurrentUser();
+            if (!user) {
+                redirectToLogin();
+                return;
+            }
+
+            const users = getUsers();
+            const storedUser = users.find(u => u.id === user.id);
+            if (storedUser && storedUser.profileComplete) {
+                redirectToDashboard();
+                return;
+            }
+
+            const pathwaySelect = document.getElementById('studentPathway');
+            pathwaySelect.addEventListener('change', function() {
+                updateOptionalSubjects(this.value);
+            });
+        }
+
+        document.getElementById('setupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('setupError').textContent = '';
+            document.getElementById('setupSuccess').textContent = '';
+
+            const user = getCurrentUser();
+            if (!user) {
+                redirectToLogin();
+                return;
+            }
+
+            const school = document.getElementById('schoolName').value.trim();
+            const age = document.getElementById('studentAge').value.trim();
+            const studentClass = document.getElementById('studentClass').value.trim();
+            const pathway = document.getElementById('studentPathway').value;
+            const selectedExtras = Array.from(document.querySelectorAll('input[name="optionalSubjects"]:checked')).map(cb => cb.value);
+
+            if (!school || !age || !studentClass || !pathway) {
+                document.getElementById('setupError').textContent = 'Please complete all fields before continuing.';
+                return;
+            }
+
+            if (selectedExtras.length !== 3) {
+                document.getElementById('setupError').textContent = 'Please select exactly 3 optional subjects for your pathway.';
+                return;
+            }
+
+            const compulsory = ['Mathematics', 'English', 'Kiswahili', 'Community Service Learning', 'Physical Education'];
+            const selectedSubjects = [...compulsory, ...selectedExtras];
+
+            const users = getUsers();
+            const userIndex = users.findIndex(u => u.id === user.id);
+            if (userIndex === -1) {
+                document.getElementById('setupError').textContent = 'Unable to save your profile. Please login again.';
+                return;
+            }
+
+            users[userIndex] = {
+                ...users[userIndex],
+                profileComplete: true,
+                profile: {
+                    school,
+                    age,
+                    class: studentClass,
+                    pathway,
+                    selectedSubjects
+                }
+            };
+            saveUsers(users);
+
+            localStorage.setItem('edufusion_current_user', JSON.stringify({
+                id: users[userIndex].id,
+                name: users[userIndex].name,
+                email: users[userIndex].email,
+                profileComplete: true,
+                profile: users[userIndex].profile
+            }));
+
+            document.getElementById('setupSuccess').textContent = 'Profile saved successfully! Redirecting to your home screen...';
+
+            setTimeout(() => {
+                redirectToDashboard();
+            }, 1200);
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initForm();
+        });
+    </script>
+</body>
+</html>

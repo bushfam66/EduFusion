@@ -83,15 +83,15 @@
                         <p>Track your subjects and see your progress percentage for each course.</p>
                         <div class="hero-stats">
                             <div class="hero-stat">
-                                <span class="stat-number">6</span>
+                                <span class="stat-number" id="subjectsTakenCount">0</span>
                                 <span class="stat-label">Subjects Taken</span>
                             </div>
                             <div class="hero-stat">
-                                <span class="stat-number">72%</span>
+                                <span class="stat-number" id="subjectsTakenAverage">0%</span>
                                 <span class="stat-label">Average Progress</span>
                             </div>
                             <div class="hero-stat">
-                                <span class="stat-number">4</span>
+                                <span class="stat-number" id="subjectsTakenActive">0</span>
                                 <span class="stat-label">Active Subjects</span>
                             </div>
                         </div>
@@ -100,77 +100,161 @@
 
                 <div class="progress-overview-section">
                     <h2>Learning Progress by Subject</h2>
-                    <div class="progress-overview-grid">
-                        <div class="progress-card">
-                            <div class="progress-icon"><i class="fas fa-square-root-alt"></i></div>
-                            <div>
-                                <h3>Mathematics</h3>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 78%;"></div>
-                                </div>
-                                <p class="progress-text">78% complete</p>
-                            </div>
-                        </div>
-                        <div class="progress-card">
-                            <div class="progress-icon"><i class="fas fa-dna"></i></div>
-                            <div>
-                                <h3>Biology</h3>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 65%;"></div>
-                                </div>
-                                <p class="progress-text">65% complete</p>
-                            </div>
-                        </div>
-                        <div class="progress-card">
-                            <div class="progress-icon"><i class="fas fa-atom"></i></div>
-                            <div>
-                                <h3>Physics</h3>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 82%;"></div>
-                                </div>
-                                <p class="progress-text">82% complete</p>
-                            </div>
-                        </div>
-                        <div class="progress-card">
-                            <div class="progress-icon"><i class="fas fa-flask"></i></div>
-                            <div>
-                                <h3>Chemistry</h3>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 58%;"></div>
-                                </div>
-                                <p class="progress-text">58% complete</p>
-                            </div>
-                        </div>
-                        <div class="progress-card">
-                            <div class="progress-icon"><i class="fas fa-landmark"></i></div>
-                            <div>
-                                <h3>History</h3>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 71%;"></div>
-                                </div>
-                                <p class="progress-text">71% complete</p>
-                            </div>
-                        </div>
-                        <div class="progress-card">
-                            <div class="progress-icon"><i class="fas fa-laptop-code"></i></div>
-                            <div>
-                                <h3>Computer Science</h3>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 69%;"></div>
-                                </div>
-                                <p class="progress-text">69% complete</p>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="progress-overview-grid" id="subjectsTakenGrid"></div>
+                    <p id="subjectsTakenMessage" class="empty-message" style="display:none; margin-top: 1.5rem;">
+                        No subjects have been selected yet. Complete your profile in <a href="account-setup.html">profile setup</a> to see your subjects.
+                    </p>
                 </div>
             </section>
         </main>
     </div>
 
     <script>
-        function logout() {
-            alert('Logged out successfully!');
+        function getCurrentUser() {
+            const currentUser = localStorage.getItem('edufusion_current_user');
+            return currentUser ? JSON.parse(currentUser) : null;
         }
+
+        function getUsers() {
+            return JSON.parse(localStorage.getItem('edufusion_users') || '[]');
+        }
+
+        function checkUserLogin() {
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            if (user.profileComplete !== true) {
+                window.location.href = 'account-setup.html';
+                return null;
+            }
+            return user;
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('edufusion_current_user');
+                localStorage.removeItem('edufusion_remember_me');
+                window.location.href = 'login.html';
+            }
+        }
+
+        function getSubjectIcon(subject) {
+            const icons = {
+                Mathematics: 'fas fa-square-root-alt',
+                English: 'fas fa-book-open',
+                Kiswahili: 'fas fa-globe-africa',
+                'Community Service Learning': 'fas fa-hands-helping',
+                'Physical Education': 'fas fa-running',
+                Biology: 'fas fa-dna',
+                Chemistry: 'fas fa-flask',
+                Physics: 'fas fa-atom',
+                Computer: 'fas fa-laptop-code',
+                'Computer Science': 'fas fa-laptop-code',
+                History: 'fas fa-landmark',
+                CRE: 'fas fa-church',
+                Geography: 'fas fa-map-marked-alt',
+                Literature: 'fas fa-book',
+                'Fasihi ya Kiswahili': 'fas fa-pen-nib',
+                'Sports and Recreation': 'fas fa-futbol',
+                Film: 'fas fa-video',
+                Acting: 'fas fa-theater-masks',
+                'Building and Construction': 'fas fa-hard-hat',
+                'Power Mechanics': 'fas fa-cogs',
+                Electricity: 'fas fa-bolt'
+            };
+            return icons[subject] || 'fas fa-book';
+        }
+
+        function getSubjectProgress(subject) {
+            const normalized = subject.toLowerCase();
+            const calculate = (total, keyPrefix) => {
+                let completed = 0;
+                for (let i = 1; i <= total; i++) {
+                    if (localStorage.getItem(`${keyPrefix}${i}`) === 'completed') {
+                        completed++;
+                    }
+                }
+                return total > 0 ? Math.round((completed / total) * 100) : 0;
+            };
+
+            if (normalized === 'mathematics') {
+                return calculate(6, 'math_quiz_mathquiz');
+            }
+            if (normalized === 'biology') {
+                return calculate(1, 'biology_quiz_bioquiz');
+            }
+            if (normalized === 'physics') {
+                return calculate(1, 'physics_quiz_physquiz');
+            }
+            if (normalized === 'chemistry') {
+                return calculate(1, 'chemistry_quiz_chemquiz');
+            }
+            if (normalized === 'history') {
+                return calculate(10, 'history_quiz_historyquiz');
+            }
+            if (normalized === 'computer science' || normalized === 'computer') {
+                return 0;
+            }
+            return 0;
+        }
+
+        function renderSubjectsTaken() {
+            const user = getCurrentUser();
+            if (!user || user.profileComplete !== true) {
+                return;
+            }
+
+            const subjects = (user.profile && user.profile.selectedSubjects) || [];
+            const container = document.getElementById('subjectsTakenGrid');
+            const message = document.getElementById('subjectsTakenMessage');
+            const count = document.getElementById('subjectsTakenCount');
+            const average = document.getElementById('subjectsTakenAverage');
+            const active = document.getElementById('subjectsTakenActive');
+
+            if (!container || !count || !average || !active) {
+                return;
+            }
+
+            if (!subjects.length) {
+                container.innerHTML = '';
+                message.style.display = 'block';
+                count.textContent = '0';
+                average.textContent = '0%';
+                active.textContent = '0';
+                return;
+            }
+
+            message.style.display = 'none';
+            let totalProgress = 0;
+            const cards = subjects.map(subject => {
+                const progress = getSubjectProgress(subject);
+                totalProgress += progress;
+                const icon = getSubjectIcon(subject);
+                return `
+                    <div class="progress-card">
+                        <div class="progress-icon"><i class="${icon}"></i></div>
+                        <div>
+                            <h3>${subject}</h3>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${progress}%;"></div>
+                            </div>
+                            <p class="progress-text">${progress}% complete</p>
+                        </div>
+                    </div>`;
+            }).join('');
+
+            container.innerHTML = cards;
+            count.textContent = `${subjects.length}`;
+            average.textContent = `${Math.round(totalProgress / subjects.length)}%`;
+            active.textContent = `${subjects.length}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUserLogin();
+            renderSubjectsTaken();
+        });
     </script>
 </body>
 </html>

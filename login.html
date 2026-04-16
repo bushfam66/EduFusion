@@ -127,7 +127,15 @@
                     name: 'Demo User',
                     email: 'demo@edufusion.com',
                     password: 'Demo@123', // In production, this would be hashed
-                    createdAt: new Date().toISOString()
+                    createdAt: new Date().toISOString(),
+                    profileComplete: true,
+                    profile: {
+                        school: 'Demo High School',
+                        age: '16',
+                        class: 'Form 3',
+                        pathway: 'stem',
+                        selectedSubjects: ['Mathematics', 'English', 'Kiswahili', 'Community Service Learning', 'Physical Education', 'Biology', 'Chemistry', 'Physics']
+                    }
                 });
                 localStorage.setItem('edufusion_users', JSON.stringify(users));
             }
@@ -198,7 +206,9 @@
                 localStorage.setItem('edufusion_current_user', JSON.stringify({
                     id: user.id,
                     name: user.name,
-                    email: user.email
+                    email: user.email,
+                    profileComplete: user.profileComplete === true,
+                    profile: user.profile || null
                 }));
                 
                 if (rememberMe) {
@@ -211,7 +221,11 @@
                 document.getElementById('loginSuccess').textContent = 'Login successful! Redirecting...';
                 
                 setTimeout(() => {
-                    window.location.href = 'index.html';
+                    if (user.profileComplete !== true) {
+                        window.location.href = 'account-setup.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
                 }, 1500);
             } else {
                 document.getElementById('loginError').textContent = 'Invalid email or password. Please try again.';
@@ -263,21 +277,25 @@
                 name: name,
                 email: email,
                 password: password,
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
+                profileComplete: false,
+                profile: null
             };
             
             users.push(newUser);
             localStorage.setItem('edufusion_users', JSON.stringify(users));
             
-            document.getElementById('registerSuccess').textContent = 'Account created successfully! Logging you in...';
+            document.getElementById('registerSuccess').textContent = 'Account created successfully! Redirecting to setup...';
             
             setTimeout(() => {
                 localStorage.setItem('edufusion_current_user', JSON.stringify({
                     id: newUser.id,
                     name: newUser.name,
-                    email: newUser.email
+                    email: newUser.email,
+                    profileComplete: false,
+                    profile: null
                 }));
-                window.location.href = 'index.html';
+                window.location.href = 'account-setup.html';
             }, 1500);
         });
 
@@ -296,7 +314,12 @@
         function checkIfLoggedIn() {
             const currentUser = localStorage.getItem('edufusion_current_user');
             if (currentUser) {
-                window.location.href = 'index.html';
+                const user = JSON.parse(currentUser);
+                if (user.profileComplete !== true) {
+                    window.location.href = 'account-setup.html';
+                } else {
+                    window.location.href = 'index.html';
+                }
             }
         }
 

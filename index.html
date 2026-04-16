@@ -58,7 +58,7 @@
                 <li class="active">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
-                </li></li>
+                </li>
                 <li>
                     <i class="fas fa-graduation-cap"></i>
                     <span><a href="subjects-taken.html" style="color: inherit; text-decoration: none;">Subjects Taken</a></span>
@@ -85,16 +85,16 @@
                         <p>Ready to continue your learning journey? You've made great progress this week.</p>
                         <div class="hero-stats">
                             <div class="hero-stat">
-                                <span class="stat-number">68%</span>
-                                <span class="stat-label">Overall Progress</span>
+                                <span class="stat-number" id="subjectCount">0</span>
+                                <span class="stat-label">Subjects Taken</span>
                             </div>
                             <div class="hero-stat">
-                                <span class="stat-number">12</span>
-                                <span class="stat-label">Quizzes Completed</span>
+                                <span class="stat-number" id="averageProgress">0%</span>
+                                <span class="stat-label">Average Progress</span>
                             </div>
                             <div class="hero-stat">
-                                <span class="stat-number">5</span>
-                                <span class="stat-label">Day Streak</span>
+                                <span class="stat-number" id="activeSubjects">0</span>
+                                <span class="stat-label">Active Subjects</span>
                             </div>
                         </div>
                     </div>
@@ -169,151 +169,10 @@
                         <h2>Subject Progress</h2>
                         <a href="subject-wise-progress.html" class="view-all">View Details</a>
                     </div>
-                    <div class="subject-cards">
-                        <a href="mathematics.html" class="subject-card-link">
-                            <div class="subject-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon">
-                                        <i class="fas fa-square-root-alt"></i>
-                                    </div>
-                                    <div class="subject-info">
-                                        <h3>Mathematics</h3>
-                                        <span class="subject-status">In Progress</span>
-                                        <span class="subject-tag subject-tag-core">Core subject</span>
-                                    </div>
-                                </div>
-                                <div class="subject-progress">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" id="math-progress-fill"></div>
-                                    </div>
-                                    <span class="progress-text" id="math-progress-text">75% Complete</span>
-                                </div>
-                                <div class="subject-meta">
-                                    <span><i class="fas fa-clock"></i> 2h 30m left</span>
-                                    <span><i class="fas fa-book"></i> 3 chapters</span>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="biology.html" class="subject-card-link">
-                            <div class="subject-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon">
-                                        <i class="fas fa-dna"></i>
-                                    </div>
-                                    <div class="subject-info">
-                                        <h3>Biology</h3>
-                                        <span class="subject-status">In Progress</span>
-                                        <span class="subject-tag subject-tag-elective">Elective</span>
-                                    </div>
-                                </div>
-                                <div class="subject-progress">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" id="biology-progress-fill"></div>
-                                    </div>
-                                    <span class="progress-text" id="biology-progress-text">60% Complete</span>
-                                </div>
-                                <div class="subject-meta">
-                                    <span><i class="fas fa-clock"></i> 4h 15m left</span>
-                                    <span><i class="fas fa-book"></i> 5 chapters</span>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="physics.html" class="subject-card-link">
-                            <div class="subject-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon">
-                                        <i class="fas fa-atom"></i>
-                                    </div>
-                                    <div class="subject-info">
-                                        <h3>Physics</h3>
-                                        <span class="subject-status">Advanced</span>
-                                        <span class="subject-tag subject-tag-elective">Elective</span>
-                                    </div>
-                                </div>
-                                <div class="subject-progress">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" id="physics-progress-fill"></div>
-                                    </div>
-                                    <span class="progress-text" id="physics-progress-text">85% Complete</span>
-                                </div>
-                                <div class="subject-meta">
-                                    <span><i class="fas fa-clock"></i> 1h 45m left</span>
-                                    <span><i class="fas fa-book"></i> 2 chapters</span>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="chemistry.html" class="subject-card-link">
-                            <div class="subject-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon">
-                                        <i class="fas fa-flask"></i>
-                                    </div>
-                                    <div class="subject-info">
-                                        <h3>Chemistry</h3>
-                                        <span class="subject-status">In Progress</span>
-                                        <span class="subject-tag subject-tag-elective">Elective</span>
-                                    </div>
-                                </div>
-                                <div class="subject-progress">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" id="chemistry-progress-fill"></div>
-                                    </div>
-                                    <span class="progress-text" id="chemistry-progress-text">70% Complete</span>
-                                </div>
-                                <div class="subject-meta">
-                                    <span><i class="fas fa-clock"></i> 3h 20m left</span>
-                                    <span><i class="fas fa-book"></i> 4 chapters</span>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="history.html" class="subject-card-link">
-                            <div class="subject-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon">
-                                        <i class="fas fa-landmark"></i>
-                                    </div>
-                                    <div class="subject-info">
-                                        <h3>History</h3>
-                                        <span class="subject-status">In Progress</span>
-                                        <span class="subject-tag subject-tag-elective">Elective</span>
-                                    </div>
-                                </div>
-                                <div class="subject-progress">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" id="history-progress-fill"></div>
-                                    </div>
-                                    <span class="progress-text" id="history-progress-text">65% Complete</span>
-                                </div>
-                                <div class="subject-meta">
-                                    <span><i class="fas fa-clock"></i> 5h 10m left</span>
-                                    <span><i class="fas fa-book"></i> 6 chapters</span>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="computer-science.html" class="subject-card-link">
-                            <div class="subject-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon">
-                                        <i class="fas fa-code"></i>
-                                    </div>
-                                    <div class="subject-info">
-                                        <h3>Computer Science</h3>
-                                        <span class="subject-status">Not Started</span>
-                                        <span class="subject-tag subject-tag-core">Core</span>
-                                    </div>
-                                </div>
-                                <div class="subject-progress">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" id="computer-science-progress-fill"></div>
-                                    </div>
-                                    <span class="progress-text" id="computer-science-progress-text">0% Complete</span>
-                                </div>
-                                <div class="subject-meta">
-                                    <span><i class="fas fa-clock"></i> 6h 30m left</span>
-                                    <span><i class="fas fa-book"></i> 6 chapters</span>
-                                </div>
-                            </div>
-                        </a>
+                    <div class="subject-cards" id="subjectCardsContainer"></div>
+                    <p id="noSubjectsMessage" class="empty-message" style="display:none; margin-top: 1.5rem;">
+                        No subjects selected yet. Complete your profile in <a href="account-setup.html">profile setup</a> to see your subjects here.
+                    </p>
                 </div>
 
                 <!-- Activity Feed & Recommendations -->
@@ -523,7 +382,12 @@
                 window.location.href = 'login.html';
                 return null;
             }
-            return JSON.parse(currentUser);
+            const user = JSON.parse(currentUser);
+            if (user.profileComplete !== true) {
+                window.location.href = 'account-setup.html';
+                return null;
+            }
+            return user;
         }
 
         function logout() {
@@ -583,22 +447,15 @@
         });
 
         function logout() {
-            alert('Logged out successfully!');
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('edufusion_current_user');
+                localStorage.removeItem('edufusion_remember_me');
+                window.location.href = 'login.html';
+            }
         }
 
         function showTextbook() {
-            const dashboard = document.getElementById('dashboard');
-            const textbook = document.getElementById('textbook');
-            dashboard.style.display = 'none';
-            textbook.style.display = 'block';
-
-            document.querySelectorAll('.sidebar-menu li').forEach(item => {
-                item.classList.toggle(
-                    'active',
-                    item.querySelector('span')?.textContent.trim() === 'My Subjects'
-                );
-            });
-
+            window.location.href = 'subjects-taken.html';
         }
 
         function updateHashView() {
@@ -747,16 +604,159 @@
             if (textElement) textElement.textContent = Math.round(percentage) + '% Complete';
         }
 
+        function getCurrentUser() {
+            const currentUser = localStorage.getItem('edufusion_current_user');
+            return currentUser ? JSON.parse(currentUser) : null;
+        }
+
+        function getSubjectIcon(subject) {
+            const icons = {
+                Mathematics: 'fas fa-square-root-alt',
+                English: 'fas fa-book-open',
+                Kiswahili: 'fas fa-globe-africa',
+                'Community Service Learning': 'fas fa-hands-helping',
+                'Physical Education': 'fas fa-running',
+                Biology: 'fas fa-dna',
+                Chemistry: 'fas fa-flask',
+                Physics: 'fas fa-atom',
+                Computer: 'fas fa-laptop-code',
+                'Computer Science': 'fas fa-laptop-code',
+                History: 'fas fa-landmark',
+                CRE: 'fas fa-church',
+                Geography: 'fas fa-map-marked-alt',
+                Literature: 'fas fa-book',
+                'Fasihi ya Kiswahili': 'fas fa-pen-nib',
+                'Sports and Recreation': 'fas fa-futbol',
+                Film: 'fas fa-video',
+                Acting: 'fas fa-theater-masks',
+                'Building and Construction': 'fas fa-hard-hat',
+                'Power Mechanics': 'fas fa-cogs',
+                Electricity: 'fas fa-bolt'
+            };
+            return icons[subject] || 'fas fa-book';
+        }
+
+        function getSubjectLink(subject) {
+            const links = {
+                Mathematics: 'mathematics.html',
+                Biology: 'biology.html',
+                Physics: 'physics.html',
+                Chemistry: 'chemistry.html',
+                History: 'history.html',
+                'Computer Science': 'computer-science.html'
+            };
+            return links[subject] || '#';
+        }
+
+        function getSubjectProgress(subject) {
+            const normalized = subject.toLowerCase();
+            const calculate = (total, keyPrefix) => {
+                let completed = 0;
+                for (let i = 1; i <= total; i++) {
+                    if (localStorage.getItem(`${keyPrefix}${i}`) === 'completed') {
+                        completed++;
+                    }
+                }
+                return total > 0 ? Math.round((completed / total) * 100) : 0;
+            };
+
+            if (normalized === 'mathematics') {
+                return calculate(6, 'math_quiz_mathquiz');
+            }
+            if (normalized === 'biology') {
+                return calculate(1, 'biology_quiz_bioquiz');
+            }
+            if (normalized === 'physics') {
+                return calculate(1, 'physics_quiz_physquiz');
+            }
+            if (normalized === 'chemistry') {
+                return calculate(1, 'chemistry_quiz_chemquiz');
+            }
+            if (normalized === 'history') {
+                return calculate(10, 'history_quiz_historyquiz');
+            }
+            if (normalized === 'computer science' || normalized === 'computer') {
+                return 0;
+            }
+            return 0;
+        }
+
+        function renderSelectedSubjects() {
+            const user = getCurrentUser();
+            if (!user || user.profileComplete === false) {
+                return;
+            }
+
+            const subjects = (user.profile && user.profile.selectedSubjects) || [];
+            const container = document.getElementById('subjectCardsContainer');
+            const noSubjects = document.getElementById('noSubjectsMessage');
+            const subjectCount = document.getElementById('subjectCount');
+            const averageProgress = document.getElementById('averageProgress');
+            const activeSubjects = document.getElementById('activeSubjects');
+
+            if (!container || !subjectCount || !averageProgress || !activeSubjects) {
+                return;
+            }
+
+            if (!subjects.length) {
+                container.innerHTML = '';
+                noSubjects.style.display = 'block';
+                subjectCount.textContent = '0';
+                averageProgress.textContent = '0%';
+                activeSubjects.textContent = '0';
+                return;
+            }
+
+            noSubjects.style.display = 'none';
+            let totalProgress = 0;
+            const cards = subjects.map(subject => {
+                const progress = getSubjectProgress(subject);
+                totalProgress += progress;
+                const icon = getSubjectIcon(subject);
+                const link = getSubjectLink(subject);
+                const tag = ['Mathematics', 'English', 'Kiswahili', 'Community Service Learning', 'Physical Education'].includes(subject) ? 'Core subject' : 'Elective';
+                const status = progress === 0 ? 'Not Started' : (progress < 50 ? 'In Progress' : 'On Track');
+                return `
+                    <a href="${link}" class="subject-card-link">
+                        <div class="subject-card">
+                            <div class="subject-header">
+                                <div class="subject-icon">
+                                    <i class="${icon}"></i>
+                                </div>
+                                <div class="subject-info">
+                                    <h3>${subject}</h3>
+                                    <span class="subject-status">${status}</span>
+                                    <span class="subject-tag ${tag === 'Core subject' ? 'subject-tag-core' : 'subject-tag-elective'}">${tag}</span>
+                                </div>
+                            </div>
+                            <div class="subject-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${progress}%;"></div>
+                                </div>
+                                <span class="progress-text">${progress}% Complete</span>
+                            </div>
+                            <div class="subject-meta">
+                                <span><i class="fas fa-clock"></i> ${progress === 0 ? 'Start now' : 'Keep going'}</span>
+                                <span><i class="fas fa-book"></i> ${subject}</span>
+                            </div>
+                        </div>
+                    </a>`;
+            }).join('');
+
+            container.innerHTML = cards;
+            subjectCount.textContent = `${subjects.length}`;
+            averageProgress.textContent = `${Math.round(totalProgress / subjects.length)}%`;
+            activeSubjects.textContent = `${subjects.length}`;
+        }
+
         // Initialize dashboard on page load
         document.addEventListener('DOMContentLoaded', function() {
-            updateAllProgress();
-
-            // Update progress every 5 seconds to reflect any changes
-            setInterval(updateAllProgress, 5000);
+            renderSelectedSubjects();
+            setInterval(renderSelectedSubjects, 5000);
         });
 
         // Call on page load
-        updateAllProgress();
+        renderSelectedSubjects();
     </script>
 </body>
 </html>
