@@ -189,65 +189,23 @@
                             <h2>Recent Activity</h2>
                         </div>
                         <div class="activity-feed">
-                            <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-check-circle"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <p>Completed Mathematics Quiz 3</p>
-                                    <span class="activity-time">2 hours ago</span>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <p>Earned "Physics Master" achievement</p>
-                                    <span class="activity-time">1 day ago</span>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-book-open"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <p>Started Biology Chapter 4</p>
-                                    <span class="activity-time">2 days ago</span>
-                                </div>
-                            </div>
+                        <div class="empty-message" style="padding: 1.5rem; background: #fff; border-radius: 16px; border: 1px solid #e2e8f0; color: #4a5568; text-align: center;">
+                            No recent activities have taken place.
                         </div>
+                    </div>
                     </div>
                     <div class="recommendations-section">
                         <div class="section-header">
                             <h2>Recommended for You</h2>
                         </div>
                         <div class="recommendations-list">
-                            <div class="recommendation-item">
-                                <div class="recommendation-icon">
-                                    <i class="fas fa-lightbulb"></i>
+                            <div class="recommendation-item" style="width:100%; justify-content:center; text-align:center; padding: 2rem 1rem;">
+                                <div class="recommendation-icon" style="background: rgba(118, 75, 162, 0.15); color: #764ba2;">
+                                    <i class="fas fa-chalkboard-teacher"></i>
                                 </div>
                                 <div class="recommendation-content">
-                                    <h4>Practice Chemistry Equations</h4>
-                                    <p>Based on your recent quiz performance</p>
-                                </div>
-                            </div>
-                            <div class="recommendation-item">
-                                <div class="recommendation-icon">
-                                    <i class="fas fa-video"></i>
-                                </div>
-                                <div class="recommendation-content">
-                                    <h4>Watch History Documentary</h4>
-                                    <p>Enhance your understanding of World War II</p>
-                                </div>
-                            </div>
-                            <div class="recommendation-item">
-                                <div class="recommendation-icon">
-                                    <i class="fas fa-brain"></i>
-                                </div>
-                                <div class="recommendation-content">
-                                    <h4>Take a Break</h4>
-                                    <p>You've been studying for 3 hours straight</p>
+                                    <h4>Teacher recommendations coming soon</h4>
+                                    <p>Recommendations will be provided by a teacher based on your progress.</p>
                                 </div>
                             </div>
                         </div>
@@ -261,35 +219,8 @@
                         <a href="achievements.html" class="view-all">View All</a>
                     </div>
                     <div class="achievements-grid">
-                        <div class="achievement-card">
-                            <div class="achievement-icon">
-                                <i class="fas fa-trophy"></i>
-                            </div>
-                            <div class="achievement-content">
-                                <h4>Quiz Champion</h4>
-                                <p>Completed 10 quizzes with 90%+ score</p>
-                                <span class="achievement-date">Earned today</span>
-                            </div>
-                        </div>
-                        <div class="achievement-card">
-                            <div class="achievement-icon">
-                                <i class="fas fa-fire"></i>
-                            </div>
-                            <div class="achievement-content">
-                                <h4>Study Streak</h4>
-                                <p>7 days of consistent learning</p>
-                                <span class="achievement-date">Earned yesterday</span>
-                            </div>
-                        </div>
-                        <div class="achievement-card">
-                            <div class="achievement-icon">
-                                <i class="fas fa-brain"></i>
-                            </div>
-                            <div class="achievement-content">
-                                <h4>Knowledge Seeker</h4>
-                                <p>Explored 5 different subjects</p>
-                                <span class="achievement-date">Earned 3 days ago</span>
-                            </div>
+                        <div class="empty-message" style="padding: 1.5rem; background: #fff; border-radius: 16px; border: 1px solid #e2e8f0; color: #4a5568; text-align: center; width: 100%;">
+                            No recent achievements have been recorded.
                         </div>
                     </div>
                 </div>
@@ -311,6 +242,14 @@
                 return null;
             }
             const user = JSON.parse(currentUser);
+            if (user.role === 'teacher') {
+                window.location.href = 'teacher-dashboard.html';
+                return null;
+            }
+            if (user.role === 'administrator') {
+                window.location.href = 'admin-dashboard.html';
+                return null;
+            }
             if (user.profileComplete !== true) {
                 window.location.href = 'account-setup.html';
                 return null;

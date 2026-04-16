@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Teacher Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <h1>EduFusion</h1>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <h3 class="nav-section-title">Dashboard</h3>
+                <a href="#" class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Overview</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h3 class="nav-section-title">Management</h3>
+                <a href="admit-students.html" class="nav-item">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Admit Students</span>
+                </a>
+                <a href="#" class="nav-item" data-section="students" onclick="showSection('students')">
+                    <i class="fas fa-users"></i>
+                    <span>My Students</span>
+                </a>
+                <a href="#" class="nav-item" data-section="assignments" onclick="showSection('assignments')">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Assignments</span>
+                </a>
+                <a href="#" class="nav-item" data-section="recommendations" onclick="showSection('recommendations')">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Recommendations</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h3 class="nav-section-title">Quick Actions</h3>
+                <button class="quick-action-btn" onclick="showSection('createAssignment')">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>New Assignment</span>
+                </button>
+                <button class="quick-action-btn" onclick="renderTeacherDashboard()">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Refresh Data</span>
+                </button>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="avatar">
+                    <img src="https://via.placeholder.com/40" alt="Teacher Avatar">
+                </div>
+                <div class="user-info">
+                    <span class="user-name" id="sidebarUserName">Teacher</span>
+                    <span class="user-role">Educator</span>
+                </div>
+            </div>
+            <button class="logout-btn-sidebar" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainWrapper">
+        <header class="top-header">
+            <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="header-title">
+                <h2 id="pageTitle">Dashboard Overview</h2>
+            </div>
+            <div class="header-actions">
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notificationBadge">0</span>
+                </button>
+                <div class="user-menu">
+                    <div class="user-menu-trigger">
+                        <img src="https://via.placeholder.com/32" alt="Avatar" class="user-avatar-small">
+                        <span id="headerUserName">Teacher</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="user-menu-dropdown">
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content" id="mainContent">
+        <section class="content-section active" id="dashboard">
+            <div class="section-header">
+                <h2>Teacher Dashboard</h2>
+                <p>Manage your students, create assignments, and provide personalized learning recommendations</p>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="studentCount">0</h3>
+                        <p>My Students</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="assignmentCount">0</h3>
+                        <p>Assignments Sent</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="pendingSubmissions">0</h3>
+                        <p>Pending Reviews</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="recommendationCount">0</h3>
+                        <p>Recommendations Sent</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="action-card" onclick="showSection('createAssignment')">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Create Assignment</span>
+                </div>
+                <div class="action-card" onclick="showSection('recommendations')">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Send Recommendation</span>
+                </div>
+                <div class="action-card" onclick="window.location.href='admit-students.html'">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Admit New Student</span>
+                </div>
+                <div class="action-card" onclick="showSection('students')">
+                    <i class="fas fa-users"></i>
+                    <span>View Students</span>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="recent-activity">
+                <h2>Recent Activity</h2>
+                <div id="recentActivity" class="activity-list">
+                    <!-- Recent submissions and activities will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+            <section class="content-section" id="assignments">
+                <div class="section-header">
+                    <h2>Assignment Submissions</h2>
+                    <p>Review and grade student work</p>
+                </div>
+                <div id="submissionList" class="subject-cards"></div>
+            </section>
+
+            <section class="content-section" id="students">
+                <div class="section-header">
+                    <h2>My Students</h2>
+                    <p>Students enrolled in your classes</p>
+                </div>
+                <div id="studentList" class="subject-cards"></div>
+            </section>
+
+            <section class="content-section" id="recommendations">
+                <div class="section-header">
+                    <h2>Send Recommendation</h2>
+                    <p>Provide personalized feedback and learning suggestions</p>
+                </div>
+                <div class="profile-card" style="padding: 1.5rem;">
+                    <form id="recommendationForm">
+                        <div class="form-group">
+                            <label for="recommendationStudent">Select Student</label>
+                            <select id="recommendationStudent" required>
+                                <option value="">Choose a student...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="recommendationMessage">Recommendation</label>
+                            <textarea id="recommendationMessage" rows="4" placeholder="Write a personalized recommendation for the student..." required></textarea>
+                        </div>
+                        <button type="submit" class="auth-btn">Send Recommendation</button>
+                        <div id="recommendationFeedback" class="success-message" style="margin-top: 1rem;"></div>
+                    </form>
+                </div>
+            </section>
+
+            <section class="content-section" id="createAssignment">
+                <div class="section-header">
+                    <h2>Create New Assignment</h2>
+                    <p>Assign work to help students learn and grow</p>
+                </div>
+                <div class="profile-card" style="padding: 1.5rem;">
+                    <form id="assignmentForm">
+                        <div class="form-group">
+                            <label for="assignmentStudent">Select Student</label>
+                            <select id="assignmentStudent" required>
+                                <option value="">Choose a student...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="assignmentTitle">Assignment Title</label>
+                            <input type="text" id="assignmentTitle" placeholder="Enter assignment title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="assignmentDetails">Assignment Details</label>
+                            <textarea id="assignmentDetails" rows="4" placeholder="Describe the assignment requirements and objectives..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="assignmentDue">Due Date</label>
+                            <input type="date" id="assignmentDue" required>
+                        </div>
+                        <button type="submit" class="auth-btn">Send Assignment</button>
+                        <div id="assignmentFeedback" class="success-message" style="margin-top: 1rem;"></div>
+                    </form>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <script src="database.js"></script>
+    <script>
+        function getCurrentUser() {
+            const currentUser = localStorage.getItem('edufusion_current_user');
+            return currentUser ? JSON.parse(currentUser) : null;
+        }
+
+        async function getUsers() {
+            return await edufusionDB.getAllUsers();
+        }
+
+        async function saveAssignments(assignments) {
+            // This function is kept for compatibility but assignments are now saved to database
+            for (const assignment of assignments) {
+                if (!assignment.id) {
+                    await edufusionDB.addAssignment(assignment);
+                }
+            }
+        }
+
+        async function getAssignments() {
+            return await edufusionDB.getAllAssignments();
+        }
+
+        async function saveRecommendations(recommendations) {
+            // This function is kept for compatibility but recommendations are now saved to database
+            for (const recommendation of recommendations) {
+                if (!recommendation.id) {
+                    await edufusionDB.addRecommendation(recommendation);
+                }
+            }
+        }
+
+        async function getRecommendations() {
+            return await edufusionDB.getAllRecommendations();
+        }
+
+        async function saveSubmissions(submissions) {
+            // This function is kept for compatibility but submissions are now saved to database
+            for (const submission of submissions) {
+                if (!submission.id) {
+                    await edufusionDB.addSubmission(submission);
+                }
+            }
+        }
+
+        async function getSubmissions() {
+            return await edufusionDB.getAllSubmissions();
+        }
+
+        function setActiveNav(sectionId) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                if (item.dataset.section === sectionId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                const isActive = section.id === sectionId;
+                section.style.display = isActive ? 'block' : 'none';
+                section.classList.toggle('active', isActive);
+            });
+
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                setActiveNav(sectionId);
+                const sectionTitle = targetSection.querySelector('.section-header h2');
+                if (sectionTitle) {
+                    document.getElementById('pageTitle').textContent = sectionTitle.textContent;
+                }
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('edufusion_current_user');
+                localStorage.removeItem('edufusion_remember_me');
+                window.location.href = 'login.html';
+            }
+        }
+
+        function checkUserRole() {
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            if (user.role !== 'teacher') {
+                if (user.role === 'administrator') {
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    window.location.href = 'index.html';
+                }
+                return null;
+            }
+            return user;
+        }
+
+async function renderTeacherDashboard() {
+            const user = checkUserRole();
+            if (!user) return;
+
+            try {
+                await edufusionDB.init();
+
+                document.getElementById('sidebarUserName').textContent = user.name;
+                document.getElementById('headerUserName').textContent = user.name;
+                document.getElementById('pageTitle').textContent = 'Dashboard Overview';
+
+                const allUsers = await getUsers();
+                const students = allUsers.filter(u => u.role === 'student');
+                const assignments = await getAssignments();
+                const teacherAssignments = assignments.filter(a => a.assignedByEmail === user.email);
+                const recommendations = await getRecommendations();
+                const teacherRecommendations = recommendations.filter(r => r.fromEmail === user.email);
+                const submissions = await getSubmissions();
+                const teacherSubmissions = submissions.filter(s => s.teacherEmail === user.email);
+
+                const subjectsTaught = user.profile && user.profile.teaches ? user.profile.teaches : [];
+                const pendingSubmissions = teacherSubmissions.filter(s => !s.reviewed);
+
+                document.getElementById('studentCount').textContent = students.length;
+                document.getElementById('assignmentCount').textContent = teacherAssignments.length;
+                document.getElementById('pendingSubmissions').textContent = pendingSubmissions.length;
+                document.getElementById('recommendationCount').textContent = teacherRecommendations.length;
+
+                const studentSelects = document.querySelectorAll('#recommendationStudent, #assignmentStudent');
+                studentSelects.forEach(select => {
+                    select.innerHTML = '<option value="">Choose a student...</option>' + students.map(student => `
+                        <option value="${student.email}">${student.name} (${student.email})</option>
+                    `).join('');
+                });
+
+                // Render recent activity
+                const recentActivity = document.getElementById('recentActivity');
+                const recentItems = [
+                    ...teacherAssignments.slice(-3).map(a => ({
+                        icon: 'fas fa-plus-circle',
+                        title: `Assigned "${a.title}"`,
+                        subtitle: `to ${a.studentName}`,
+                        time: new Date(a.createdAt).toLocaleDateString()
+                    })),
+                    ...teacherRecommendations.slice(-2).map(r => ({
+                        icon: 'fas fa-lightbulb',
+                        title: 'Sent recommendation',
+                        subtitle: `to ${r.toName}`,
+                        time: new Date(r.createdAt).toLocaleDateString()
+                    })),
+                    ...pendingSubmissions.slice(-2).map(s => ({
+                        icon: 'fas fa-file-alt',
+                        title: `Submission: "${s.title}"`,
+                        subtitle: `from ${s.studentName}`,
+                        time: new Date(s.submittedAt).toLocaleDateString()
+                    }))
+                ].sort((a, b) => new Date(b.time) - new Date(a.time)).slice(0, 5);
+
+                recentActivity.innerHTML = recentItems.length ? recentItems.map(item => `
+                    <div class="activity-item">
+                        <i class="${item.icon}"></i>
+                        <div class="activity-content">
+                            <div class="title">${item.title}</div>
+                            <div class="subtitle">${item.subtitle}</div>
+                        </div>
+                        <div class="activity-time">${item.time}</div>
+                    </div>
+                `).join('') : '<p class="empty-message">No recent activity yet.</p>';
+
+                const studentList = document.getElementById('studentList');
+                studentList.innerHTML = students.length ? students.map(student => `
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <h3>${student.name}</h3>
+                            <span>${student.email}</span>
+                        </div>
+                        <div class="subject-progress">
+                            <p style="margin-top: 0.5rem;">Role: Learner</p>
+                        </div>
+                    </div>`).join('') : '<p class="empty-message">No learners available yet.</p>';
+
+                const submissionList = document.getElementById('submissionList');
+                submissionList.innerHTML = teacherSubmissions.length ? teacherSubmissions.map(submission => `
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <h3>${submission.title}</h3>
+                            <span>${submission.studentName}</span>
+                        </div>
+                        <div class="subject-progress">
+                            <p>${submission.studentEmail}</p>
+                            <p>Submitted: ${new Date(submission.submittedAt).toLocaleDateString()}</p>
+                            <p>Assignment Due: ${submission.dueDate}</p>
+                        </div>
+                    </div>`).join('') : '<p class="empty-message">No submitted assignments have been handed in yet.</p>';
+            } catch (error) {
+                console.error('Error rendering teacher dashboard:', error);
+            }
+        }
+
+        document.getElementById('recommendationForm')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const user = getCurrentUser();
+            if (!user) return;
+
+            const studentEmail = document.getElementById('recommendationStudent').value;
+            const message = document.getElementById('recommendationMessage').value.trim();
+            if (!studentEmail || !message) return;
+
+            try {
+                const students = (await getUsers()).filter(u => u.role === 'student');
+                const student = students.find(s => s.email === studentEmail);
+                if (!student) return;
+
+                const recommendation = {
+                    fromEmail: user.email,
+                    fromName: user.name,
+                    toEmail: studentEmail,
+                    toName: student.name,
+                    message: message,
+                    createdAt: new Date().toISOString()
+                };
+
+                await edufusionDB.addRecommendation(recommendation);
+                document.getElementById('recommendationFeedback').textContent = 'Recommendation sent successfully.';
+                await renderTeacherDashboard();
+            } catch (error) {
+                console.error('Error sending recommendation:', error);
+                document.getElementById('recommendationFeedback').textContent = 'Error sending recommendation. Please try again.';
+            }
+        });
+
+        document.getElementById('assignmentForm')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const user = getCurrentUser();
+            if (!user) return;
+
+            const studentEmail = document.getElementById('assignmentStudent').value;
+            const title = document.getElementById('assignmentTitle').value.trim();
+            const details = document.getElementById('assignmentDetails').value.trim();
+            const dueDate = document.getElementById('assignmentDue').value;
+            if (!studentEmail || !title || !details || !dueDate) return;
+
+            try {
+                const students = (await getUsers()).filter(u => u.role === 'student');
+                const student = students.find(s => s.email === studentEmail);
+                if (!student) return;
+
+                const assignment = {
+                    title: title,
+                    description: details,
+                    dueDate: dueDate,
+                    assignedByEmail: user.email,
+                    assignedByName: user.name,
+                    studentEmail: studentEmail,
+                    studentName: student.name,
+                    createdAt: new Date().toISOString()
+                };
+
+                await edufusionDB.addAssignment(assignment);
+                document.getElementById('assignmentFeedback').textContent = 'Assignment sent successfully.';
+                await renderTeacherDashboard();
+            } catch (error) {
+                console.error('Error sending assignment:', error);
+                document.getElementById('assignmentFeedback').textContent = 'Error sending assignment. Please try again.';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            await renderTeacherDashboard();
+            showSection('dashboard');
+            // Auto-refresh every 30 seconds to show new students
+            setInterval(async () => {
+                await renderTeacherDashboard();
+            }, 30000);
+        });
+    </script>
+</body>
+</html>

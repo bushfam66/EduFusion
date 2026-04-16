@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear Storage</title>
+</head>
+<body>
+    <h1>Clearing EduFusion Data...</h1>
+    <p>Opening browser to clear localStorage...</p>
+    <script>
+        
+// Clear all EduFusion localStorage data
+localStorage.removeItem('edufusion_users');
+localStorage.removeItem('edufusion_current_user');
+localStorage.removeItem('edufusion_remember_me');
+localStorage.removeItem('edufusion_assignments');
+localStorage.removeItem('edufusion_recommendations');
+localStorage.removeItem('edufusion_submissions');
+
+console.log('All localStorage data cleared. Database system is now active.');
+
+        setTimeout(() => {
+            window.close();
+        }, 1000);
+    </script>
+</body>
+</html>

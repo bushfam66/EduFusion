@@ -19,6 +19,17 @@
             <form id="loginForm" class="auth-form active-form">
                 <h2>Login</h2>
                 <div class="form-group">
+                    <label for="loginRole">Login As</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user-tag"></i>
+                        <select id="loginRole" onchange="updateLoginDemoCredentials()">
+                            <option value="student">Student</option>
+                            <option value="teacher">Teacher</option>
+                            <option value="administrator">Administrator</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="loginEmail">Email Address</label>
                     <div class="input-wrapper">
                         <i class="fas fa-envelope"></i>
@@ -56,6 +67,31 @@
                         <i class="fas fa-user"></i>
                         <input type="text" id="registerName" name="name" placeholder="Enter your full name" required>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="registerRole">Account Type</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user-tag"></i>
+                        <select id="registerRole" name="role" required>
+                            <option value="student">Student</option>
+                            <option value="teacher">Teacher</option>
+                            <option value="administrator">Administrator</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" id="teacherSubjectsSection" style="display:none;">
+                    <label>Subjects Taught</label>
+                    <div class="subject-options" style="display:grid; gap:0.5rem;">
+                        <label><input type="checkbox" name="teacherSubjects" value="Mathematics"> Mathematics</label>
+                        <label><input type="checkbox" name="teacherSubjects" value="Biology"> Biology</label>
+                        <label><input type="checkbox" name="teacherSubjects" value="Physics"> Physics</label>
+                        <label><input type="checkbox" name="teacherSubjects" value="Chemistry"> Chemistry</label>
+                        <label><input type="checkbox" name="teacherSubjects" value="History"> History</label>
+                        <label><input type="checkbox" name="teacherSubjects" value="Computer Science"> Computer Science</label>
+                        <label><input type="checkbox" name="teacherSubjects" value="English"> English</label>
+                        <label><input type="checkbox" name="teacherSubjects" value="Kiswahili"> Kiswahili</label>
+                    </div>
+                    <p style="font-size:0.9rem; color:#4a5568; margin-top:0.5rem;">Please select at least one subject you teach.</p>
                 </div>
                 <div class="form-group">
                     <label for="registerEmail">Email Address</label>
@@ -100,10 +136,9 @@
             </form>
 
             <!-- Demo Users Info -->
-            <div class="demo-info">
+            <div class="demo-info" id="demoInfo">
                 <p><strong>Demo Credentials:</strong></p>
-                <p>Email: <code>demo@edufusion.com</code></p>
-                <p>Password: <code>Demo@123</code></p>
+                <div id="demoCredentialsDisplay"></div>
             </div>
         </div>
 
@@ -115,38 +150,61 @@
         </div>
     </div>
 
+    <script src="database.js"></script>
     <script>
         // Initialize demo user on first load
-        function initializeDemoUser() {
-            const users = JSON.parse(localStorage.getItem('edufusion_users') || '[]');
-            const demoExists = users.some(u => u.email === 'demo@edufusion.com');
-            
-            if (!demoExists) {
-                users.push({
-                    id: Date.now(),
-                    name: 'Demo User',
-                    email: 'demo@edufusion.com',
-                    password: 'Demo@123', // In production, this would be hashed
-                    createdAt: new Date().toISOString(),
-                    profileComplete: true,
-                    profile: {
-                        school: 'Demo High School',
-                        age: '16',
-                        class: 'Form 3',
-                        pathway: 'stem',
-                        selectedSubjects: ['Mathematics', 'English', 'Kiswahili', 'Community Service Learning', 'Physical Education', 'Biology', 'Chemistry', 'Physics']
-                    }
-                });
-                localStorage.setItem('edufusion_users', JSON.stringify(users));
+        async function initializeDemoUser() {
+            try {
+                await edufusionDB.init();
+                const users = await edufusionDB.getAllUsers();
+
+                const demoExists = users.some(u => u.email === 'demo@edufusion.com');
+                const teacherExists = users.some(u => u.email === 'teacher@edufusion.com');
+                const adminExists = users.some(u => u.email === 'admin@edufusion.com');
+
+                if (!demoExists || !teacherExists || !adminExists) {
+                    await edufusionDB.initializeDemoData();
+                }
+            } catch (error) {
+                console.error('Error initializing database:', error);
             }
         }
 
-        // Toggle between login and register forms
+        function updateLoginDemoCredentials() {
+            const role = document.getElementById('loginRole').value;
+            const credentialsDisplay = document.getElementById('demoCredentialsDisplay');
+            
+            const credentials = {
+                student: { email: 'demo@edufusion.com', password: 'Demo@123', name: 'Demo User (Student)' },
+                teacher: { email: 'teacher@edufusion.com', password: 'Teacher@123', name: 'Demo Teacher' },
+                administrator: { email: 'admin@edufusion.com', password: 'Admin@123', name: 'Demo Admin' }
+            };
+            
+            const selected = credentials[role];
+            credentialsDisplay.innerHTML = `
+                <p style="margin: 0.5rem 0;"><strong>${selected.name}</strong></p>
+                <p style="margin: 0.25rem 0;">Email: <code>${selected.email}</code></p>
+                <p style="margin: 0.25rem 0;">Password: <code>${selected.password}</code></p>
+            `;
+            document.getElementById('loginEmail').placeholder = `e.g., ${selected.email}`;
+        }
+
         function toggleForms(e) {
             e.preventDefault();
             document.getElementById('loginForm').classList.toggle('active-form');
             document.getElementById('registerForm').classList.toggle('active-form');
             clearMessages();
+        }
+
+        function updateRegisterRoleFields() {
+            const role = document.getElementById('registerRole').value;
+            const teacherSection = document.getElementById('teacherSubjectsSection');
+            if (role === 'teacher') {
+                teacherSection.style.display = 'block';
+            } else {
+                teacherSection.style.display = 'none';
+                document.querySelectorAll('input[name="teacherSubjects"]').forEach(cb => cb.checked = false);
+            }
         }
 
         // Clear all error and success messages
@@ -190,113 +248,142 @@
         }
 
         // Login form submission
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             clearMessages();
-            
+
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             const rememberMe = document.getElementById('rememberMe').checked;
-            
-            const users = JSON.parse(localStorage.getItem('edufusion_users') || '[]');
-            const user = users.find(u => u.email === email && u.password === password);
-            
-            if (user) {
-                // Set session
-                localStorage.setItem('edufusion_current_user', JSON.stringify({
-                    id: user.id,
-                    name: user.name,
-                    email: user.email,
-                    profileComplete: user.profileComplete === true,
-                    profile: user.profile || null
-                }));
-                
-                if (rememberMe) {
-                    localStorage.setItem('edufusion_remember_me', JSON.stringify({
+
+            try {
+                const user = await edufusionDB.getUserByEmail(email);
+
+                if (user && user.password === password) {
+                    const sessionUser = {
+                        id: user.id,
+                        name: user.name,
                         email: user.email,
-                        password: user.password
-                    }));
-                }
-                
-                document.getElementById('loginSuccess').textContent = 'Login successful! Redirecting...';
-                
-                setTimeout(() => {
-                    if (user.profileComplete !== true) {
-                        window.location.href = 'account-setup.html';
-                    } else {
-                        window.location.href = 'index.html';
+                        role: user.role || 'student',
+                        profileComplete: user.profileComplete === true,
+                        profile: user.profile || null
+                    };
+
+                    localStorage.setItem('edufusion_current_user', JSON.stringify(sessionUser));
+
+                    if (rememberMe) {
+                        localStorage.setItem('edufusion_remember_me', JSON.stringify({
+                            email: user.email,
+                            password: user.password
+                        }));
                     }
-                }, 1500);
-            } else {
-                document.getElementById('loginError').textContent = 'Invalid email or password. Please try again.';
+
+                    document.getElementById('loginSuccess').textContent = 'Login successful! Redirecting...';
+
+                    setTimeout(() => {
+                        if (user.role === 'teacher') {
+                            window.location.href = 'teacher-dashboard.html';
+                        } else if (user.role === 'administrator') {
+                            window.location.href = 'admin-dashboard.html';
+                        } else if (user.profileComplete !== true) {
+                            window.location.href = 'account-setup.html';
+                        } else {
+                            window.location.href = 'index.html';
+                        }
+                    }, 1500);
+                } else {
+                    document.getElementById('loginError').textContent = 'Invalid email or password. Please try again.';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                document.getElementById('loginError').textContent = 'An error occurred during login. Please try again.';
             }
         });
 
         // Register form submission
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             clearMessages();
-            
+
             const name = document.getElementById('registerName').value;
+            const role = document.getElementById('registerRole').value;
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
             const confirm = document.getElementById('registerConfirm').value;
             const agreeTerms = document.getElementById('agreeTerms').checked;
-            
+
             // Validation
             if (!agreeTerms) {
                 document.getElementById('registerError').textContent = 'You must agree to the terms and conditions.';
                 return;
             }
-            
+
             if (password !== confirm) {
                 document.getElementById('registerError').textContent = 'Passwords do not match.';
                 return;
             }
-            
+
             if (password.length < 6) {
                 document.getElementById('registerError').textContent = 'Password must be at least 6 characters long.';
                 return;
             }
-            
+
             if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
                 document.getElementById('registerError').textContent = 'Please enter a valid email address.';
                 return;
             }
-            
-            const users = JSON.parse(localStorage.getItem('edufusion_users') || '[]');
-            
-            if (users.some(u => u.email === email)) {
-                document.getElementById('registerError').textContent = 'This email is already registered. Please login instead.';
-                return;
+
+            let teaches = [];
+            if (role === 'teacher') {
+                teaches = Array.from(document.querySelectorAll('input[name="teacherSubjects"]:checked')).map(cb => cb.value);
+                if (teaches.length === 0) {
+                    document.getElementById('registerError').textContent = 'Please select at least one subject you teach.';
+                    return;
+                }
             }
-            
-            // Create new user
-            const newUser = {
-                id: Date.now(),
-                name: name,
-                email: email,
-                password: password,
-                createdAt: new Date().toISOString(),
-                profileComplete: false,
-                profile: null
-            };
-            
-            users.push(newUser);
-            localStorage.setItem('edufusion_users', JSON.stringify(users));
-            
-            document.getElementById('registerSuccess').textContent = 'Account created successfully! Redirecting to setup...';
-            
-            setTimeout(() => {
-                localStorage.setItem('edufusion_current_user', JSON.stringify({
-                    id: newUser.id,
-                    name: newUser.name,
-                    email: newUser.email,
-                    profileComplete: false,
-                    profile: null
-                }));
-                window.location.href = 'account-setup.html';
-            }, 1500);
+
+            try {
+                // Create new user
+                const newUser = {
+                    name: name,
+                    email: email,
+                    password: password,
+                    role: role,
+                    createdAt: new Date().toISOString(),
+                    profileComplete: role === 'student' ? false : true,
+                    profile: role === 'teacher' ? { teaches } : role === 'administrator' ? { school: '' } : null
+                };
+
+                await edufusionDB.addUser(newUser);
+
+                document.getElementById('registerSuccess').textContent = 'Account created successfully! Redirecting...';
+
+                setTimeout(() => {
+                    localStorage.setItem('edufusion_current_user', JSON.stringify({
+                        id: newUser.id,
+                        name: newUser.name,
+                        email: newUser.email,
+                        role: newUser.role,
+                        profileComplete: newUser.profileComplete,
+                        profile: newUser.profile
+                    }));
+
+                    if (role === 'teacher') {
+                        window.location.href = 'teacher-dashboard.html';
+                    } else if (role === 'administrator') {
+                        window.location.href = 'admin-dashboard.html';
+                    } else {
+                        window.location.href = 'account-setup.html';
+                    }
+                }, 1500);
+            } catch (error) {
+                if (error.message === 'Email already exists') {
+                    document.getElementById('registerError').textContent = 'This email is already registered. Please login instead.';
+                } else {
+                    console.error('Registration error:', error);
+                    document.getElementById('registerError').textContent = 'An error occurred during registration. Please try again.';
+                }
+            }
         });
 
         // Load saved login if "Remember me" was checked
@@ -315,7 +402,11 @@
             const currentUser = localStorage.getItem('edufusion_current_user');
             if (currentUser) {
                 const user = JSON.parse(currentUser);
-                if (user.profileComplete !== true) {
+                if (user.role === 'teacher') {
+                    window.location.href = 'teacher-dashboard.html';
+                } else if (user.role === 'administrator') {
+                    window.location.href = 'admin-dashboard.html';
+                } else if (user.profileComplete !== true) {
                     window.location.href = 'account-setup.html';
                 } else {
                     window.location.href = 'index.html';
@@ -328,6 +419,12 @@
             initializeDemoUser();
             checkIfLoggedIn();
             loadSavedLogin();
+            updateLoginDemoCredentials();
+            const registerRoleSelect = document.getElementById('registerRole');
+            if (registerRoleSelect) {
+                registerRoleSelect.addEventListener('change', updateRegisterRoleFields);
+                updateRegisterRoleFields();
+            }
         });
     </script>
 </body>

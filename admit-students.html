@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Admit Students</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="top-nav">
+        <div class="logo">
+            <h1>EduFusion</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="teacher-dashboard.html">Dashboard</a>
+            <a href="admit-students.html">Admit Students</a>
+            <a href="#students">Students</a>
+            <a href="#assignments">Assignments</a>
+            <a href="#recommendations">Recommendations</a>
+        </nav>
+        <div class="user-actions">
+            <button class="refresh-btn" onclick="renderAdmissionPage()" title="Refresh Data">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+            <i class="fas fa-bell notification-icon"></i>
+            <button class="logout-btn" onclick="logout()" title="Logout">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+            <div class="avatar">
+                <img src="https://via.placeholder.com/40" alt="Teacher Avatar">
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="dashboard" id="dashboard">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h1>Student Admissions</h1>
+                    <p>Submit new student applications for admin approval.</p>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <span class="stat-number" id="pendingCount">0</span>
+                            <span class="stat-label">Pending Approvals</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="stat-number" id="approvedCount">0</span>
+                            <span class="stat-label">Approved This Month</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="stat-number" id="rejectedCount">0</span>
+                            <span class="stat-label">Rejected This Month</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admission-tabs">
+                <button class="tab-btn active" onclick="showTab('admit')">Admit New Student</button>
+                <button class="tab-btn" onclick="showTab('pending')">My Pending Admissions</button>
+            </div>
+
+            <div id="admitTab" class="tab-content active">
+                <section class="admission-section">
+                    <div class="section-header">
+                        <h2>Student Admission Form</h2>
+                        <p>Fill in the details below to submit a new student for admission. All submissions require admin approval.</p>
+                    </div>
+                    <div class="profile-card" style="padding: 1.5rem;">
+                        <form id="admissionForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="studentName">Full Name</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-user"></i>
+                                        <input type="text" id="studentName" name="name" placeholder="Enter student's full name" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="studentEmail">Email Address</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" id="studentEmail" name="email" placeholder="student@school.edu" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="studentAge">Age</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-birthday-cake"></i>
+                                        <input type="number" id="studentAge" name="age" placeholder="16" min="10" max="25" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="studentClass">Class/Form</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        <select id="studentClass" name="class" required>
+                                            <option value="">Select Class</option>
+                                            <option value="Form 1">Form 1</option>
+                                            <option value="Form 2">Form 2</option>
+                                            <option value="Form 3">Form 3</option>
+                                            <option value="Form 4">Form 4</option>
+                                            <option value="Grade 8">Grade 8</option>
+                                            <option value="Grade 9">Grade 9</option>
+                                            <option value="Grade 10">Grade 10</option>
+                                            <option value="Grade 11">Grade 11</option>
+                                            <option value="Grade 12">Grade 12</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="studentSchool">School Name</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-school"></i>
+                                    <input type="text" id="studentSchool" name="school" placeholder="Enter school name" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="studentPathway">Academic Pathway</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-route"></i>
+                                    <select id="studentPathway" name="pathway" required>
+                                        <option value="">Select Pathway</option>
+                                        <option value="stem">STEM (Science, Technology, Engineering, Mathematics)</option>
+                                        <option value="humanities">Humanities (Arts, Literature, Social Sciences)</option>
+                                        <option value="commerce">Commerce (Business, Economics, Accounting)</option>
+                                        <option value="technical">Technical (Vocational, Technical Skills)</option>
+                                        <option value="mixed">Mixed/General Studies</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Subjects of Interest</label>
+                                <p style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">Select subjects the student is interested in (minimum 3):</p>
+                                <div class="subject-selection-grid">
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" name="subjects" value="Mathematics">
+                                        <span>Mathematics</span>
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" name="subjects" value="English">
+                                        <span>English</span>
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" name="subjects" value="Kiswahili">
+                                        <span>Kiswahili</span>
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" name="subjects" value="Biology">
+                                        <span>Biology</span>
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" name="subjects" value="Chemistry">
+                                        <span>Chemistry</span>
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" name="subjects" value="Physics">
+                                        <span>Physics</span>
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" name="subjects" value="History">
+                                        <span>History</span>
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" name="subjects" value="Geography">
+                                        <span>Geography</span>
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" name="subjects" value="Computer Science">
+                                        <span>Computer Science</span>
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" name="subjects" value="Business Studies">
+                                        <span>Business Studies</span>
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" name="subjects" value="Art">
+                                        <span>Art</span>
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" name="subjects" value="Music">
+                                        <span>Music</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admissionNotes">Additional Notes</label>
+                                <textarea id="admissionNotes" name="notes" rows="3" placeholder="Any additional information about the student (optional)"></textarea>
+                            </div>
+
+                            <button type="submit" class="auth-btn">Submit for Approval</button>
+                            <div id="admissionFeedback" class="success-message" style="margin-top: 1rem;"></div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+            <div id="pendingTab" class="tab-content">
+                <section class="pending-section">
+                    <div class="section-header">
+                        <h2>My Pending Admissions</h2>
+                        <p>Track the status of students you've submitted for admission.</p>
+                    </div>
+                    <div id="pendingAdmissionsList" class="subject-cards">
+                        <!-- Pending admissions will be loaded here -->
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <script src="database.js"></script>
+    <script>
+        function getCurrentUser() {
+            const currentUser = localStorage.getItem('edufusion_current_user');
+            return currentUser ? JSON.parse(currentUser) : null;
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('edufusion_current_user');
+                localStorage.removeItem('edufusion_remember_me');
+                window.location.href = 'login.html';
+            }
+        }
+
+        function checkUserRole() {
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            if (user.role !== 'teacher') {
+                if (user.role === 'administrator') {
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    window.location.href = 'index.html';
+                }
+                return null;
+            }
+            return user;
+        }
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function renderAdmissionPage() {
+            const user = checkUserRole();
+            if (!user) return;
+
+            try {
+                await edufusionDB.init();
+
+                // Get pending admissions submitted by this teacher
+                const pendingAdmissions = await edufusionDB.getPendingAdmissionsByTeacher(user.email);
+
+                // Calculate statistics
+                const currentMonth = new Date().getMonth();
+                const currentYear = new Date().getFullYear();
+
+                const pendingCount = pendingAdmissions.filter(a => a.status === 'pending').length;
+                const approvedCount = pendingAdmissions.filter(a => {
+                    if (a.status !== 'approved' || !a.approvedAt) return false;
+                    const approvedDate = new Date(a.approvedAt);
+                    return approvedDate.getMonth() === currentMonth && approvedDate.getFullYear() === currentYear;
+                }).length;
+                const rejectedCount = pendingAdmissions.filter(a => {
+                    if (a.status !== 'rejected' || !a.rejectedAt) return false;
+                    const rejectedDate = new Date(a.rejectedAt);
+                    return rejectedDate.getMonth() === currentMonth && rejectedDate.getFullYear() === currentYear;
+                }).length;
+
+                document.getElementById('pendingCount').textContent = pendingCount;
+                document.getElementById('approvedCount').textContent = approvedCount;
+                document.getElementById('rejectedCount').textContent = rejectedCount;
+
+                // Render pending admissions list
+                const pendingList = document.getElementById('pendingAdmissionsList');
+                if (pendingAdmissions.length === 0) {
+                    pendingList.innerHTML = '<p class="empty-message">No pending admissions yet. Submit your first student admission above.</p>';
+                } else {
+                    pendingList.innerHTML = pendingAdmissions.map(admission => `
+                        <div class="subject-card">
+                            <div class="subject-header">
+                                <h3>${admission.name}</h3>
+                                <span class="status-${admission.status}">${admission.status.charAt(0).toUpperCase() + admission.status.slice(1)}</span>
+                            </div>
+                            <div class="subject-progress">
+                                <p><strong>Email:</strong> ${admission.email}</p>
+                                <p><strong>Class:</strong> ${admission.class} | <strong>Age:</strong> ${admission.age}</p>
+                                <p><strong>School:</strong> ${admission.school}</p>
+                                <p><strong>Pathway:</strong> ${admission.pathway.toUpperCase()}</p>
+                                <p><strong>Subjects:</strong> ${admission.selectedSubjects.join(', ')}</p>
+                                <p><strong>Submitted:</strong> ${new Date(admission.submittedAt).toLocaleDateString()}</p>
+                                ${admission.status === 'approved' ? `<p><strong>Approved:</strong> ${new Date(admission.approvedAt).toLocaleDateString()}</p>` : ''}
+                                ${admission.status === 'rejected' ? `<p><strong>Rejected:</strong> ${new Date(admission.rejectedAt).toLocaleDateString()}</p><p><strong>Reason:</strong> ${admission.rejectionReason || 'No reason provided'}</p>` : ''}
+                                ${admission.notes ? `<p><strong>Notes:</strong> ${admission.notes}</p>` : ''}
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+            } catch (error) {
+                console.error('Error rendering admission page:', error);
+            }
+        }
+
+        document.getElementById('admissionForm')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const user = getCurrentUser();
+            if (!user) return;
+
+            // Get selected subjects
+            const selectedSubjects = Array.from(document.querySelectorAll('input[name="subjects"]:checked')).map(cb => cb.value);
+            if (selectedSubjects.length < 3) {
+                document.getElementById('admissionFeedback').textContent = 'Please select at least 3 subjects.';
+                document.getElementById('admissionFeedback').className = 'error-message';
+                return;
+            }
+
+            const admissionData = {
+                name: document.getElementById('studentName').value.trim(),
+                email: document.getElementById('studentEmail').value.trim(),
+                age: document.getElementById('studentAge').value,
+                class: document.getElementById('studentClass').value,
+                school: document.getElementById('studentSchool').value.trim(),
+                pathway: document.getElementById('studentPathway').value,
+                selectedSubjects: selectedSubjects,
+                notes: document.getElementById('admissionNotes').value.trim(),
+                submittedBy: user.email,
+                submittedByName: user.name,
+                status: 'pending',
+                submittedAt: new Date().toISOString()
+            };
+
+            try {
+                // Generate a temporary password for the student
+                admissionData.password = 'TempPass' + Math.random().toString(36).substr(2, 8);
+
+                await edufusionDB.addPendingAdmission(admissionData);
+
+                document.getElementById('admissionFeedback').textContent = 'Student admission submitted successfully! Awaiting admin approval.';
+                document.getElementById('admissionFeedback').className = 'success-message';
+
+                // Reset form
+                this.reset();
+
+                // Refresh the page data
+                await renderAdmissionPage();
+
+            } catch (error) {
+                console.error('Error submitting admission:', error);
+                document.getElementById('admissionFeedback').textContent = error.message || 'Error submitting admission. Please try again.';
+                document.getElementById('admissionFeedback').className = 'error-message';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            await renderAdmissionPage();
+            // Auto-refresh every 30 seconds
+            setInterval(async () => {
+                await renderAdmissionPage();
+            }, 30000);
+        });
+    </script>
+</body>
+</html>

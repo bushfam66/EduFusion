@@ -94,7 +94,18 @@
         }
 
         function redirectToDashboard() {
-            window.location.href = 'index.html';
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            if (currentUser.role === 'teacher') {
+                window.location.href = 'teacher-dashboard.html';
+            } else if (currentUser.role === 'administrator') {
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                window.location.href = 'index.html';
+            }
         }
 
         function updateOptionalSubjects(pathway) {

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Admissions System Test</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>EduFusion</h1>
+                <p>Admissions System Test</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="card">
+                <h2>Admissions Workflow Test</h2>
+                <p>This test verifies the complete student admissions process.</p>
+
+                <div class="test-section">
+                    <h3>Step 1: Create Test Accounts</h3>
+                    <button onclick="createTestAccounts()" class="auth-btn">Create Test Teacher & Admin</button>
+                    <div id="accountCreationResult" class="test-result"></div>
+                </div>
+
+                <div class="test-section">
+                    <h3>Step 2: Submit Student Admission (as Teacher)</h3>
+                    <button onclick="submitTestAdmission()" class="auth-btn">Submit Test Admission</button>
+                    <div id="admissionSubmissionResult" class="test-result"></div>
+                </div>
+
+                <div class="test-section">
+                    <h3>Step 3: Review & Approve Admission (as Admin)</h3>
+                    <button onclick="approveTestAdmission()" class="auth-btn">Approve Test Admission</button>
+                    <div id="admissionApprovalResult" class="test-result"></div>
+                </div>
+
+                <div class="test-section">
+                    <h3>Step 4: Verify Student Account Created</h3>
+                    <button onclick="verifyStudentAccount()" class="auth-btn">Verify Student Account</button>
+                    <div id="studentVerificationResult" class="test-result"></div>
+                </div>
+
+                <div class="test-section">
+                    <h3>Test Results Summary</h3>
+                    <div id="testSummary" class="test-result"></div>
+                </div>
+
+                <div class="test-actions">
+                    <button onclick="runFullTest()" class="auth-btn" style="background: #48bb78;">Run Full Test Suite</button>
+                    <button onclick="clearTestData()" class="auth-btn" style="background: #f56565;">Clear Test Data</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="database.js"></script>
+    <script>
+        let testTeacher = null;
+        let testAdmin = null;
+        let testAdmissionId = null;
+        let testStudent = null;
+
+        async function createTestAccounts() {
+            try {
+                await edufusionDB.init();
+
+                // Create test teacher
+                testTeacher = {
+                    name: 'Test Teacher',
+                    email: 'teacher@test.com',
+                    password: 'password123',
+                    role: 'teacher',
+                    createdAt: new Date().toISOString(),
+                    profileComplete: true,
+                    profile: {
+                        teaches: ['Mathematics', 'Physics']
+                    }
+                };
+
+                // Create test admin
+                testAdmin = {
+                    name: 'Test Admin',
+                    email: 'admin@test.com',
+                    password: 'password123',
+                    role: 'administrator',
+                    createdAt: new Date().toISOString(),
+                    profileComplete: true
+                };
+
+                await edufusionDB.addUser(testTeacher);
+                await edufusionDB.addUser(testAdmin);
+
+                document.getElementById('accountCreationResult').innerHTML = `
+                    <div class="success-message">
+                        ✅ Test accounts created successfully!<br>
+                        Teacher: ${testTeacher.email}<br>
+                        Admin: ${testAdmin.email}<br>
+                        Password: password123
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('accountCreationResult').innerHTML = `
+                    <div class="error-message">❌ Error creating test accounts: ${error.message}</div>
+                `;
+            }
+        }
+
+        async function submitTestAdmission() {
+            try {
+                // Login as teacher
+                localStorage.setItem('edufusion_current_user', JSON.stringify(testTeacher));
+
+                const admissionData = {
+                    name: 'Test Student',
+                    email: 'student@test.com',
+                    age: 16,
+                    class: 'Form 3',
+                    school: 'Test School',
+                    pathway: 'stem',
+                    selectedSubjects: ['Mathematics', 'Physics', 'Chemistry'],
+                    notes: 'Test admission for system verification',
+                    submittedBy: testTeacher.email,
+                    submittedByName: testTeacher.name,
+                    password: 'TempPass123',
+                    status: 'pending',
+                    submittedAt: new Date().toISOString()
+                };
+
+                testAdmissionId = await edufusionDB.addPendingAdmission(admissionData);
+
+                document.getElementById('admissionSubmissionResult').innerHTML = `
+                    <div class="success-message">
+                        ✅ Test admission submitted successfully!<br>
+                        Student: ${admissionData.name}<br>
+                        Admission ID: ${testAdmissionId}
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('admissionSubmissionResult').innerHTML = `
+                    <div class="error-message">❌ Error submitting admission: ${error.message}</div>
+                `;
+            }
+        }
+
+        async function approveTestAdmission() {
+            try {
+                // Login as admin
+                localStorage.setItem('edufusion_current_user', JSON.stringify(testAdmin));
+
+                if (!testAdmissionId) {
+                    throw new Error('No test admission ID found. Please run Step 2 first.');
+                }
+
+                testStudent = await edufusionDB.approveAdmission(testAdmissionId);
+
+                document.getElementById('admissionApprovalResult').innerHTML = `
+                    <div class="success-message">
+                        ✅ Test admission approved successfully!<br>
+                        Student account created: ${testStudent.name}<br>
+                        Email: ${testStudent.email}
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('admissionApprovalResult').innerHTML = `
+                    <div class="error-message">❌ Error approving admission: ${error.message}</div>
+                `;
+            }
+        }
+
+        async function verifyStudentAccount() {
+            try {
+                const allUsers = await edufusionDB.getAllUsers();
+                const student = allUsers.find(u => u.email === 'student@test.com');
+
+                if (student && student.role === 'student') {
+                    document.getElementById('studentVerificationResult').innerHTML = `
+                        <div class="success-message">
+                            ✅ Student account verified successfully!<br>
+                            Name: ${student.name}<br>
+                            Email: ${student.email}<br>
+                            Role: ${student.role}<br>
+                            Subjects: ${student.profile.selectedSubjects.join(', ')}
+                        </div>
+                    `;
+                } else {
+                    throw new Error('Student account not found or incorrect role');
+                }
+            } catch (error) {
+                document.getElementById('studentVerificationResult').innerHTML = `
+                    <div class="error-message">❌ Student account verification failed: ${error.message}</div>
+                `;
+            }
+        }
+
+        async function runFullTest() {
+            document.getElementById('testSummary').innerHTML = '<div class="info-message">Running full test suite...</div>';
+
+            try {
+                await createTestAccounts();
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                await submitTestAdmission();
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                await approveTestAdmission();
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                await verifyStudentAccount();
+
+                document.getElementById('testSummary').innerHTML = `
+                    <div class="success-message">
+                        🎉 Full test suite completed successfully!<br>
+                        All components of the admissions system are working correctly.
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('testSummary').innerHTML = `
+                    <div class="error-message">❌ Full test suite failed: ${error.message}</div>
+                `;
+            }
+        }
+
+        async function clearTestData() {
+            try {
+                // Clear test data from database
+                const allUsers = await edufusionDB.getAllUsers();
+                const testUsers = allUsers.filter(u =>
+                    u.email === 'teacher@test.com' ||
+                    u.email === 'admin@test.com' ||
+                    u.email === 'student@test.com'
+                );
+
+                for (const user of testUsers) {
+                    await edufusionDB.deleteData('users', user.id);
+                }
+
+                // Clear pending admissions
+                const pendingAdmissions = await edufusionDB.getAllPendingAdmissions();
+                const testAdmissions = pendingAdmissions.filter(a =>
+                    a.email === 'student@test.com' ||
+                    a.submittedBy === 'teacher@test.com'
+                );
+
+                for (const admission of testAdmissions) {
+                    await edufusionDB.deleteData('pendingAdmissions', admission.id);
+                }
+
+                // Clear localStorage
+                localStorage.removeItem('edufusion_current_user');
+
+                document.getElementById('testSummary').innerHTML = `
+                    <div class="success-message">🧹 Test data cleared successfully!</div>
+                `;
+
+                // Clear all result displays
+                document.querySelectorAll('.test-result').forEach(el => el.innerHTML = '');
+
+            } catch (error) {
+                document.getElementById('testSummary').innerHTML = `
+                    <div class="error-message">❌ Error clearing test data: ${error.message}</div>
+                `;
+            }
+        }
+
+        // Initialize database on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                await edufusionDB.init();
+                console.log('Database initialized for testing');
+            } catch (error) {
+                console.error('Failed to initialize database:', error);
+            }
+        });
+    </script>
+</body>
+</html>
