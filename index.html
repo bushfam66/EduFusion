@@ -88,8 +88,8 @@
                 <!-- Hero Section -->
                 <div class="hero-section">
                     <div class="hero-content">
-                        <h1>Welcome back, Student! 👋</h1>
-                        <p>Ready to continue your learning journey? You've made great progress this week.</p>
+                        <h1 id="welcomeMessage">Welcome back, Student! 👋</h1>
+                        <p>Explore your subjects and track your learning progress with EduFusion.</p>
                         <div class="hero-stats">
                             <div class="hero-stat">
                                 <span class="stat-number" id="subjectCount">0</span>
@@ -106,8 +106,8 @@
                         </div>
                     </div>
                     <div class="hero-actions">
-                        <button type="button" class="btn-primary" onclick="showTextbook()">
-                            <i class="fas fa-play"></i> Continue Learning
+                        <button type="button" class="btn-primary" onclick="startLearning()">
+                            <i class="fas fa-play"></i> Start Learning
                         </button>
                         <button class="btn-secondary" onclick="takeQuiz()">
                             <i class="fas fa-brain"></i> Take a Quiz
@@ -294,89 +294,6 @@
                     </div>
                 </div>
             </section>
-
-            <!-- Digital Textbook Interface -->
-            <section class="textbook" id="textbook">
-                <div class="textbook-container">
-                    <!-- Left Panel: Chapter List -->
-                    <div class="left-panel">
-                        <h3>Chapters</h3>
-                        <ul class="chapter-list">
-                            <li class="chapter-item">
-                                <span>Chapter 1: Introduction</span>
-                                <ul class="sub-chapters">
-                                    <li>1.1 Overview</li>
-                                    <li>1.2 Key Concepts</li>
-                                </ul>
-                            </li>
-                            <li class="chapter-item">
-                                <span>Chapter 2: Concepts</span>
-                                <ul class="sub-chapters">
-                                    <li>2.1 Basic Principles</li>
-                                    <li>2.2 Advanced Topics</li>
-                                </ul>
-                            </li>
-                            <li class="chapter-item">
-                                <span>Chapter 3: Exercises</span>
-                                <ul class="sub-chapters">
-                                    <li>3.1 Practice Problems</li>
-                                    <li>3.2 Review Questions</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Center Panel: Content -->
-                    <div class="center-panel">
-                        <div class="text-content">
-                            <h2>Chapter 1: Introduction</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                            
-                            <div class="video-player">
-                                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
-                            </div>
-                            
-                            <div class="image-section">
-                                <img src="https://via.placeholder.com/600x300" alt="Diagram">
-                                <p>Figure 1: Illustrative diagram of the concept.</p>
-                            </div>
-                            
-                            <div class="inline-quiz">
-                                <h4>Quick Quiz</h4>
-                                <p>What is the capital of France?</p>
-                                <div class="quiz-options">
-                                    <label><input type="radio" name="quiz1" value="a"> Paris</label>
-                                    <label><input type="radio" name="quiz1" value="b"> London</label>
-                                    <label><input type="radio" name="quiz1" value="c"> Berlin</label>
-                                    <label><input type="radio" name="quiz1" value="d"> Madrid</label>
-                                </div>
-                                <button class="submit-btn">Submit Answer</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right Panel: Notes and Bookmarks -->
-                    <div class="right-panel">
-                        <div class="notes-section">
-                            <h3>Notes</h3>
-                            <div class="sticky-note">
-                                <p>Key point: Remember the formula for...</p>
-                            </div>
-                            <div class="sticky-note">
-                                <p>Question: How does this relate to...</p>
-                            </div>
-                        </div>
-                        <div class="bookmarks-section">
-                            <h3>Bookmarks</h3>
-                            <ul>
-                                <li>Page 15: Important Definition</li>
-                                <li>Page 32: Diagram Reference</li>
-                            </ul>
-                        </div>
-                        <button class="quick-quiz-btn">Take Quick Quiz</button>
-                    </div>
-                </div>
-            </section>
         </main>
     </div>
 
@@ -409,9 +326,19 @@
             }
         }
 
+        function updateWelcomeMessage() {
+            const user = checkUserLogin();
+            if (user) {
+                const welcomeElement = document.getElementById('welcomeMessage');
+                const userName = user.name || 'Student';
+                welcomeElement.textContent = `Welcome, ${userName}! 👋`;
+            }
+        }
+
         // Verify user is logged in on page load
         document.addEventListener('DOMContentLoaded', function() {
             checkUserLogin();
+            updateWelcomeMessage();
             updateHashView();
         });
 
@@ -456,20 +383,7 @@
             item.addEventListener('click', function() {
                 sidebarItems.forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
-                const text = this.querySelector('span').textContent;
-                const dashboard = document.getElementById('dashboard');
-                const textbook = document.getElementById('textbook');
-                if (text === 'Dashboard') {
-                    dashboard.style.display = 'block';
-                    textbook.style.display = 'none';
-                } else if (text === 'My Subjects') {
-                    dashboard.style.display = 'none';
-                    textbook.style.display = 'block';
-                } else {
-                    // For Progress and Settings, hide both or show placeholder
-                    dashboard.style.display = 'none';
-                    textbook.style.display = 'none';
-                }
+                // Sidebar items now link to other pages, so no need to toggle sections
             });
         });
 
@@ -481,14 +395,12 @@
             }
         }
 
-        function showTextbook() {
+        function startLearning() {
             window.location.href = 'subjects-taken.html';
         }
 
         function updateHashView() {
-            if (window.location.hash === '#textbook') {
-                showTextbook();
-            }
+            // Removed textbook hash handling
         }
 
         function takeQuiz() {
