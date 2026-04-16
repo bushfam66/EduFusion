@@ -17,7 +17,7 @@
             <a href="index.html">Home</a>
             <div class="dropdown">
                 <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
-                <div class="dropdown-content">
+                <div class="dropdown-content" id="subjectsDropdown">
                     <a href="mathematics.html">Mathematics</a>
                     <a href="biology.html">Biology</a>
                     <a href="physics.html">Physics</a>
@@ -43,6 +43,13 @@
                 </div>
             </div>
         </nav>
+        <div class="mobile-menu">
+            <button class="hamburger" id="hamburgerBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
         <div class="user-actions">
             <i class="fas fa-bell notification-icon"></i>
             <div class="avatar">
@@ -373,6 +380,10 @@
         </main>
     </div>
 
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // Check authentication on page load
@@ -418,9 +429,25 @@
 
         // Close dropdowns when clicking outside
         document.addEventListener('click', function(e) {
-            if (!e.target.closest('.dropdown')) {
+            if (!e.target.closest('.dropdown') && !e.target.closest('.hamburger')) {
                 document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+                document.querySelector('.nav-links').classList.remove('active');
+                document.getElementById('hamburgerBtn').classList.remove('active');
             }
+        });
+
+        // Hamburger menu toggle
+        document.getElementById('hamburgerBtn').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = this;
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // Sidebar toggle
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('show');
         });
 
         // Sidebar navigation
@@ -749,14 +776,35 @@
             activeSubjects.textContent = `${subjects.length}`;
         }
 
-        // Initialize dashboard on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            renderSelectedSubjects();
-            setInterval(renderSelectedSubjects, 5000);
-        });
+        function renderSubjectDropdown() {
+            const user = getCurrentUser();
+            if (!user || user.profileComplete === false) {
+                return;
+            }
+
+            const subjects = (user.profile && user.profile.selectedSubjects) || [];
+            const dropdown = document.getElementById('subjectsDropdown');
+
+            if (!dropdown) {
+                return;
+            }
+
+            if (!subjects.length) {
+                dropdown.innerHTML = '<a href="account-setup.html">Setup Subjects</a>';
+                return;
+            }
+
+            const links = subjects.map(subject => {
+                const link = getSubjectLink(subject);
+                return `<a href="${link}">${subject}</a>`;
+            }).join('');
+
+            dropdown.innerHTML = links;
+        }
 
         // Call on page load
         renderSelectedSubjects();
+        renderSubjectDropdown();
     </script>
 </body>
 </html>
