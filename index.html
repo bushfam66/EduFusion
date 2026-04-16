@@ -58,10 +58,10 @@
                 <li class="active">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
-                </li>
+                </li></li>
                 <li>
-                    <i class="fas fa-book"></i>
-                    <span>My Subjects</span>
+                    <i class="fas fa-graduation-cap"></i>
+                    <span><a href="subjects-taken.html" style="color: inherit; text-decoration: none;">Subjects Taken</a></span>
                 </li>
                 <li>
                     <i class="fas fa-chart-line"></i>
@@ -99,9 +99,9 @@
                         </div>
                     </div>
                     <div class="hero-actions">
-                        <a href="subjects.html" class="btn-primary">
+                        <button type="button" class="btn-primary" onclick="showTextbook()">
                             <i class="fas fa-play"></i> Continue Learning
-                        </a>
+                        </button>
                         <button class="btn-secondary" onclick="takeQuiz()">
                             <i class="fas fa-brain"></i> Take a Quiz
                         </button>
@@ -537,7 +537,10 @@
         // Verify user is logged in on page load
         document.addEventListener('DOMContentLoaded', function() {
             checkUserLogin();
+            updateHashView();
         });
+
+        window.addEventListener('hashchange', updateHashView);
 
         // Dropdown functionality
         document.querySelectorAll('.dropbtn').forEach(btn => {
@@ -581,6 +584,27 @@
 
         function logout() {
             alert('Logged out successfully!');
+        }
+
+        function showTextbook() {
+            const dashboard = document.getElementById('dashboard');
+            const textbook = document.getElementById('textbook');
+            dashboard.style.display = 'none';
+            textbook.style.display = 'block';
+
+            document.querySelectorAll('.sidebar-menu li').forEach(item => {
+                item.classList.toggle(
+                    'active',
+                    item.querySelector('span')?.textContent.trim() === 'My Subjects'
+                );
+            });
+
+        }
+
+        function updateHashView() {
+            if (window.location.hash === '#textbook') {
+                showTextbook();
+            }
         }
 
         function takeQuiz() {

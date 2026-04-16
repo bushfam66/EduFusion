@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Subjects Taken</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="logo">
+            <h1>EduFusion</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="mathematics.html">Mathematics</a>
+                    <a href="biology.html">Biology</a>
+                    <a href="physics.html">Physics</a>
+                    <a href="chemistry.html">Chemistry</a>
+                    <a href="history.html">History</a>
+                    <a href="computer-science.html">Computer Science</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Progress <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="overall-progress.html">Overall Progress</a>
+                    <a href="subject-wise-progress.html">Subject-wise Progress</a>
+                    <a href="achievements.html">Achievements</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Profile <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="view-profile.html">View Profile</a>
+                    <a href="account-settings.html">Account Settings</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+        <div class="user-actions">
+            <i class="fas fa-bell notification-icon"></i>
+            <div class="avatar">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span><a href="index.html" style="color: inherit; text-decoration: none;">Dashboard</a></span>
+                </li>
+                <li class="active">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Subjects Taken</span>
+                </li>
+                <li>
+                    <i class="fas fa-chart-line"></i>
+                    <span><a href="overall-progress.html" style="color: inherit; text-decoration: none;">Progress</a></span>
+                </li>
+                <li>
+                    <i class="fas fa-cog"></i>
+                    <span><a href="account-settings.html" style="color: inherit; text-decoration: none;">Settings</a></span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="dashboard" id="subjectsTaken">
+                <div class="hero-section">
+                    <div class="hero-content">
+                        <h1>Subjects Taken</h1>
+                        <p>Track your subjects and see your progress percentage for each course.</p>
+                        <div class="hero-stats">
+                            <div class="hero-stat">
+                                <span class="stat-number">6</span>
+                                <span class="stat-label">Subjects Taken</span>
+                            </div>
+                            <div class="hero-stat">
+                                <span class="stat-number">72%</span>
+                                <span class="stat-label">Average Progress</span>
+                            </div>
+                            <div class="hero-stat">
+                                <span class="stat-number">4</span>
+                                <span class="stat-label">Active Subjects</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="progress-overview-section">
+                    <h2>Learning Progress by Subject</h2>
+                    <div class="progress-overview-grid">
+                        <div class="progress-card">
+                            <div class="progress-icon"><i class="fas fa-square-root-alt"></i></div>
+                            <div>
+                                <h3>Mathematics</h3>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 78%;"></div>
+                                </div>
+                                <p class="progress-text">78% complete</p>
+                            </div>
+                        </div>
+                        <div class="progress-card">
+                            <div class="progress-icon"><i class="fas fa-dna"></i></div>
+                            <div>
+                                <h3>Biology</h3>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 65%;"></div>
+                                </div>
+                                <p class="progress-text">65% complete</p>
+                            </div>
+                        </div>
+                        <div class="progress-card">
+                            <div class="progress-icon"><i class="fas fa-atom"></i></div>
+                            <div>
+                                <h3>Physics</h3>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 82%;"></div>
+                                </div>
+                                <p class="progress-text">82% complete</p>
+                            </div>
+                        </div>
+                        <div class="progress-card">
+                            <div class="progress-icon"><i class="fas fa-flask"></i></div>
+                            <div>
+                                <h3>Chemistry</h3>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 58%;"></div>
+                                </div>
+                                <p class="progress-text">58% complete</p>
+                            </div>
+                        </div>
+                        <div class="progress-card">
+                            <div class="progress-icon"><i class="fas fa-landmark"></i></div>
+                            <div>
+                                <h3>History</h3>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 71%;"></div>
+                                </div>
+                                <p class="progress-text">71% complete</p>
+                            </div>
+                        </div>
+                        <div class="progress-card">
+                            <div class="progress-icon"><i class="fas fa-laptop-code"></i></div>
+                            <div>
+                                <h3>Computer Science</h3>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 69%;"></div>
+                                </div>
+                                <p class="progress-text">69% complete</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function logout() {
+            alert('Logged out successfully!');
+        }
+    </script>
+</body>
+</html>

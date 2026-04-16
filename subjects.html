@@ -53,142 +53,398 @@
 
     <div class="container">
         <main class="main-content">
-            <section class="dashboard">
-                <div class="learning-hero" style="margin-bottom: 2rem; padding: 2rem; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
-                    <h1>All Subjects</h1>
-                    <p>Browse every subject available and jump into the topic you want to learn next.</p>
-                    <div class="learning-actions" style="margin-top: 1rem; gap: 1rem; display: flex; flex-wrap: wrap;">
-                        <a href="index.html" class="btn-secondary"><i class="fas fa-home"></i> Back to Dashboard</a>
-                        <a href="subject-wise-progress.html" class="btn-primary"><i class="fas fa-chart-line"></i> View Progress</a>
+            <!-- Enhanced Hero Section -->
+            <section class="subjects-hero">
+                <div class="hero-background">
+                    <div class="hero-shape shape-1"></div>
+                    <div class="hero-shape shape-2"></div>
+                    <div class="hero-shape shape-3"></div>
+                </div>
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1><i class="fas fa-graduation-cap"></i> Your Learning Journey</h1>
+                        <p>Explore our comprehensive curriculum and follow a clearer path from core mastery to elective excellence.</p>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">6</div>
+                            <div class="stat-label">Subjects Available</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">60+</div>
+                            <div class="stat-label">Lessons Total</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">15h</div>
+                            <div class="stat-label">Learning Time</div>
+                        </div>
                     </div>
                 </div>
+                <div class="hero-actions">
+                    <button class="btn-primary featured-btn" onclick="scrollToSection('subjects-roadmap')">
+                        <i class="fas fa-road"></i> View Roadmap
+                    </button>
+                    <button class="btn-secondary" onclick="scrollToSection('core-subjects')">
+                        <i class="fas fa-star"></i> Core Focus
+                    </button>
+                    <a href="subject-wise-progress.html" class="btn-outline">
+                        <i class="fas fa-chart-line"></i> View Progress
+                    </a>
+                </div>
+            </section>
 
-                <div class="subjects-section">
+            <!-- Roadmap Section -->
+            <section id="subjects-roadmap" class="subjects-roadmap">
+                <div class="roadmap-summary">
                     <div class="section-header">
-                        <h2>Subject Inventory</h2>
-                        <span>Pick a subject to continue learning.</span>
+                        <div class="category-title">
+                            <i class="fas fa-map-signs"></i>
+                            <h2>Your Study Roadmap</h2>
+                        </div>
+                        <p>A simple, step-by-step breakdown of what to learn next and how to stay on track.</p>
                     </div>
-                    <div class="subject-cards">
-                        <a href="mathematics.html" class="subject-card-link">
-                            <div class="subject-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon"><i class="fas fa-square-root-alt"></i></div>
-                                    <div class="subject-info">
-                                        <h3>Mathematics</h3>
-                                        <span class="subject-status In-Progress">In Progress</span>
-                                        <span class="subject-tag subject-tag-core">Core subject</span>
-                                    </div>
+                    <div class="roadmap-cards">
+                        <div class="roadmap-step-card">
+                            <span class="roadmap-step-number">1</span>
+                            <h3>Build foundations</h3>
+                            <p>Begin with Mathematics and Computer Science for strong analytical skills and logic training.</p>
+                        </div>
+                        <div class="roadmap-step-card">
+                            <span class="roadmap-step-number">2</span>
+                            <h3>Apply with electives</h3>
+                            <p>Move to Biology, Physics, Chemistry and History to connect concepts across subjects.</p>
+                        </div>
+                        <div class="roadmap-step-card">
+                            <span class="roadmap-step-number">3</span>
+                            <h3>Review and reflect</h3>
+                            <p>Use progress updates, quizzes, and reflection notes to strengthen retention.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="roadmap-highlight">
+                    <div class="highlight-card">
+                        <h3>What's next?</h3>
+                        <p>Follow this vertical roadmap while you scroll down: core subjects first, electives second, and review at the end.</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Easy to follow steps</li>
+                            <li><i class="fas fa-check-circle"></i> Clear completion checkpoints</li>
+                            <li><i class="fas fa-check-circle"></i> Better subject sequencing</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions Bar -->
+            <section class="quick-actions-bar">
+                <div class="actions-container">
+                    <div class="action-item" onclick="filterSubjects('all', event)">
+                        <i class="fas fa-th-large"></i>
+                        <span>All Subjects</span>
+                    </div>
+                    <div class="action-item" onclick="filterSubjects('core', event)">
+                        <i class="fas fa-crown"></i>
+                        <span>Core Subjects</span>
+                    </div>
+                    <div class="action-item" onclick="filterSubjects('elective', event)">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Electives</span>
+                    </div>
+                    <div class="action-item" onclick="filterSubjects('in-progress', event)">
+                        <i class="fas fa-play-circle"></i>
+                        <span>In Progress</span>
+                    </div>
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="subjectSearch" placeholder="Search subjects..." onkeyup="searchSubjects()">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Overview -->
+            <section class="progress-overview-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-pie"></i> Your Progress Overview</h2>
+                    <p>Track your learning journey across all subjects</p>
+                </div>
+                <div class="progress-overview-grid">
+                    <div class="progress-card">
+                        <div class="progress-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="progress-info">
+                            <h3>Overall Completion</h3>
+                            <div class="progress-bar-large">
+                                <div class="progress-fill-large" id="overall-progress-fill"></div>
+                            </div>
+                            <span class="progress-percentage" id="overall-progress-text">0% Complete</span>
+                        </div>
+                    </div>
+                    <div class="progress-card">
+                        <div class="progress-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="progress-info">
+                            <h3>Study Time</h3>
+                            <p class="study-time">15+ hours invested</p>
+                            <small>This week: 3.5 hours</small>
+                        </div>
+                    </div>
+                    <div class="progress-card">
+                        <div class="progress-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="progress-info">
+                            <h3>Quizzes Passed</h3>
+                            <p class="quiz-count">12 / 18 completed</p>
+                            <small>Average score: 85%</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Core Subjects Section -->
+            <section id="core-subjects" class="subjects-category">
+                <div class="category-header">
+                    <div class="category-title">
+                        <i class="fas fa-crown"></i>
+                        <h2>Core Subjects</h2>
+                    </div>
+                    <p>Essential subjects that form the foundation of your education</p>
+                </div>
+                <div class="subject-cards core-subjects-grid">
+                    <a href="mathematics.html" class="subject-card-link">
+                        <div class="subject-card featured-card">
+                            <div class="card-badge">Most Popular</div>
+                            <div class="subject-header">
+                                <div class="subject-icon">
+                                    <i class="fas fa-square-root-alt"></i>
                                 </div>
-                                <div class="subject-progress">
-                                    <div class="progress-bar"><div id="math-progress-fill" class="progress-fill" style="width: 0%;"></div></div>
-                                    <span id="math-progress-text" class="progress-text">0% Complete</span>
-                                </div>
-                                <div class="subject-meta">
-                                    <span><i class="fas fa-book"></i> 12 lessons</span>
-                                    <span><i class="fas fa-clock"></i> 2h 30m</span>
+                                <div class="subject-info">
+                                    <h3>Mathematics</h3>
+                                    <span class="subject-status In-Progress">In Progress</span>
+                                    <span class="subject-tag subject-tag-core">Core Subject</span>
                                 </div>
                             </div>
-                        </a>
-                        <a href="biology.html" class="subject-card-link">
-                            <div class="subject-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon"><i class="fas fa-dna"></i></div>
-                                    <div class="subject-info">
-                                        <h3>Biology</h3>
-                                        <span class="subject-status In-Progress">In Progress</span>
-                                        <span class="subject-tag subject-tag-elective">Elective</span>
-                                    </div>
+                            <div class="subject-description">
+                                <p>Master algebra, geometry, calculus, and statistics with comprehensive lessons and practice problems.</p>
+                            </div>
+                            <div class="subject-progress">
+                                <div class="progress-bar">
+                                    <div id="math-progress-fill" class="progress-fill"></div>
                                 </div>
-                                <div class="subject-progress">
-                                    <div class="progress-bar"><div id="biology-progress-fill" class="progress-fill" style="width: 0%;"></div></div>
-                                    <span id="biology-progress-text" class="progress-text">0% Complete</span>
+                                <span id="math-progress-text" class="progress-text">0% Complete</span>
+                            </div>
+                            <div class="subject-meta">
+                                <span><i class="fas fa-book"></i> 12 lessons</span>
+                                <span><i class="fas fa-clock"></i> 2h 30m</span>
+                                <span><i class="fas fa-star"></i> 4.8/5</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-sm">Continue Learning</button>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="computer-science.html" class="subject-card-link">
+                        <div class="subject-card">
+                            <div class="subject-header">
+                                <div class="subject-icon">
+                                    <i class="fas fa-code"></i>
                                 </div>
-                                <div class="subject-meta">
-                                    <span><i class="fas fa-book"></i> 10 lessons</span>
-                                    <span><i class="fas fa-clock"></i> 3h 10m</span>
+                                <div class="subject-info">
+                                    <h3>Computer Science</h3>
+                                    <span class="subject-status Not-Started">Not Started</span>
+                                    <span class="subject-tag subject-tag-core">Core Subject</span>
                                 </div>
                             </div>
-                        </a>
-                        <a href="physics.html" class="subject-card-link">
-                            <div class="subject-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon"><i class="fas fa-atom"></i></div>
-                                    <div class="subject-info">
-                                        <h3>Physics</h3>
-                                        <span class="subject-status Advanced">Advanced</span>
-                                        <span class="subject-tag subject-tag-elective">Elective</span>
-                                    </div>
+                            <div class="subject-description">
+                                <p>Learn programming fundamentals, algorithms, and data structures to build a strong tech foundation.</p>
+                            </div>
+                            <div class="subject-progress">
+                                <div class="progress-bar">
+                                    <div id="computer-science-progress-fill" class="progress-fill"></div>
                                 </div>
-                                <div class="subject-progress">
-                                    <div class="progress-bar"><div id="physics-progress-fill" class="progress-fill" style="width: 0%;"></div></div>
-                                    <span id="physics-progress-text" class="progress-text">0% Complete</span>
+                                <span id="computer-science-progress-text" class="progress-text">0% Complete</span>
+                            </div>
+                            <div class="subject-meta">
+                                <span><i class="fas fa-book"></i> 10 lessons</span>
+                                <span><i class="fas fa-clock"></i> 3h 15m</span>
+                                <span><i class="fas fa-users"></i> New</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-sm">Start Learning</button>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Elective Subjects Section -->
+            <section id="elective-subjects" class="subjects-category">
+                <div class="category-header">
+                    <div class="category-title">
+                        <i class="fas fa-compass"></i>
+                        <h2>Elective Subjects</h2>
+                    </div>
+                    <p>Explore specialized subjects to broaden your knowledge and discover new interests</p>
+                </div>
+                <div class="subject-cards elective-subjects-grid">
+                    <a href="biology.html" class="subject-card-link">
+                        <div class="subject-card">
+                            <div class="subject-header">
+                                <div class="subject-icon">
+                                    <i class="fas fa-dna"></i>
                                 </div>
-                                <div class="subject-meta">
-                                    <span><i class="fas fa-book"></i> 9 lessons</span>
-                                    <span><i class="fas fa-clock"></i> 1h 45m</span>
+                                <div class="subject-info">
+                                    <h3>Biology</h3>
+                                    <span class="subject-status In-Progress">In Progress</span>
+                                    <span class="subject-tag subject-tag-elective">Elective</span>
                                 </div>
                             </div>
-                        </a>
-                        <a href="chemistry.html" class="subject-card-link">
-                            <div class="subject-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon"><i class="fas fa-vials"></i></div>
-                                    <div class="subject-info">
-                                        <h3>Chemistry</h3>
-                                        <span class="subject-status In-Progress">In Progress</span>
-                                        <span class="subject-tag subject-tag-elective">Elective</span>
-                                    </div>
+                            <div class="subject-description">
+                                <p>Explore the wonders of life, from cellular biology to ecosystems and human anatomy.</p>
+                            </div>
+                            <div class="subject-progress">
+                                <div class="progress-bar">
+                                    <div id="biology-progress-fill" class="progress-fill"></div>
                                 </div>
-                                <div class="subject-progress">
-                                    <div class="progress-bar"><div id="chemistry-progress-fill" class="progress-fill" style="width: 0%;"></div></div>
-                                    <span id="chemistry-progress-text" class="progress-text">0% Complete</span>
+                                <span id="biology-progress-text" class="progress-text">0% Complete</span>
+                            </div>
+                            <div class="subject-meta">
+                                <span><i class="fas fa-book"></i> 10 lessons</span>
+                                <span><i class="fas fa-clock"></i> 3h 10m</span>
+                                <span><i class="fas fa-microscope"></i> Lab Work</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-sm">Continue Learning</button>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="physics.html" class="subject-card-link">
+                        <div class="subject-card">
+                            <div class="subject-header">
+                                <div class="subject-icon">
+                                    <i class="fas fa-atom"></i>
                                 </div>
-                                <div class="subject-meta">
-                                    <span><i class="fas fa-book"></i> 11 lessons</span>
-                                    <span><i class="fas fa-clock"></i> 2h 50m</span>
+                                <div class="subject-info">
+                                    <h3>Physics</h3>
+                                    <span class="subject-status Advanced">Advanced</span>
+                                    <span class="subject-tag subject-tag-elective">Elective</span>
                                 </div>
                             </div>
-                        </a>
-                        <a href="history.html" class="subject-card-link">
-                            <div class="subject-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon"><i class="fas fa-landmark"></i></div>
-                                    <div class="subject-info">
-                                        <h3>History</h3>
-                                        <span class="subject-status Completed">Completed</span>
-                                        <span class="subject-tag subject-tag-elective">Elective</span>
-                                    </div>
+                            <div class="subject-description">
+                                <p>Understand the fundamental laws of nature, from mechanics to quantum physics.</p>
+                            </div>
+                            <div class="subject-progress">
+                                <div class="progress-bar">
+                                    <div id="physics-progress-fill" class="progress-fill"></div>
                                 </div>
-                                <div class="subject-progress">
-                                    <div class="progress-bar"><div id="history-progress-fill" class="progress-fill" style="width: 0%;"></div></div>
-                                    <span id="history-progress-text" class="progress-text">0% Complete</span>
+                                <span id="physics-progress-text" class="progress-text">0% Complete</span>
+                            </div>
+                            <div class="subject-meta">
+                                <span><i class="fas fa-book"></i> 9 lessons</span>
+                                <span><i class="fas fa-clock"></i> 1h 45m</span>
+                                <span><i class="fas fa-rocket"></i> Challenging</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-sm">Continue Learning</button>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="chemistry.html" class="subject-card-link">
+                        <div class="subject-card">
+                            <div class="subject-header">
+                                <div class="subject-icon">
+                                    <i class="fas fa-vials"></i>
                                 </div>
-                                <div class="subject-meta">
-                                    <span><i class="fas fa-book"></i> 8 lessons</span>
-                                    <span><i class="fas fa-clock"></i> 1h 20m</span>
+                                <div class="subject-info">
+                                    <h3>Chemistry</h3>
+                                    <span class="subject-status In-Progress">In Progress</span>
+                                    <span class="subject-tag subject-tag-elective">Elective</span>
                                 </div>
                             </div>
-                        </a>
-                        <a href="computer-science.html" class="subject-card-link">
-                            <div class="subject-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon"><i class="fas fa-code"></i></div>
-                                    <div class="subject-info">
-                                        <h3>Computer Science</h3>
-                                        <span class="subject-status Not-Started">Not Started</span>
-                                        <span class="subject-tag subject-tag-core">Core subject</span>
-                                    </div>
+                            <div class="subject-description">
+                                <p>Dive into the world of atoms, molecules, and chemical reactions.</p>
+                            </div>
+                            <div class="subject-progress">
+                                <div class="progress-bar">
+                                    <div id="chemistry-progress-fill" class="progress-fill"></div>
                                 </div>
-                                <div class="subject-progress">
-                                    <div class="progress-bar"><div id="computer-science-progress-fill" class="progress-fill" style="width: 0%;"></div></div>
-                                    <span id="computer-science-progress-text" class="progress-text">0% Complete</span>
+                                <span id="chemistry-progress-text" class="progress-text">0% Complete</span>
+                            </div>
+                            <div class="subject-meta">
+                                <span><i class="fas fa-book"></i> 11 lessons</span>
+                                <span><i class="fas fa-clock"></i> 2h 50m</span>
+                                <span><i class="fas fa-flask"></i> Experiments</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-sm">Continue Learning</button>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="history.html" class="subject-card-link">
+                        <div class="subject-card">
+                            <div class="subject-header">
+                                <div class="subject-icon">
+                                    <i class="fas fa-landmark"></i>
                                 </div>
-                                <div class="subject-meta">
-                                    <span><i class="fas fa-book"></i> 10 lessons</span>
-                                    <span><i class="fas fa-clock"></i> 3h 15m</span>
+                                <div class="subject-info">
+                                    <h3>History</h3>
+                                    <span class="subject-status Completed">Completed</span>
+                                    <span class="subject-tag subject-tag-elective">Elective</span>
                                 </div>
                             </div>
-                        </a>
+                            <div class="subject-description">
+                                <p>Journey through time and understand the events that shaped our world.</p>
+                            </div>
+                            <div class="subject-progress">
+                                <div class="progress-bar">
+                                    <div id="history-progress-fill" class="progress-fill"></div>
+                                </div>
+                                <span id="history-progress-text" class="progress-text">0% Complete</span>
+                            </div>
+                            <div class="subject-meta">
+                                <span><i class="fas fa-book"></i> 8 lessons</span>
+                                <span><i class="fas fa-clock"></i> 1h 20m</span>
+                                <span><i class="fas fa-check-circle"></i> Completed</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-sm">Review Material</button>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Learning Tips Section -->
+            <section class="learning-tips">
+                <div class="tips-container">
+                    <h2><i class="fas fa-lightbulb"></i> Learning Tips</h2>
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <div class="tip-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <h4>Study Regularly</h4>
+                            <p>Consistent daily practice is more effective than cramming. Set aside dedicated time for learning.</p>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h4>Active Learning</h4>
+                            <p>Don't just read—practice problems, take notes, and teach concepts to reinforce understanding.</p>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h4>Join Study Groups</h4>
+                            <p>Discussing topics with peers can provide new perspectives and help clarify difficult concepts.</p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -219,6 +475,8 @@
             updatePhysicsProgress();
             updateChemistryProgress();
             updateHistoryProgress();
+            updateComputerScienceProgress();
+            updateOverallProgress();
         }
 
         function updateMathProgress() {
@@ -288,6 +546,100 @@
             const textElement = document.getElementById('history-progress-text');
             if (fillElement) fillElement.style.width = Math.round(percentage) + '%';
             if (textElement) textElement.textContent = Math.round(percentage) + '% Complete';
+        }
+
+        function updateComputerScienceProgress() {
+            let completed = 0;
+            const total = 1; // 1 inline quiz for now
+            if (localStorage.getItem('computer-science_quiz_csquiz1') === 'completed') {
+                completed++;
+            }
+            const percentage = (completed / total) * 100;
+            const fillElement = document.getElementById('computer-science-progress-fill');
+            const textElement = document.getElementById('computer-science-progress-text');
+            if (fillElement) fillElement.style.width = Math.round(percentage) + '%';
+            if (textElement) textElement.textContent = Math.round(percentage) + '% Complete';
+        }
+
+        function updateOverallProgress() {
+            const subjects = ['math', 'biology', 'physics', 'chemistry', 'history', 'computer-science'];
+            let totalCompleted = 0;
+            let totalLessons = 0;
+
+            // Calculate total completion
+            subjects.forEach(subject => {
+                const fillElement = document.getElementById(`${subject}-progress-fill`);
+                if (fillElement) {
+                    const width = parseFloat(fillElement.style.width) || 0;
+                    totalCompleted += width;
+                    totalLessons += 100; // Each subject is 100%
+                }
+            });
+
+            const overallPercentage = totalLessons > 0 ? (totalCompleted / totalLessons) * 100 : 0;
+            const overallFill = document.getElementById('overall-progress-fill');
+            const overallText = document.getElementById('overall-progress-text');
+
+            if (overallFill) overallFill.style.width = Math.round(overallPercentage) + '%';
+            if (overallText) overallText.textContent = Math.round(overallPercentage) + '% Complete';
+        }
+
+        // New functions for enhanced functionality
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function filterSubjects(filterType, event) {
+            const allCards = document.querySelectorAll('.subject-card-link');
+            const actionItems = document.querySelectorAll('.action-item');
+
+            // Remove active class from all action items
+            actionItems.forEach(item => item.classList.remove('active'));
+
+            // Add active class to clicked item
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+            }
+
+            allCards.forEach(card => {
+                const cardElement = card.querySelector('.subject-card');
+                const status = cardElement.querySelector('.subject-status').textContent.toLowerCase();
+                const tag = cardElement.querySelector('.subject-tag').textContent.toLowerCase();
+
+                let show = false;
+
+                switch(filterType) {
+                    case 'all':
+                        show = true;
+                        break;
+                    case 'core':
+                        show = tag.includes('core');
+                        break;
+                    case 'elective':
+                        show = tag.includes('elective');
+                        break;
+                    case 'in-progress':
+                        show = status.includes('progress') || status.includes('advanced');
+                        break;
+                }
+
+                card.style.display = show ? 'block' : 'none';
+            });
+        }
+
+        function searchSubjects() {
+            const searchTerm = document.getElementById('subjectSearch').value.toLowerCase();
+            const allCards = document.querySelectorAll('.subject-card-link');
+
+            allCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('.subject-description p')?.textContent.toLowerCase() || '';
+                const show = title.includes(searchTerm) || description.includes(searchTerm);
+                card.style.display = show ? 'block' : 'none';
+            });
         }
 
         document.addEventListener('DOMContentLoaded', function() {
