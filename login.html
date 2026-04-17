@@ -83,10 +83,64 @@
                 const demoExists = users.some(u => u.email === 'demo@edufusion.com');
                 const teacherExists = users.some(u => u.email === 'teacher@edufusion.com');
                 const adminExists = users.some(u => u.email === 'admin@edufusion.com');
-                const nonDemoUsersExist = users.some(u => !['demo@edufusion.com', 'teacher@edufusion.com', 'admin@edufusion.com'].includes(u.email));
 
-                if (!demoExists || !teacherExists || !adminExists || nonDemoUsersExist) {
+                // Only initialize demo data on an empty database.
+                // Preserve teacher-added students and other real accounts.
+                if (users.length === 0) {
                     await edufusionDB.initializeDemoData();
+                } else if (!demoExists || !teacherExists || !adminExists) {
+                    // If demo accounts are missing but there are already real users, preserve existing data and only add missing demo accounts.
+                    const demoUsersToAdd = [];
+                    if (!demoExists) {
+                        demoUsersToAdd.push({
+                            name: 'Demo Student',
+                            email: 'demo@edufusion.com',
+                            password: 'Demo@123',
+                            role: 'student',
+                            createdAt: new Date().toISOString(),
+                            profileComplete: true,
+                            profile: {
+                                school: 'Demo High School',
+                                age: '16',
+                                class: 'Form 3',
+                                pathway: 'stem',
+                                selectedSubjects: ['Mathematics', 'English', 'Kiswahili', 'Community Service Learning', 'Physical Education', 'Biology', 'Chemistry', 'Physics']
+                            }
+                        });
+                    }
+                    if (!teacherExists) {
+                        demoUsersToAdd.push({
+                            name: 'Demo Teacher',
+                            email: 'teacher@edufusion.com',
+                            password: 'Teacher@123',
+                            role: 'teacher',
+                            createdAt: new Date().toISOString(),
+                            profileComplete: true,
+                            profile: {
+                                teaches: ['Mathematics', 'Biology', 'Computer Science']
+                            }
+                        });
+                    }
+                    if (!adminExists) {
+                        demoUsersToAdd.push({
+                            name: 'Demo Admin',
+                            email: 'admin@edufusion.com',
+                            password: 'Admin@123',
+                            role: 'administrator',
+                            createdAt: new Date().toISOString(),
+                            profileComplete: true,
+                            profile: {
+                                school: 'Demo School'
+                            }
+                        });
+                    }
+                    for (const demoUser of demoUsersToAdd) {
+                        try {
+                            await edufusionDB.addUser(demoUser);
+                        } catch (error) {
+                            console.warn('Demo user already exists or could not be added:', demoUser.email, error);
+                        }
+                    }
                 }
             } catch (error) {
                 console.error('Error initializing database:', error);

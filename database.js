@@ -369,14 +369,22 @@ class EduFusionDB {
     }
 
     // Initialize demo data
-    async initializeDemoData() {
+    async initializeDemoData({ force = false } = {}) {
         try {
-            // Clear existing data
-            await this.clearStore('users');
-            await this.clearStore('pendingAdmissions');
-            await this.clearStore('assignments');
-            await this.clearStore('submissions');
-            await this.clearStore('recommendations');
+            const allUsers = await this.getAllUsers();
+            if (!force && allUsers.length > 0) {
+                console.log('Demo data initialization skipped because database already contains data.');
+                return;
+            }
+
+            if (force) {
+                // Clear existing data only when explicitly requested
+                await this.clearStore('users');
+                await this.clearStore('pendingAdmissions');
+                await this.clearStore('assignments');
+                await this.clearStore('submissions');
+                await this.clearStore('recommendations');
+            }
 
             // Add demo users
             const demoUsers = [
@@ -420,7 +428,11 @@ class EduFusionDB {
             ];
 
             for (const user of demoUsers) {
-                await this.addUser(user);
+                try {
+                    await this.addUser(user);
+                } catch (error) {
+                    console.warn('Demo user already exists:', user.email);
+                }
             }
 
             console.log('Demo data initialized successfully');
