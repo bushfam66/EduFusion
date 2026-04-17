@@ -11,7 +11,7 @@
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
-                <h1>EduFusion</h1>
+                <a href="index.html"><h1>EduFusion</h1></a>
                 <p>Your Learning Companion</p>
             </div>
 
@@ -50,89 +50,11 @@
                     <a href="#" class="forgot-password">Forgot password?</a>
                 </div>
                 <button type="submit" class="auth-btn">Login</button>
-                <p class="form-toggle">
-                    Don't have an account? 
-                    <a href="#" onclick="toggleForms(event)">Register here</a>
+                <p class="form-toggle" style="margin-top:1rem; font-size:0.95rem; color:#4a5568;">
+                    Student accounts must be created by a teacher before login is allowed.
                 </p>
                 <div id="loginError" class="error-message"></div>
                 <div id="loginSuccess" class="success-message"></div>
-            </form>
-
-            <!-- Register Form -->
-            <form id="registerForm" class="auth-form">
-                <h2>Create Account</h2>
-                <div class="form-group">
-                    <label for="registerName">Full Name</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-user"></i>
-                        <input type="text" id="registerName" name="name" placeholder="Enter your full name" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="registerRole">Account Type</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-user-tag"></i>
-                        <select id="registerRole" name="role" required>
-                            <option value="student">Student</option>
-                            <option value="teacher">Teacher</option>
-                            <option value="administrator">Administrator</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group" id="teacherSubjectsSection" style="display:none;">
-                    <label>Subjects Taught</label>
-                    <div class="subject-options" style="display:grid; gap:0.5rem;">
-                        <label><input type="checkbox" name="teacherSubjects" value="Mathematics"> Mathematics</label>
-                        <label><input type="checkbox" name="teacherSubjects" value="Biology"> Biology</label>
-                        <label><input type="checkbox" name="teacherSubjects" value="Physics"> Physics</label>
-                        <label><input type="checkbox" name="teacherSubjects" value="Chemistry"> Chemistry</label>
-                        <label><input type="checkbox" name="teacherSubjects" value="History"> History</label>
-                        <label><input type="checkbox" name="teacherSubjects" value="Computer Science"> Computer Science</label>
-                        <label><input type="checkbox" name="teacherSubjects" value="English"> English</label>
-                        <label><input type="checkbox" name="teacherSubjects" value="Kiswahili"> Kiswahili</label>
-                    </div>
-                    <p style="font-size:0.9rem; color:#4a5568; margin-top:0.5rem;">Please select at least one subject you teach.</p>
-                </div>
-                <div class="form-group">
-                    <label for="registerEmail">Email Address</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" id="registerEmail" name="email" placeholder="Enter your email" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="registerPassword">Password</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="registerPassword" name="password" placeholder="Create a strong password" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="registerConfirm">Confirm Password</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-check-circle"></i>
-                        <input type="password" id="registerConfirm" name="confirm" placeholder="Confirm your password" required>
-                    </div>
-                </div>
-                <div class="password-strength">
-                    <p>Password Strength: <span id="strengthText">Weak</span></p>
-                    <div class="strength-bar">
-                        <div id="strengthIndicator" class="strength-level weak"></div>
-                    </div>
-                </div>
-                <div class="form-agreement">
-                    <label>
-                        <input type="checkbox" id="agreeTerms" required> 
-                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
-                    </label>
-                </div>
-                <button type="submit" class="auth-btn">Create Account</button>
-                <p class="form-toggle">
-                    Already have an account? 
-                    <a href="#" onclick="toggleForms(event)">Login here</a>
-                </p>
-                <div id="registerError" class="error-message"></div>
-                <div id="registerSuccess" class="success-message"></div>
             </form>
 
             <!-- Demo Users Info -->
@@ -161,8 +83,9 @@
                 const demoExists = users.some(u => u.email === 'demo@edufusion.com');
                 const teacherExists = users.some(u => u.email === 'teacher@edufusion.com');
                 const adminExists = users.some(u => u.email === 'admin@edufusion.com');
+                const nonDemoUsersExist = users.some(u => !['demo@edufusion.com', 'teacher@edufusion.com', 'admin@edufusion.com'].includes(u.email));
 
-                if (!demoExists || !teacherExists || !adminExists) {
+                if (!demoExists || !teacherExists || !adminExists || nonDemoUsersExist) {
                     await edufusionDB.initializeDemoData();
                 }
             } catch (error) {
@@ -193,65 +116,10 @@
             document.getElementById('loginEmail').placeholder = `e.g., ${selected.email}`;
         }
 
-        function toggleForms(e) {
-            e.preventDefault();
-            document.getElementById('loginForm').classList.toggle('active-form');
-            document.getElementById('registerForm').classList.toggle('active-form');
-            clearMessages();
-        }
-
-        function updateRegisterRoleFields() {
-            const role = document.getElementById('registerRole').value;
-            const teacherSection = document.getElementById('teacherSubjectsSection');
-            if (role === 'teacher') {
-                teacherSection.style.display = 'block';
-            } else {
-                teacherSection.style.display = 'none';
-                document.querySelectorAll('input[name="teacherSubjects"]').forEach(cb => cb.checked = false);
-            }
-        }
-
         // Clear all error and success messages
         function clearMessages() {
             document.getElementById('loginError').textContent = '';
             document.getElementById('loginSuccess').textContent = '';
-            document.getElementById('registerError').textContent = '';
-            document.getElementById('registerSuccess').textContent = '';
-        }
-
-        // Password strength indicator
-        const registerPasswordInput = document.getElementById('registerPassword');
-        if (registerPasswordInput) {
-            registerPasswordInput.addEventListener('input', function(e) {
-                const password = e.target.value;
-                const strength = checkPasswordStrength(password);
-                const indicator = document.getElementById('strengthIndicator');
-                const text = document.getElementById('strengthText');
-                
-                indicator.className = `strength-level ${strength}`;
-                text.textContent = strength.charAt(0).toUpperCase() + strength.slice(1);
-            });
-        }
-
-        function checkPasswordStrength(password) {
-            if (password.length === 0) return 'weak';
-            if (password.length < 6) return 'weak';
-            if (password.length < 8) return 'fair';
-            
-            const hasUpper = /[A-Z]/.test(password);
-            const hasLower = /[a-z]/.test(password);
-            const hasNumber = /\d/.test(password);
-            const hasSpecial = /[!@#$%^&*]/.test(password);
-            
-            let strength = 0;
-            if (hasUpper) strength++;
-            if (hasLower) strength++;
-            if (hasNumber) strength++;
-            if (hasSpecial) strength++;
-            
-            if (strength === 1 || strength === 2) return password.length >= 8 ? 'fair' : 'weak';
-            if (strength === 3) return 'good';
-            return 'strong';
         }
 
         // Login form submission
@@ -307,91 +175,6 @@
             }
         });
 
-        // Register form submission
-        document.getElementById('registerForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            clearMessages();
-
-            const name = document.getElementById('registerName').value;
-            const role = document.getElementById('registerRole').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirm = document.getElementById('registerConfirm').value;
-            const agreeTerms = document.getElementById('agreeTerms').checked;
-
-            // Validation
-            if (!agreeTerms) {
-                document.getElementById('registerError').textContent = 'You must agree to the terms and conditions.';
-                return;
-            }
-
-            if (password !== confirm) {
-                document.getElementById('registerError').textContent = 'Passwords do not match.';
-                return;
-            }
-
-            if (password.length < 6) {
-                document.getElementById('registerError').textContent = 'Password must be at least 6 characters long.';
-                return;
-            }
-
-            if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
-                document.getElementById('registerError').textContent = 'Please enter a valid email address.';
-                return;
-            }
-
-            let teaches = [];
-            if (role === 'teacher') {
-                teaches = Array.from(document.querySelectorAll('input[name="teacherSubjects"]:checked')).map(cb => cb.value);
-                if (teaches.length === 0) {
-                    document.getElementById('registerError').textContent = 'Please select at least one subject you teach.';
-                    return;
-                }
-            }
-
-            try {
-                // Create new user
-                const newUser = {
-                    name: name,
-                    email: email,
-                    password: password,
-                    role: role,
-                    createdAt: new Date().toISOString(),
-                    profileComplete: role === 'student' ? false : true,
-                    profile: role === 'teacher' ? { teaches } : role === 'administrator' ? { school: '' } : null
-                };
-
-                await edufusionDB.addUser(newUser);
-
-                document.getElementById('registerSuccess').textContent = 'Account created successfully! Redirecting...';
-
-                setTimeout(() => {
-                    localStorage.setItem('edufusion_current_user', JSON.stringify({
-                        id: newUser.id,
-                        name: newUser.name,
-                        email: newUser.email,
-                        role: newUser.role,
-                        profileComplete: newUser.profileComplete,
-                        profile: newUser.profile
-                    }));
-
-                    if (role === 'teacher') {
-                        window.location.href = 'teacher-dashboard.html';
-                    } else if (role === 'administrator') {
-                        window.location.href = 'admin-dashboard.html';
-                    } else {
-                        window.location.href = 'account-setup.html';
-                    }
-                }, 1500);
-            } catch (error) {
-                if (error.message === 'Email already exists') {
-                    document.getElementById('registerError').textContent = 'This email is already registered. Please login instead.';
-                } else {
-                    console.error('Registration error:', error);
-                    document.getElementById('registerError').textContent = 'An error occurred during registration. Please try again.';
-                }
-            }
-        });
 
         // Load saved login if "Remember me" was checked
         function loadSavedLogin() {
@@ -427,11 +210,6 @@
             checkIfLoggedIn();
             loadSavedLogin();
             updateLoginDemoCredentials();
-            const registerRoleSelect = document.getElementById('registerRole');
-            if (registerRoleSelect) {
-                registerRoleSelect.addEventListener('change', updateRegisterRoleFields);
-                updateRegisterRoleFields();
-            }
         });
     </script>
 </body>

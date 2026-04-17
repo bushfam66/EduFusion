@@ -10,7 +10,7 @@
 <body class="admission-page">
     <header class="top-nav">
         <div class="logo">
-            <h1>EduFusion</h1>
+            <a href="index.html"><h1>EduFusion</h1></a>
         </div>
         <nav class="nav-links">
             <a href="teacher-dashboard.html">Dashboard</a>
@@ -38,27 +38,27 @@
             <div class="hero-section">
                 <div class="hero-content">
                     <h1>Student Admissions</h1>
-                    <p>Submit new student applications for admin approval.</p>
+                    <p>Add student accounts directly to the system. Once admitted by a teacher, students can log in immediately.</p>
                     <div class="hero-stats">
                         <div class="hero-stat">
                             <span class="stat-number" id="pendingCount">0</span>
-                            <span class="stat-label">Pending Approvals</span>
+                            <span class="stat-label">Students Added</span>
                         </div>
                         <div class="hero-stat">
                             <span class="stat-number" id="approvedCount">0</span>
-                            <span class="stat-label">Approved This Month</span>
+                            <span class="stat-label">Added This Month</span>
                         </div>
                         <div class="hero-stat">
                             <span class="stat-number" id="rejectedCount">0</span>
-                            <span class="stat-label">Rejected This Month</span>
+                            <span class="stat-label">Total Students</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="admission-tabs">
-                <button class="tab-btn active" onclick="showTab('admit')">Admit New Student</button>
-                <button class="tab-btn" onclick="showTab('pending')">My Pending Admissions</button>
+                <button class="tab-btn active" onclick="showTab(event, 'admit')">Admit New Student</button>
+                <button class="tab-btn" onclick="showTab(event, 'pending')">My Students</button>
             </div>
 
             <div id="admitTab" class="tab-content active">
@@ -66,7 +66,7 @@
                     <section class="admission-section admission-form-card">
                         <div class="section-header">
                             <h2>Student Admission Form</h2>
-                            <p>Fill in the details below to submit a new student for admission. All submissions require admin approval.</p>
+                            <p>Fill in the details below to create a new student account directly through your teacher portal.</p>
                         </div>
                         <form id="admissionForm">
                             <div class="form-row">
@@ -200,7 +200,7 @@
                                 <textarea id="admissionNotes" name="notes" rows="3" placeholder="Any additional information about the student (optional)"></textarea>
                             </div>
 
-                            <button type="submit" class="auth-btn">Submit for Approval</button>
+                            <button type="submit" class="auth-btn">Add Student</button>
                             <div id="admissionFeedback" class="success-message" style="margin-top: 1rem;"></div>
                         </form>
                     </section>
@@ -227,11 +227,11 @@
             <div id="pendingTab" class="tab-content">
                 <section class="pending-section">
                     <div class="section-header">
-                        <h2>My Pending Admissions</h2>
-                        <p>Track the status of students you've submitted for admission.</p>
+                        <h2>My Students</h2>
+                        <p>View the student accounts you have admitted to the platform.</p>
                     </div>
                     <div id="pendingAdmissionsList" class="subject-cards">
-                        <!-- Pending admissions will be loaded here -->
+                        <!-- Student list will be loaded here -->
                     </div>
                 </section>
             </div>
@@ -270,14 +270,18 @@
             return user;
         }
 
-        function showTab(tabName) {
+        function showTab(event, tabName) {
+            event.preventDefault();
             // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
 
             // Show selected tab
             document.getElementById(tabName + 'Tab').classList.add('active');
-            event.target.classList.add('active');
+            const targetButton = event.currentTarget || event.target;
+            if (targetButton) {
+                targetButton.classList.add('active');
+            }
         }
 
         async function renderAdmissionPage() {
@@ -287,50 +291,41 @@
             try {
                 await edufusionDB.init();
 
-                // Get pending admissions submitted by this teacher
-                const pendingAdmissions = await edufusionDB.getPendingAdmissionsByTeacher(user.email);
+                const allUsers = await edufusionDB.getAllUsers();
+                const teacherStudents = allUsers.filter(student => student.role === 'student' && student.createdBy === user.email);
 
-                // Calculate statistics
                 const currentMonth = new Date().getMonth();
                 const currentYear = new Date().getFullYear();
 
-                const pendingCount = pendingAdmissions.filter(a => a.status === 'pending').length;
-                const approvedCount = pendingAdmissions.filter(a => {
-                    if (a.status !== 'approved' || !a.approvedAt) return false;
-                    const approvedDate = new Date(a.approvedAt);
-                    return approvedDate.getMonth() === currentMonth && approvedDate.getFullYear() === currentYear;
+                const studentsAdded = teacherStudents.length;
+                const addedThisMonth = teacherStudents.filter(student => {
+                    const createdAt = new Date(student.createdAt);
+                    return createdAt.getMonth() === currentMonth && createdAt.getFullYear() === currentYear;
                 }).length;
-                const rejectedCount = pendingAdmissions.filter(a => {
-                    if (a.status !== 'rejected' || !a.rejectedAt) return false;
-                    const rejectedDate = new Date(a.rejectedAt);
-                    return rejectedDate.getMonth() === currentMonth && rejectedDate.getFullYear() === currentYear;
-                }).length;
+                const totalStudents = teacherStudents.length;
 
-                document.getElementById('pendingCount').textContent = pendingCount;
-                document.getElementById('approvedCount').textContent = approvedCount;
-                document.getElementById('rejectedCount').textContent = rejectedCount;
+                document.getElementById('pendingCount').textContent = studentsAdded;
+                document.getElementById('approvedCount').textContent = addedThisMonth;
+                document.getElementById('rejectedCount').textContent = totalStudents;
 
-                // Render pending admissions list
                 const pendingList = document.getElementById('pendingAdmissionsList');
-                if (pendingAdmissions.length === 0) {
-                    pendingList.innerHTML = '<p class="empty-message">No pending admissions yet. Submit your first student admission above.</p>';
+                if (teacherStudents.length === 0) {
+                    pendingList.innerHTML = '<p class="empty-message">No students added yet. Add your first student above.</p>';
                 } else {
-                    pendingList.innerHTML = pendingAdmissions.map(admission => `
+                    pendingList.innerHTML = teacherStudents.map(student => `
                         <div class="subject-card">
                             <div class="subject-header">
-                                <h3>${admission.name}</h3>
-                                <span class="status-${admission.status}">${admission.status.charAt(0).toUpperCase() + admission.status.slice(1)}</span>
+                                <h3>${student.name}</h3>
+                                <span class="status-active">Active</span>
                             </div>
                             <div class="subject-progress">
-                                <p><strong>Email:</strong> ${admission.email}</p>
-                                <p><strong>Class:</strong> ${admission.class} | <strong>Age:</strong> ${admission.age}</p>
-                                <p><strong>School:</strong> ${admission.school}</p>
-                                <p><strong>Pathway:</strong> ${admission.pathway.toUpperCase()}</p>
-                                <p><strong>Subjects:</strong> ${admission.selectedSubjects.join(', ')}</p>
-                                <p><strong>Submitted:</strong> ${new Date(admission.submittedAt).toLocaleDateString()}</p>
-                                ${admission.status === 'approved' ? `<p><strong>Approved:</strong> ${new Date(admission.approvedAt).toLocaleDateString()}</p>` : ''}
-                                ${admission.status === 'rejected' ? `<p><strong>Rejected:</strong> ${new Date(admission.rejectedAt).toLocaleDateString()}</p><p><strong>Reason:</strong> ${admission.rejectionReason || 'No reason provided'}</p>` : ''}
-                                ${admission.notes ? `<p><strong>Notes:</strong> ${admission.notes}</p>` : ''}
+                                <p><strong>Email:</strong> ${student.email}</p>
+                                <p><strong>Class:</strong> ${student.profile.class} | <strong>Age:</strong> ${student.profile.age}</p>
+                                <p><strong>School:</strong> ${student.profile.school}</p>
+                                <p><strong>Pathway:</strong> ${student.profile.pathway}</p>
+                                <p><strong>Subjects:</strong> ${student.profile.selectedSubjects.join(', ')}</p>
+                                <p><strong>Added:</strong> ${new Date(student.createdAt).toLocaleDateString()}</p>
+                                ${student.notes ? `<p><strong>Notes:</strong> ${student.notes}</p>` : ''}
                             </div>
                         </div>
                     `).join('');
@@ -355,48 +350,38 @@
                 return;
             }
 
-const selectedPathway = document.querySelector('input[name="pathway"]:checked');
-                const admissionData = {
-                    name: document.getElementById('studentName').value.trim(),
-                    email: document.getElementById('studentEmail').value.trim(),
+            const selectedPathway = document.querySelector('input[name="pathway"]:checked');
+            const studentData = {
+                name: document.getElementById('studentName').value.trim(),
+                email: document.getElementById('studentEmail').value.trim(),
+                password: 'TempPass' + Math.random().toString(36).substr(2, 8),
+                role: 'student',
+                createdAt: new Date().toISOString(),
+                createdBy: user.email,
+                createdByName: user.name,
+                profileComplete: true,
+                profile: {
+                    school: document.getElementById('studentSchool').value.trim(),
                     age: document.getElementById('studentAge').value,
                     class: document.getElementById('studentClass').value,
-                    school: document.getElementById('studentSchool').value.trim(),
                     pathway: selectedPathway ? selectedPathway.value : '',
-                selectedSubjects: selectedSubjects,
-                notes: document.getElementById('admissionNotes').value.trim(),
-                submittedBy: user.email,
-                submittedByName: user.name,
-                status: 'pending',
-                submittedAt: new Date().toISOString()
+                    selectedSubjects: selectedSubjects
+                },
+                notes: document.getElementById('admissionNotes').value.trim()
             };
 
             try {
-                // Generate a temporary password for the student
-                admissionData.password = 'TempPass' + Math.random().toString(36).substr(2, 8);
+                await edufusionDB.init();
+                await edufusionDB.addUser(studentData);
 
-                await edufusionDB.addPendingAdmission(admissionData);
-
-                document.getElementById('admissionFeedback').textContent = 'Student admission submitted successfully! Awaiting admin approval.';
+                document.getElementById('admissionFeedback').textContent = 'Student account created successfully. The student can now log in with their temporary password.';
                 document.getElementById('admissionFeedback').className = 'success-message';
 
-                // Notify other tabs/windows that a new pending admission exists.
-                localStorage.setItem('edufusion_pending_admission_notification', JSON.stringify({
-                    timestamp: Date.now(),
-                    name: admissionData.name,
-                    email: admissionData.email,
-                    submittedBy: admissionData.submittedByName
-                }));
-
-                // Reset form
                 this.reset();
-
-                // Refresh the page data
                 await renderAdmissionPage();
-
             } catch (error) {
                 console.error('Error submitting admission:', error);
-                document.getElementById('admissionFeedback').textContent = error.message || 'Error submitting admission. Please try again.';
+                document.getElementById('admissionFeedback').textContent = error.message || 'Error adding student. Please try again.';
                 document.getElementById('admissionFeedback').className = 'error-message';
             }
         });

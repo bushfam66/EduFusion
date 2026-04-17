@@ -2,8 +2,18 @@
 class EduFusionDB {
     constructor() {
         this.dbName = 'EduFusionDB';
-        this.version = 2;
+        this.version = 3;
         this.db = null;
+    }
+
+    // Ensure the database connection is initialized
+    async ensureDb() {
+        if (this.db) {
+            return this.db;
+        }
+
+        await this.init();
+        return this.db;
     }
 
     // Initialize the database
@@ -97,6 +107,7 @@ class EduFusionDB {
 
     // Generic method to add data to a store
     async addData(storeName, data) {
+        await this.ensureDb();
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction([storeName], 'readwrite');
             const store = transaction.objectStore(storeName);
@@ -109,6 +120,7 @@ class EduFusionDB {
 
     // Generic method to get all data from a store
     async getAllData(storeName) {
+        await this.ensureDb();
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction([storeName], 'readonly');
             const store = transaction.objectStore(storeName);
@@ -121,6 +133,7 @@ class EduFusionDB {
 
     // Generic method to get data by index
     async getDataByIndex(storeName, indexName, value) {
+        await this.ensureDb();
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction([storeName], 'readonly');
             const store = transaction.objectStore(storeName);
@@ -134,6 +147,7 @@ class EduFusionDB {
 
     // Generic method to get single item by index
     async getSingleByIndex(storeName, indexName, value) {
+        await this.ensureDb();
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction([storeName], 'readonly');
             const store = transaction.objectStore(storeName);
@@ -147,6 +161,7 @@ class EduFusionDB {
 
     // Generic method to update data
     async updateData(storeName, data) {
+        await this.ensureDb();
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction([storeName], 'readwrite');
             const store = transaction.objectStore(storeName);
@@ -159,6 +174,7 @@ class EduFusionDB {
 
     // Generic method to delete data
     async deleteData(storeName, key) {
+        await this.ensureDb();
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction([storeName], 'readwrite');
             const store = transaction.objectStore(storeName);
@@ -171,6 +187,7 @@ class EduFusionDB {
 
     // Clear all data from a store
     async clearStore(storeName) {
+        await this.ensureDb();
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction([storeName], 'readwrite');
             const store = transaction.objectStore(storeName);
@@ -321,8 +338,26 @@ class EduFusionDB {
         return pendingAdmission;
     }
 
+    // Recommendation methods
+    async addRecommendation(recommendationData) {
+        return this.addData('recommendations', recommendationData);
+    }
+
+    async getAllRecommendations() {
+        return this.getAllData('recommendations');
+    }
+
+    async getRecommendationsByTeacher(teacherEmail) {
+        return this.getDataByIndex('recommendations', 'fromEmail', teacherEmail);
+    }
+
+    async getRecommendationsByStudent(studentEmail) {
+        return this.getDataByIndex('recommendations', 'toEmail', studentEmail);
+    }
+
     // Helper method to get data by ID
     async getDataById(storeName, id) {
+        await this.ensureDb();
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction([storeName], 'readonly');
             const store = transaction.objectStore(storeName);
@@ -338,6 +373,7 @@ class EduFusionDB {
         try {
             // Clear existing data
             await this.clearStore('users');
+            await this.clearStore('pendingAdmissions');
             await this.clearStore('assignments');
             await this.clearStore('submissions');
             await this.clearStore('recommendations');

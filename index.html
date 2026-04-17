@@ -11,7 +11,7 @@
     <!-- Top Navigation Bar -->
     <header class="top-nav">
         <div class="logo">
-            <h1>EduFusion</h1>
+            <a href="index.html"><h1>EduFusion</h1></a>
         </div>
         <nav class="nav-links">
             <a href="index.html">Home</a>
@@ -102,6 +102,10 @@
                             <div class="hero-stat">
                                 <span class="stat-number" id="activeSubjects">0</span>
                                 <span class="stat-label">Active Subjects</span>
+                            </div>
+                            <div class="hero-stat">
+                                <span class="stat-number" id="totalStudents">0</span>
+                                <span class="stat-label">Total Students</span>
                             </div>
                         </div>
                     </div>
@@ -227,6 +231,7 @@
     </button>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="database.js"></script>
     <script>
         // Check authentication on page load
         function checkUserLogin() {
@@ -276,11 +281,37 @@
             }
         }
 
+        async function updateHomepageStats() {
+            const user = checkUserLogin();
+            if (!user) return;
+
+            try {
+                await edufusionDB.init();
+                const users = await edufusionDB.getAllUsers();
+                const totalStudents = users.filter(u => u.role === 'student').length;
+                const selectedSubjects = Array.isArray(user.profile?.selectedSubjects) ? user.profile.selectedSubjects.length : 0;
+                const averageProgressValue = typeof user.profile?.averageProgress === 'number' ? user.profile.averageProgress : 0;
+
+                document.getElementById('totalStudents').textContent = totalStudents;
+                document.getElementById('subjectCount').textContent = selectedSubjects;
+                document.getElementById('activeSubjects').textContent = selectedSubjects;
+                document.getElementById('averageProgress').textContent = `${averageProgressValue}%`;
+            } catch (error) {
+                console.error('Error updating homepage stats:', error);
+            }
+        }
+
         // Verify user is logged in on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             checkUserLogin();
             updateWelcomeMessage();
+            await updateHomepageStats();
             updateHashView();
+            
+            // Auto-refresh student count every 5 seconds for real-time updates
+            setInterval(async () => {
+                await updateHomepageStats();
+            }, 5000);
         });
 
         window.addEventListener('hashchange', updateHashView);
@@ -561,11 +592,15 @@
             return 0;
         }
 
-        function renderSelectedSubjects() {
+        async function renderSelectedSubjects() {
             const user = getCurrentUser();
             if (!user || user.profileComplete === false) {
                 return;
             }
+
+            await edufusionDB.init();
+            const users = await edufusionDB.getAllUsers();
+            const totalStudentsCount = users.filter(u => u.role === 'student').length;
 
             const subjects = (user.profile && user.profile.selectedSubjects) || [];
             const container = document.getElementById('subjectCardsContainer');
@@ -573,8 +608,9 @@
             const subjectCount = document.getElementById('subjectCount');
             const averageProgress = document.getElementById('averageProgress');
             const activeSubjects = document.getElementById('activeSubjects');
+            const totalStudents = document.getElementById('totalStudents');
 
-            if (!container || !subjectCount || !averageProgress || !activeSubjects) {
+            if (!container || !subjectCount || !averageProgress || !activeSubjects || !totalStudents) {
                 return;
             }
 
@@ -584,6 +620,7 @@
                 subjectCount.textContent = '0';
                 averageProgress.textContent = '0%';
                 activeSubjects.textContent = '0';
+                totalStudents.textContent = `${totalStudentsCount}`;
                 return;
             }
 
@@ -627,6 +664,7 @@
             subjectCount.textContent = `${subjects.length}`;
             averageProgress.textContent = `${Math.round(totalProgress / subjects.length)}%`;
             activeSubjects.textContent = `${subjects.length}`;
+            totalStudents.textContent = `${totalStudentsCount}`;
         }
 
         function renderSubjectDropdown() {
@@ -656,8 +694,7 @@
         }
 
         // Call on page load
-        renderSelectedSubjects();
-        renderSubjectDropdown();
+        renderSelectedSubjects().then(renderSubjectDropdown);
     </script>
 </body>
 </html>

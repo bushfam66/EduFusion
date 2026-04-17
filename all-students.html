@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - All Students</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="top-nav">
+        <div class="logo">
+            <a href="index.html"><h1>EduFusion</h1></a>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="mathematics.html">Mathematics</a>
+                    <a href="biology.html">Biology</a>
+                    <a href="physics.html">Physics</a>
+                    <a href="chemistry.html">Chemistry</a>
+                    <a href="history.html">History</a>
+                    <a href="computer-science.html">Computer Science</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Progress <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="overall-progress.html">Overall Progress</a>
+                    <a href="subject-wise-progress.html">Subject-wise Progress</a>
+                    <a href="achievements.html">Achievements</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Profile <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="view-profile.html">View Profile</a>
+                    <a href="account-settings.html">Account Settings</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+        <div class="user-actions">
+            <i class="fas fa-bell notification-icon"></i>
+            <div class="avatar" id="headerAvatar" style="display: none;">
+                <img src="https://ui-avatars.com/api/?name=Student&background=FF9800&color=fff&size=40" alt="User Avatar">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li>
+                    <i class="fas fa-home"></i>
+                    <span><a href="index.html" style="color: inherit; text-decoration: none;">Dashboard</a></span>
+                </li>
+                <li class="active">
+                    <i class="fas fa-users"></i>
+                    <span>All Students</span>
+                </li>
+                <li>
+                    <i class="fas fa-chart-line"></i>
+                    <span><a href="overall-progress.html" style="color: inherit; text-decoration: none;">Progress</a></span>
+                </li>
+                <li>
+                    <i class="fas fa-cog"></i>
+                    <span><a href="account-settings.html" style="color: inherit; text-decoration: none;">Settings</a></span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="dashboard">
+                <!-- Hero Section -->
+                <div class="hero-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 16px; margin-bottom: 2rem;">
+                    <div class="hero-content">
+                        <h1 id="pageTitle">All Students</h1>
+                        <p>View all enrolled students in the EduFusion platform</p>
+                        <div class="hero-stats">
+                            <div class="hero-stat">
+                                <span class="stat-number" id="totalCount">0</span>
+                                <span class="stat-label">Total Students</span>
+                            </div>
+                            <div class="hero-stat">
+                                <span class="stat-number" id="activeCount">0</span>
+                                <span class="stat-label">Active This Month</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters & Search -->
+                <div class="filter-section" style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                        <div style="flex: 1; min-width: 200px;">
+                            <input type="text" id="searchInput" placeholder="Search by name, email, or school..." style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 0.9rem;">
+                        </div>
+                        <div>
+                            <select id="sortSelect" style="padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 0.9rem;">
+                                <option value="name">Sort by Name</option>
+                                <option value="date">Sort by Date Added</option>
+                                <option value="school">Sort by School</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Students List -->
+                <div id="studentsList" class="subject-cards">
+                    <p class="empty-message">Loading students...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <script src="database.js"></script>
+    <script>
+        function getCurrentUser() {
+            const currentUser = localStorage.getItem('edufusion_current_user');
+            return currentUser ? JSON.parse(currentUser) : null;
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('edufusion_current_user');
+                localStorage.removeItem('edufusion_remember_me');
+                window.location.href = 'login.html';
+            }
+        }
+
+        async function loadStudents() {
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                await edufusionDB.init();
+                const allUsers = await edufusionDB.getAllUsers();
+                const students = allUsers.filter(u => u.role === 'student');
+
+                const today = new Date();
+                const thisMonth = students.filter(s => {
+                    const created = new Date(s.createdAt);
+                    return created.getMonth() === today.getMonth() && created.getFullYear() === today.getFullYear();
+                });
+
+                document.getElementById('totalCount').textContent = students.length;
+                document.getElementById('activeCount').textContent = thisMonth.length;
+
+                renderStudents(students);
+            } catch (error) {
+                console.error('Error loading students:', error);
+                document.getElementById('studentsList').innerHTML = '<p class="empty-message" style="color: red;">Error loading students. Please refresh the page.</p>';
+            }
+        }
+
+        function renderStudents(students) {
+            const container = document.getElementById('studentsList');
+
+            if (students.length === 0) {
+                container.innerHTML = '<p class="empty-message">No students found.</p>';
+                return;
+            }
+
+            const html = students.map(student => `
+                <div class="subject-card">
+                    <div class="subject-header">
+                        <h3>${student.name}</h3>
+                        <span>${student.email}</span>
+                    </div>
+                    <div class="subject-progress">
+                        <p><strong>School:</strong> ${student.profile && student.profile.school ? student.profile.school : 'Not specified'}</p>
+                        <p><strong>Class:</strong> ${student.profile && student.profile.class ? student.profile.class : 'N/A'}</p>
+                        <p><strong>Subjects:</strong> ${student.profile && student.profile.selectedSubjects ? student.profile.selectedSubjects.join(', ') : 'None'}</p>
+                        <p style="font-size: 0.85rem; color: #999; margin-top: 0.5rem;">Added: ${new Date(student.createdAt).toLocaleDateString()}</p>
+                        ${student.createdByName ? `<p style="font-size: 0.85rem; color: #999;">By: ${student.createdByName}</p>` : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = html;
+        }
+
+        // Search and filter functionality
+        let allStudents = [];
+        async function initializeSearch() {
+            try {
+                await edufusionDB.init();
+                const allUsers = await edufusionDB.getAllUsers();
+                allStudents = allUsers.filter(u => u.role === 'student');
+
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase();
+                    const filtered = allStudents.filter(s =>
+                        s.name.toLowerCase().includes(query) ||
+                        s.email.toLowerCase().includes(query) ||
+                        (s.profile?.school && s.profile.school.toLowerCase().includes(query))
+                    );
+                    renderStudents(filtered);
+                });
+
+                document.getElementById('sortSelect').addEventListener('change', (e) => {
+                    const sortBy = e.target.value;
+                    let sorted = [...allStudents];
+
+                    if (sortBy === 'name') {
+                        sorted.sort((a, b) => a.name.localeCompare(b.name));
+                    } else if (sortBy === 'date') {
+                        sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    } else if (sortBy === 'school') {
+                        sorted.sort((a, b) => {
+                            const schoolA = (a.profile?.school || '').toLowerCase();
+                            const schoolB = (b.profile?.school || '').toLowerCase();
+                            return schoolA.localeCompare(schoolB);
+                        });
+                    }
+
+                    renderStudents(sorted);
+                });
+            } catch (error) {
+                console.error('Error initializing search:', error);
+            }
+        }
+
+        // Page initialization
+        document.addEventListener('DOMContentLoaded', async function() {
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            await loadStudents();
+            await initializeSearch();
+
+            // Auto-refresh every 10 seconds
+            setInterval(async () => {
+                await loadStudents();
+            }, 10000);
+
+            // Sidebar toggle
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.querySelector('.sidebar');
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+
+            // Close sidebar when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!sidebar.contains(event.target) && !sidebarToggle.contains(event.target)) {
+                    sidebar.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

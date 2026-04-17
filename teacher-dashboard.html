@@ -13,7 +13,7 @@
         <aside class="dashboard-sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo">
-                    <h1>EduFusion</h1>
+                    <a href="index.html"><h1>EduFusion</h1></a>
                 </div>
                 <button class="sidebar-toggle" id="sidebarToggle">
                     <i class="fas fa-bars"></i>
@@ -264,6 +264,7 @@
             </main>
         </div>
     </div>
+    <script src="database.js"></script>
     <script>
         function getCurrentUser() {
             const currentUser = localStorage.getItem('edufusion_current_user');
@@ -272,6 +273,63 @@
 
         async function getUsers() {
             return await edufusionDB.getAllUsers();
+        }
+
+        function sanitizeEmailForId(email) {
+            return email.replace(/[^a-zA-Z0-9_-]/g, '_');
+        }
+
+        async function saveStudentPassword(email, safeEmail) {
+            const input = document.getElementById(`newPasswordInput_${safeEmail}`);
+            const feedback = document.getElementById(`passwordFeedback_${safeEmail}`);
+            const newPassword = input ? input.value.trim() : '';
+
+            if (!newPassword) {
+                if (feedback) feedback.textContent = 'Please enter a new password.';
+                return;
+            }
+            if (newPassword.length < 6) {
+                if (feedback) feedback.textContent = 'Password must be at least 6 characters.';
+                return;
+            }
+
+            try {
+                const allUsers = await getUsers();
+                const student = allUsers.find(u => u.email === email && u.role === 'student');
+                if (!student) {
+                    if (feedback) feedback.textContent = 'Student not found.';
+                    return;
+                }
+
+                student.password = newPassword;
+                await edufusionDB.updateUser(student);
+                if (feedback) {
+                    feedback.textContent = 'Password updated successfully.';
+                    feedback.className = 'success-message';
+                }
+                await renderTeacherDashboard();
+            } catch (error) {
+                console.error('Error saving student password:', error);
+                if (feedback) {
+                    feedback.textContent = 'Unable to update password. Try again.';
+                    feedback.className = 'error-message';
+                }
+            }
+        }
+
+        function togglePasswordReset(safeEmail) {
+            const panel = document.getElementById(`passwordPanel_${safeEmail}`);
+            if (!panel) return;
+            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function cancelPasswordReset(safeEmail) {
+            const panel = document.getElementById(`passwordPanel_${safeEmail}`);
+            const input = document.getElementById(`newPasswordInput_${safeEmail}`);
+            const feedback = document.getElementById(`passwordFeedback_${safeEmail}`);
+            if (panel) panel.style.display = 'none';
+            if (input) input.value = '';
+            if (feedback) feedback.textContent = '';
         }
 
         async function saveAssignments(assignments) {
@@ -397,7 +455,7 @@ async function renderTeacherDashboard() {
                 }
 
                 const allUsers = await getUsers();
-                const students = allUsers.filter(u => u.role === 'student');
+                const students = allUsers.filter(u => u.role === 'student' && u.createdBy === user.email);
                 const assignments = await getAssignments();
                 const teacherAssignments = assignments.filter(a => a.assignedByEmail === user.email);
                 const recommendations = await getRecommendations();
@@ -455,16 +513,34 @@ async function renderTeacherDashboard() {
                 `).join('') : '<p class="empty-message">No recent activity yet.</p>';
 
                 const studentList = document.getElementById('studentList');
-                studentList.innerHTML = students.length ? students.map(student => `
+                studentList.innerHTML = students.length ? students.map(student => {
+                    const safeEmail = sanitizeEmailForId(student.email);
+                    return `
                     <div class="subject-card">
                         <div class="subject-header">
                             <h3>${student.name}</h3>
                             <span>${student.email}</span>
                         </div>
                         <div class="subject-progress">
+                            <p><strong>Password:</strong> ${student.password}</p>
                             <p style="margin-top: 0.5rem;">Role: Learner</p>
+                            <div class="subject-actions">
+                                <button type="button" class="btn-secondary" onclick="togglePasswordReset('${safeEmail}')">Change Password</button>
+                            </div>
+                            <div class="password-reset-panel" id="passwordPanel_${safeEmail}" style="display: none;">
+                                <div class="form-group">
+                                    <label for="newPasswordInput_${safeEmail}">New Password</label>
+                                    <input type="password" id="newPasswordInput_${safeEmail}" placeholder="Enter a new password" />
+                                </div>
+                                <div class="password-actions">
+                                    <button type="button" class="btn-primary" onclick="saveStudentPassword('${student.email}', '${safeEmail}')">Save</button>
+                                    <button type="button" class="btn-secondary" onclick="cancelPasswordReset('${safeEmail}')">Cancel</button>
+                                </div>
+                                <p id="passwordFeedback_${safeEmail}" class="success-message" style="margin-top: 0.75rem;"></p>
+                            </div>
                         </div>
-                    </div>`).join('') : '<p class="empty-message">No learners available yet.</p>';
+                    </div>`;
+                }).join('') : '<p class="empty-message">No learners available yet.</p>';
 
                 const submissionList = document.getElementById('submissionList');
                 submissionList.innerHTML = teacherSubmissions.length ? teacherSubmissions.map(submission => `

@@ -13,7 +13,7 @@
         <aside class="dashboard-sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo">
-                    <h1>EduFusion</h1>
+                    <a href="index.html"><h1>EduFusion</h1></a>
                 </div>
                 <button class="sidebar-toggle" id="sidebarToggle">
                     <i class="fas fa-bars"></i>
@@ -23,7 +23,7 @@
             <nav class="sidebar-nav">
                 <div class="nav-section">
                     <h3 class="nav-section-title">Dashboard</h3>
-                    <a href="#" class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
+                    <a href="#" class="nav-item active" data-section="dashboard" onclick="showSection(event, 'dashboard')">
                         <i class="fas fa-tachometer-alt"></i>
                         <span>Overview</span>
                     </a>
@@ -31,20 +31,15 @@
 
                 <div class="nav-section">
                     <h3 class="nav-section-title">Management</h3>
-                    <a href="#" class="nav-item" data-section="admissions" onclick="showSection('admissions')">
-                        <i class="fas fa-user-check"></i>
-                        <span>Admissions</span>
-                        <span class="nav-badge" id="admissionsBadge">0</span>
-                    </a>
-                    <a href="#" class="nav-item" data-section="users" onclick="showSection('users')">
+                    <a href="#" class="nav-item" data-section="users" onclick="showSection(event, 'users')">
                         <i class="fas fa-users-cog"></i>
                         <span>User Management</span>
                     </a>
-                    <a href="#" class="nav-item" data-section="schools" onclick="showSection('schools')">
+                    <a href="#" class="nav-item" data-section="schools" onclick="showSection(event, 'schools')">
                         <i class="fas fa-school"></i>
                         <span>Teacher Overview</span>
                     </a>
-                    <a href="#" class="nav-item" data-section="analytics" onclick="showSection('analytics')">
+                    <a href="#" class="nav-item" data-section="analytics" onclick="showSection(event, 'analytics')">
                         <i class="fas fa-chart-bar"></i>
                         <span>Analytics</span>
                     </a>
@@ -52,7 +47,7 @@
 
                 <div class="quick-actions-section">
                     <h3 class="nav-section-title">Tools</h3>
-                    <a href="#" class="nav-item" data-section="controls" onclick="showSection('controls')">
+                    <a href="#" class="nav-item" data-section="controls" onclick="showSection(event, 'controls')">
                         <i class="fas fa-tools"></i>
                         <span>Admin Tools</span>
                     </a>
@@ -145,22 +140,13 @@
                                     <p>Teachers</p>
                                 </div>
                             </div>
-                            <div class="stat-card">
-                                <div class="stat-icon">
-                                    <i class="fas fa-clock"></i>
-                                </div>
-                                <div class="stat-info">
-                                    <h3 id="pendingAdmissionsCount">0</h3>
-                                    <p>Pending Admissions</p>
-                                </div>
-                            </div>
                         </div>
 
                         <!-- Admin Quick Actions -->
                         <div class="quick-actions">
-                            <div class="action-card" onclick="showSection('admissions')">
-                                <i class="fas fa-user-check"></i>
-                                <span>Review Admissions</span>
+                            <div class="action-card" onclick="showSection('users')">
+                                <i class="fas fa-users-cog"></i>
+                                <span>Manage Users</span>
                             </div>
                             <div class="action-card" onclick="showSection('users')">
                                 <i class="fas fa-users-cog"></i>
@@ -186,15 +172,6 @@
                     </div>
                 </section>
 
-            <section class="content-section" id="admissions">
-                <div class="section-header">
-                    <h2>Student Admissions Review</h2>
-                    <p>Review and approve student applications submitted by teachers</p>
-                </div>
-                <div id="pendingAdmissionsReview" class="subject-cards">
-                    <!-- Pending admissions for review will be loaded here -->
-                </div>
-            </section>
 
             <section class="content-section" id="users">
                 <div class="section-header">
@@ -258,6 +235,7 @@
             </main>
         </div>
     </div>
+    <script src="database.js"></script>
     <script>
         function getCurrentUser() {
             const currentUser = localStorage.getItem('edufusion_current_user');
@@ -295,7 +273,13 @@
             });
         }
 
-        function showSection(sectionId) {
+        function showSection(event, sectionId) {
+            event?.preventDefault();
+            const trigger = event?.currentTarget || event?.target || window.event?.currentTarget || window.event?.target || null;
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.section === sectionId);
+            });
+
             const sections = document.querySelectorAll('.content-section');
             sections.forEach(section => {
                 const isActive = section.id === sectionId;
@@ -314,10 +298,11 @@
             }
         }
 
-        function showUserTab(userType) {
+        function showUserTab(event, userType) {
             const tabs = document.querySelectorAll('.user-management-tabs .tab-btn');
             tabs.forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
+            const target = event?.currentTarget || event?.target || window.event?.currentTarget || window.event?.target;
+            if (target) target.classList.add('active');
 
             const users = getUsers().then(allUsers => {
                 let filteredUsers = [];
@@ -358,6 +343,7 @@
                     <div class="subject-progress">
                         <p><strong>Role:</strong> ${user.role.charAt(0).toUpperCase() + user.role.slice(1)}</p>
                         <p><strong>Joined:</strong> ${new Date(user.createdAt || Date.now()).toLocaleDateString()}</p>
+                        ${user.role === 'student' ? `<p><strong>Password:</strong> ${user.password}</p>` : ''}
                         ${user.profile && user.profile.teaches ? `<p><strong>Subjects:</strong> ${user.profile.teaches.join(', ')}</p>` : ''}
                     </div>
                 </div>
@@ -407,8 +393,6 @@ async function renderAdminDashboard() {
                 const assignments = await getAssignments();
                 const recommendations = await getRecommendations();
 
-                const pendingAdmissions = await edufusionDB.getAllPendingAdmissions();
-
                 const subjectSet = new Set();
                 teachers.forEach(teacher => {
                     if (teacher.profile && Array.isArray(teacher.profile.teaches)) {
@@ -418,8 +402,6 @@ async function renderAdminDashboard() {
 
                 document.getElementById('totalStudents').textContent = students.length;
                 document.getElementById('totalTeachers').textContent = teachers.length;
-                document.getElementById('pendingAdmissionsCount').textContent = pendingAdmissions.filter(a => a.status === 'pending').length;
-                document.getElementById('admissionsBadge').textContent = pendingAdmissions.filter(a => a.status === 'pending').length;
                 document.getElementById('totalAssignments').textContent = assignments.length;
 
                 const studentSelect = document.getElementById('adminStudentSelect');
@@ -430,18 +412,11 @@ async function renderAdminDashboard() {
                 // Render system alerts
                 const systemAlerts = document.getElementById('systemAlerts');
                 const alerts = [];
-                if (pendingAdmissions.filter(a => a.status === 'pending').length > 0) {
-                    alerts.push({
-                        type: 'warning',
-                        icon: 'fas fa-user-clock',
-                        message: `${pendingAdmissions.filter(a => a.status === 'pending').length} student admission(s) pending review`
-                    });
-                }
                 if (students.length === 0) {
                     alerts.push({
                         type: 'info',
                         icon: 'fas fa-info-circle',
-                        message: 'No students enrolled yet. Teachers can submit admission applications.'
+                        message: 'No students enrolled yet. Teachers can admit students directly from their dashboard.'
                     });
                 }
                 if (teachers.length === 0) {
@@ -459,47 +434,13 @@ async function renderAdminDashboard() {
                     </div>
                 `).join('') : '<p class="empty-message">No system alerts at this time.</p>';
 
-                // Render pending admissions for review
-                const pendingReview = document.getElementById('pendingAdmissionsReview');
-                const pendingOnly = pendingAdmissions.filter(a => a.status === 'pending');
-
-                if (pendingOnly.length === 0) {
-                    pendingReview.innerHTML = '<p class="empty-message">No pending admissions to review.</p>';
-                } else {
-                    pendingReview.innerHTML = pendingOnly.map(admission => `
-                        <div class="subject-card admission-review-card">
-                            <div class="subject-header">
-                                <h3>${admission.name}</h3>
-                                <div class="admission-actions">
-                                    <button class="approve-btn" onclick="approveAdmission(${admission.id})" title="Approve">
-                                        <i class="fas fa-check"></i> Approve
-                                    </button>
-                                    <button class="reject-btn" onclick="rejectAdmission(${admission.id})" title="Reject">
-                                        <i class="fas fa-times"></i> Reject
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="subject-progress">
-                                <p><strong>Email:</strong> ${admission.email}</p>
-                                <p><strong>Age:</strong> ${admission.age} | <strong>Class:</strong> ${admission.class}</p>
-                                <p><strong>School:</strong> ${admission.school}</p>
-                                <p><strong>Pathway:</strong> ${admission.pathway}</p>
-                                <p><strong>Subjects:</strong> ${admission.selectedSubjects.join(', ')}</p>
-                                <p><strong>Submitted by:</strong> ${admission.submittedByName} (${admission.submittedBy})</p>
-                                <p><strong>Submitted:</strong> ${new Date(admission.submittedAt).toLocaleDateString()}</p>
-                                ${admission.notes ? `<p><strong>Notes:</strong> ${admission.notes}</p>` : ''}
-                            </div>
-                        </div>
-                    `).join('');
-                }
-
                 // Render user management
                 const userManagement = document.getElementById('userManagement');
                 userManagement.innerHTML = `
                     <div class="user-management-tabs">
-                        <button class="tab-btn active" onclick="showUserTab('teachers')">Teachers (${teachers.length})</button>
-                        <button class="tab-btn" onclick="showUserTab('students')">Students (${students.length})</button>
-                        <button class="tab-btn" onclick="showUserTab('admins')">Admins (${users.filter(u => u.role === 'administrator').length})</button>
+                        <button class="tab-btn active" onclick="showUserTab(event, 'teachers')">Teachers (${teachers.length})</button>
+                        <button class="tab-btn" onclick="showUserTab(event, 'students')">Students (${students.length})</button>
+                        <button class="tab-btn" onclick="showUserTab(event, 'admins')">Admins (${users.filter(u => u.role === 'administrator').length})</button>
                     </div>
                     <div id="userList" class="user-list">
                         ${renderUserList(teachers, 'teachers')}
@@ -526,8 +467,6 @@ async function renderAdminDashboard() {
                 const platformAnalytics = document.getElementById('platformAnalytics');
                 const totalRecommendations = recommendations.length;
                 const totalSubmissions = (await edufusionDB.getAllSubmissions()).length;
-                const approvedAdmissions = pendingAdmissions.filter(a => a.status === 'approved').length;
-                const rejectedAdmissions = pendingAdmissions.filter(a => a.status === 'rejected').length;
 
                 platformAnalytics.innerHTML = `
                     <div class="analytics-grid">
@@ -546,10 +485,6 @@ async function renderAdminDashboard() {
                         <div class="analytics-card">
                             <h4>Recommendations</h4>
                             <span class="analytics-number">${totalRecommendations}</span>
-                        </div>
-                        <div class="analytics-card">
-                            <h4>Approved Admissions</h4>
-                            <span class="analytics-number">${approvedAdmissions}</span>
                         </div>
                         <div class="analytics-card">
                             <h4>Subject Coverage</h4>
@@ -601,14 +536,6 @@ async function renderAdminDashboard() {
                 await renderAdminDashboard();
             }, 30000);
 
-            // Listen for pending admission notifications from other tabs/windows
-            window.addEventListener('storage', function(event) {
-                if (event.key === 'edufusion_pending_admission_notification' && event.newValue) {
-                    const notification = JSON.parse(event.newValue);
-                    showAdminToast(`New admission request received from ${notification.name} (${notification.email}).`);
-                    renderAdminDashboard();
-                }
-            });
 
             // Mobile sidebar toggle
             const mobileSidebarToggle = document.getElementById('mobileSidebarToggle');
@@ -626,49 +553,6 @@ async function renderAdminDashboard() {
             });
         });
 
-        function showAdminToast(message) {
-            const toast = document.getElementById('adminToast');
-            if (!toast) return;
-            toast.textContent = message;
-            toast.classList.remove('hidden');
-            toast.classList.add('show');
-
-            clearTimeout(window.adminToastTimeout);
-            window.adminToastTimeout = setTimeout(() => {
-                toast.classList.remove('show');
-                toast.classList.add('hidden');
-            }, 5000);
-        }
-
-        // Admission approval functions
-        async function approveAdmission(admissionId) {
-            if (!confirm('Are you sure you want to approve this student admission? This will create an active student account.')) {
-                return;
-            }
-
-            try {
-                await edufusionDB.approveAdmission(admissionId);
-                alert('Student admission approved successfully! The student can now log in with their temporary password.');
-                await renderAdminDashboard();
-            } catch (error) {
-                console.error('Error approving admission:', error);
-                alert('Error approving admission: ' + error.message);
-            }
-        }
-
-        async function rejectAdmission(admissionId) {
-            const reason = prompt('Please provide a reason for rejection (optional):');
-            if (reason === null) return; // User cancelled
-
-            try {
-                await edufusionDB.rejectAdmission(admissionId, reason);
-                alert('Student admission rejected.');
-                await renderAdminDashboard();
-            } catch (error) {
-                console.error('Error rejecting admission:', error);
-                alert('Error rejecting admission: ' + error.message);
-            }
-        }
     </script>
 </body>
 </html>
