@@ -52,8 +52,8 @@
         </div>
         <div class="user-actions">
             <i class="fas fa-bell notification-icon"></i>
-            <div class="avatar">
-                <img src="https://via.placeholder.com/40" alt="User Avatar">
+            <div class="avatar" id="headerAvatar" style="display: none;">
+                <img src="https://ui-avatars.com/api/?name=Student&background=FF9800&color=fff&size=40" alt="User Avatar">
             </div>
         </div>
     </header>
@@ -72,11 +72,11 @@
                 </li>
                 <li>
                     <i class="fas fa-chart-line"></i>
-                    <span>Progress</span>
+                    <span><a href="overall-progress.html" style="color: inherit; text-decoration: none;">Progress</a></span>
                 </li>
                 <li>
                     <i class="fas fa-cog"></i>
-                    <span>Settings</span>
+                    <span><a href="account-settings.html" style="color: inherit; text-decoration: none;">Settings</a></span>
                 </li>
             </ul>
         </aside>
@@ -115,39 +115,33 @@
                     </div>
                 </div>
 
-                <!-- Metrics Grid -->
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="metric-content">
-                            <h3>45 Hours</h3>
-                            <p>Total Study Time</p>
-                            <span class="metric-change positive">+12% this week</span>
-                        </div>
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <div class="action-card" onclick="window.location.href='subjects.html'">
+                        <i class="fas fa-book"></i>
+                        <span>Browse Subjects</span>
                     </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div class="metric-content">
-                            <h3>12/15</h3>
-                            <p>Quizzes Passed</p>
-                            <span class="metric-change positive">+3 this week</span>
-                        </div>
+                    <div class="action-card" onclick="window.location.href='overall-progress.html'">
+                        <i class="fas fa-chart-line"></i>
+                        <span>View Progress</span>
                     </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="metric-content">
-                            <h3>85%</h3>
-                            <p>Average Score</p>
-                            <span class="metric-change positive">+5% this week</span>
-                        </div>
+                    <div class="action-card" onclick="window.location.href='achievements.html'">
+                        <i class="fas fa-trophy"></i>
+                        <span>Achievements</span>
                     </div>
-                    <div class="metric-card">
+                    <div class="action-card" onclick="window.location.href='learning-center.html'">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Learning Center</span>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="recent-activity">
+                    <h2><i class="fas fa-history"></i> Recent Activity</h2>
+                    <div class="activity-list" id="recentActivity">
+                        <!-- Recent activities will be loaded here -->
+                    </div>
+                </div>
                         <div class="metric-icon">
                             <i class="fas fa-fire"></i>
                         </div>
@@ -271,6 +265,14 @@
                 const welcomeElement = document.getElementById('welcomeMessage');
                 const userName = user.name || 'Student';
                 welcomeElement.textContent = `Welcome, ${userName}! 👋`;
+
+                // Handle avatar display
+                const headerAvatar = document.getElementById('headerAvatar');
+                const headerAvatarImg = headerAvatar.querySelector('img');
+
+                if (user.avatar && user.avatar.trim() !== '') {
+                    headerAvatarImg.src = user.avatar;
+                }
             }
         }
 

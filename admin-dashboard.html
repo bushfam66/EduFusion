@@ -8,179 +8,183 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="logo">
-                <h1>EduFusion</h1>
-            </div>
-            <button class="sidebar-toggle" id="sidebarToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-
-        <nav class="sidebar-nav">
-            <div class="nav-section">
-                <h3 class="nav-section-title">Dashboard</h3>
-                <a href="#" class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Overview</span>
-                </a>
-            </div>
-
-            <div class="nav-section">
-                <h3 class="nav-section-title">Management</h3>
-                <a href="#" class="nav-item" data-section="admissions" onclick="showSection('admissions')">
-                    <i class="fas fa-user-check"></i>
-                    <span>Admissions</span>
-                    <span class="nav-badge" id="admissionsBadge">0</span>
-                </a>
-                <a href="#" class="nav-item" data-section="users" onclick="showSection('users')">
-                    <i class="fas fa-users-cog"></i>
-                    <span>User Management</span>
-                </a>
-                <a href="#" class="nav-item" data-section="schools" onclick="showSection('schools')">
-                    <i class="fas fa-school"></i>
-                    <span>Teacher Overview</span>
-                </a>
-                <a href="#" class="nav-item" data-section="analytics" onclick="showSection('analytics')">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Analytics</span>
-                </a>
-            </div>
-
-            <div class="nav-section">
-                <h3 class="nav-section-title">Tools</h3>
-                <a href="#" class="nav-item" data-section="controls" onclick="showSection('controls')">
-                    <i class="fas fa-tools"></i>
-                    <span>Admin Tools</span>
-                </a>
-                <button class="quick-action-btn" onclick="renderAdminDashboard()">
-                    <i class="fas fa-sync-alt"></i>
-                    <span>Refresh Data</span>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <h1>EduFusion</h1>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
                 </button>
             </div>
-        </nav>
 
-        <div class="sidebar-footer">
-            <div class="user-profile">
-                <div class="avatar">
-                    <img src="https://via.placeholder.com/40" alt="Admin Avatar">
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h3 class="nav-section-title">Dashboard</h3>
+                    <a href="#" class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Overview</span>
+                    </a>
                 </div>
-                <div class="user-info">
-                    <span class="user-name" id="sidebarUserName">Administrator</span>
-                    <span class="user-role">System Admin</span>
-                </div>
-            </div>
-            <button class="logout-btn-sidebar" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-            </button>
-        </div>
-    </aside>
 
-    <!-- Main Content -->
-    <div class="main-wrapper" id="mainWrapper">
-        <header class="top-header">
-            <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="header-title">
-                <h2 id="pageTitle">Dashboard Overview</h2>
-            </div>
-            <div class="header-actions">
-                <button class="notification-btn">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge" id="notificationBadge">0</span>
+                <div class="nav-section">
+                    <h3 class="nav-section-title">Management</h3>
+                    <a href="#" class="nav-item" data-section="admissions" onclick="showSection('admissions')">
+                        <i class="fas fa-user-check"></i>
+                        <span>Admissions</span>
+                        <span class="nav-badge" id="admissionsBadge">0</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="users" onclick="showSection('users')">
+                        <i class="fas fa-users-cog"></i>
+                        <span>User Management</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="schools" onclick="showSection('schools')">
+                        <i class="fas fa-school"></i>
+                        <span>Teacher Overview</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="analytics" onclick="showSection('analytics')">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Analytics</span>
+                    </a>
+                </div>
+
+                <div class="quick-actions-section">
+                    <h3 class="nav-section-title">Tools</h3>
+                    <a href="#" class="nav-item" data-section="controls" onclick="showSection('controls')">
+                        <i class="fas fa-tools"></i>
+                        <span>Admin Tools</span>
+                    </a>
+                    <button class="quick-action-btn" onclick="renderAdminDashboard()">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Refresh Data</span>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar" id="sidebarAvatar">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=2196F3&color=fff&size=40" alt="Admin Avatar">
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name" id="sidebarUserName">Administrator</span>
+                        <span class="user-role">System Admin</span>
+                    </div>
+                </div>
+                <button class="logout-btn-sidebar" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
                 </button>
-                <div class="user-menu">
-                    <div class="user-menu-trigger">
-                        <img src="https://via.placeholder.com/32" alt="Avatar" class="user-avatar-small">
-                        <span id="headerUserName">Administrator</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="user-menu-dropdown">
-                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    </div>
-                </div>
             </div>
-        </header>
+        </aside>
 
-        <main class="main-content" id="mainContent">
-        <section class="content-section active" id="dashboard">
-            <div class="section-header">
-                <h2>Admin Dashboard</h2>
-                <p>Welcome to the EduFusion Admin Control Center</p>
-            </div>
+        <!-- Main Content -->
+        <div class="dashboard-main">
+            <header class="top-header">
+                <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="header-title">
+                    <h2 id="pageTitle">Dashboard Overview</h2>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notificationBadge">0</span>
+                    </button>
+                    <div class="user-menu">
+                        <div class="user-menu-trigger">
+                            <img src="https://ui-avatars.com/api/?name=Admin&background=2196F3&color=fff&size=40" alt="Avatar" class="user-avatar-small" id="headerAvatar">
+                            <span id="headerUserName">Administrator</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="user-menu-dropdown">
+                            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
-            <!-- Quick Stats -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="totalUsers">0</h3>
-                        <p>Total Users</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-user-graduate"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="totalStudents">0</h3>
-                        <p>Students</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="totalTeachers">0</h3>
-                        <p>Teachers</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="pendingAdmissionsCount">0</h3>
-                        <p>Pending Admissions</p>
-                    </div>
-                </div>
-            </div>
+            <main class="main-content">
+                <div id="adminToast" class="admin-toast hidden"></div>
+                <section class="content-section active" id="dashboard">
+                    <div class="dashboard-overview">
+                        <div class="section-header">
+                            <h2>Admin Dashboard</h2>
+                            <p>Welcome to the EduFusion Admin Control Center</p>
+                        </div>
 
-            <!-- Admin Quick Actions -->
-            <div class="quick-actions">
-                <div class="action-card" onclick="showSection('admissions')">
-                    <i class="fas fa-user-check"></i>
-                    <span>Review Admissions</span>
-                </div>
-                <div class="action-card" onclick="showSection('users')">
-                    <i class="fas fa-users-cog"></i>
-                    <span>Manage Users</span>
-                </div>
-                <div class="action-card" onclick="showSection('schools')">
-                    <i class="fas fa-school"></i>
-                    <span>Teacher Overview</span>
-                </div>
-                <div class="action-card" onclick="showSection('analytics')">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Platform Analytics</span>
-                </div>
-            </div>
+                        <!-- Quick Stats -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="totalUsers">0</h3>
+                                    <p>Total Users</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="totalStudents">0</h3>
+                                    <p>Students</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-chalkboard-teacher"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="totalTeachers">0</h3>
+                                    <p>Teachers</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="pendingAdmissionsCount">0</h3>
+                                    <p>Pending Admissions</p>
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- System Alerts -->
-            <div class="system-alerts">
-                <h2>System Alerts</h2>
-                <div id="systemAlerts" class="alerts-list">
-                    <!-- System alerts and notifications will be loaded here -->
-                </div>
-            </div>
-            </section>
+                        <!-- Admin Quick Actions -->
+                        <div class="quick-actions">
+                            <div class="action-card" onclick="showSection('admissions')">
+                                <i class="fas fa-user-check"></i>
+                                <span>Review Admissions</span>
+                            </div>
+                            <div class="action-card" onclick="showSection('users')">
+                                <i class="fas fa-users-cog"></i>
+                                <span>Manage Users</span>
+                            </div>
+                            <div class="action-card" onclick="showSection('schools')">
+                                <i class="fas fa-school"></i>
+                                <span>Teacher Overview</span>
+                            </div>
+                            <div class="action-card" onclick="showSection('analytics')">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Platform Analytics</span>
+                            </div>
+                        </div>
+
+                        <!-- System Alerts -->
+                        <div class="system-alerts">
+                            <h2><i class="fas fa-exclamation-triangle"></i> System Alerts</h2>
+                            <div id="systemAlerts" class="alerts-list">
+                                <!-- System alerts and notifications will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
             <section class="content-section" id="admissions">
                 <div class="section-header">
@@ -251,9 +255,9 @@
                 </div>
                 <div id="assignmentSummary" class="subject-cards"></div>
             </section>
-    </main>
-
-    <script src="database.js"></script>
+            </main>
+        </div>
+    </div>
     <script>
         function getCurrentUser() {
             const currentUser = localStorage.getItem('edufusion_current_user');
@@ -387,6 +391,16 @@ async function renderAdminDashboard() {
                 document.getElementById('sidebarUserName').textContent = user.name;
                 document.getElementById('headerUserName').textContent = user.name;
                 document.getElementById('pageTitle').textContent = 'Dashboard Overview';
+
+                // Handle avatar display
+                const sidebarAvatar = document.getElementById('sidebarAvatar');
+                const sidebarAvatarImg = sidebarAvatar.querySelector('img');
+                const headerAvatar = document.getElementById('headerAvatar');
+
+                if (user.avatar && user.avatar.trim() !== '') {
+                    sidebarAvatarImg.src = user.avatar;
+                    headerAvatar.src = user.avatar;
+                }
                 const users = await getUsers();
                 const students = users.filter(u => u.role === 'student');
                 const teachers = users.filter(u => u.role === 'teacher');
@@ -457,10 +471,10 @@ async function renderAdminDashboard() {
                             <div class="subject-header">
                                 <h3>${admission.name}</h3>
                                 <div class="admission-actions">
-                                    <button class="approve-btn" onclick="approveAdmission('${admission.id}')" title="Approve">
+                                    <button class="approve-btn" onclick="approveAdmission(${admission.id})" title="Approve">
                                         <i class="fas fa-check"></i> Approve
                                     </button>
-                                    <button class="reject-btn" onclick="rejectAdmission('${admission.id}')" title="Reject">
+                                    <button class="reject-btn" onclick="rejectAdmission(${admission.id})" title="Reject">
                                         <i class="fas fa-times"></i> Reject
                                     </button>
                                 </div>
@@ -586,7 +600,45 @@ async function renderAdminDashboard() {
             setInterval(async () => {
                 await renderAdminDashboard();
             }, 30000);
+
+            // Listen for pending admission notifications from other tabs/windows
+            window.addEventListener('storage', function(event) {
+                if (event.key === 'edufusion_pending_admission_notification' && event.newValue) {
+                    const notification = JSON.parse(event.newValue);
+                    showAdminToast(`New admission request received from ${notification.name} (${notification.email}).`);
+                    renderAdminDashboard();
+                }
+            });
+
+            // Mobile sidebar toggle
+            const mobileSidebarToggle = document.getElementById('mobileSidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+
+            mobileSidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                if (!sidebar.contains(event.target) && !mobileSidebarToggle.contains(event.target)) {
+                    sidebar.classList.remove('show');
+                }
+            });
         });
+
+        function showAdminToast(message) {
+            const toast = document.getElementById('adminToast');
+            if (!toast) return;
+            toast.textContent = message;
+            toast.classList.remove('hidden');
+            toast.classList.add('show');
+
+            clearTimeout(window.adminToastTimeout);
+            window.adminToastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+                toast.classList.add('hidden');
+            }, 5000);
+        }
 
         // Admission approval functions
         async function approveAdmission(admissionId) {

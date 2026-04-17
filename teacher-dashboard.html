@@ -8,252 +8,262 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="logo">
-                <h1>EduFusion</h1>
-            </div>
-            <button class="sidebar-toggle" id="sidebarToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-
-        <nav class="sidebar-nav">
-            <div class="nav-section">
-                <h3 class="nav-section-title">Dashboard</h3>
-                <a href="#" class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Overview</span>
-                </a>
-            </div>
-
-            <div class="nav-section">
-                <h3 class="nav-section-title">Management</h3>
-                <a href="admit-students.html" class="nav-item">
-                    <i class="fas fa-user-plus"></i>
-                    <span>Admit Students</span>
-                </a>
-                <a href="#" class="nav-item" data-section="students" onclick="showSection('students')">
-                    <i class="fas fa-users"></i>
-                    <span>My Students</span>
-                </a>
-                <a href="#" class="nav-item" data-section="assignments" onclick="showSection('assignments')">
-                    <i class="fas fa-clipboard-list"></i>
-                    <span>Assignments</span>
-                </a>
-                <a href="#" class="nav-item" data-section="recommendations" onclick="showSection('recommendations')">
-                    <i class="fas fa-lightbulb"></i>
-                    <span>Recommendations</span>
-                </a>
-            </div>
-
-            <div class="nav-section">
-                <h3 class="nav-section-title">Quick Actions</h3>
-                <button class="quick-action-btn" onclick="showSection('createAssignment')">
-                    <i class="fas fa-plus-circle"></i>
-                    <span>New Assignment</span>
-                </button>
-                <button class="quick-action-btn" onclick="renderTeacherDashboard()">
-                    <i class="fas fa-sync-alt"></i>
-                    <span>Refresh Data</span>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <h1>EduFusion</h1>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
                 </button>
             </div>
-        </nav>
 
-        <div class="sidebar-footer">
-            <div class="user-profile">
-                <div class="avatar">
-                    <img src="https://via.placeholder.com/40" alt="Teacher Avatar">
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h3 class="nav-section-title">Dashboard</h3>
+                    <a href="#" class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Overview</span>
+                    </a>
                 </div>
-                <div class="user-info">
-                    <span class="user-name" id="sidebarUserName">Teacher</span>
-                    <span class="user-role">Educator</span>
-                </div>
-            </div>
-            <button class="logout-btn-sidebar" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-            </button>
-        </div>
-    </aside>
 
-    <!-- Main Content -->
-    <div class="main-wrapper" id="mainWrapper">
-        <header class="top-header">
-            <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="header-title">
-                <h2 id="pageTitle">Dashboard Overview</h2>
-            </div>
-            <div class="header-actions">
-                <button class="notification-btn">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge" id="notificationBadge">0</span>
-                </button>
-                <div class="user-menu">
-                    <div class="user-menu-trigger">
-                        <img src="https://via.placeholder.com/32" alt="Avatar" class="user-avatar-small">
-                        <span id="headerUserName">Teacher</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="user-menu-dropdown">
-                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <main class="main-content" id="mainContent">
-        <section class="content-section active" id="dashboard">
-            <div class="section-header">
-                <h2>Teacher Dashboard</h2>
-                <p>Manage your students, create assignments, and provide personalized learning recommendations</p>
-            </div>
-
-            <!-- Quick Stats -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
+                <div class="nav-section">
+                    <h3 class="nav-section-title">Management</h3>
+                    <a href="admit-students.html" class="nav-item">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Admit Students</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="students" onclick="showSection('students')">
                         <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="studentCount">0</h3>
-                        <p>My Students</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
+                        <span>My Students</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="assignments" onclick="showSection('assignments')">
                         <i class="fas fa-clipboard-list"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="assignmentCount">0</h3>
-                        <p>Assignments Sent</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="pendingSubmissions">0</h3>
-                        <p>Pending Reviews</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
+                        <span>Assignments</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="recommendations" onclick="showSection('recommendations')">
                         <i class="fas fa-lightbulb"></i>
+                        <span>Recommendations</span>
+                    </a>
+                </div>
+
+                <div class="quick-actions-section">
+                    <h3 class="nav-section-title">Quick Actions</h3>
+                    <button class="quick-action-btn" onclick="showSection('createAssignment')">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>New Assignment</span>
+                    </button>
+                    <button class="quick-action-btn" onclick="renderTeacherDashboard()">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Refresh Data</span>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar avatar-fallback-wrapper" id="sidebarAvatar">
+                        <img src="" alt="Teacher Avatar" class="avatar-img">
+                        <div class="avatar-fallback">
+                            <span>T</span>
+                        </div>
                     </div>
-                    <div class="stat-info">
-                        <h3 id="recommendationCount">0</h3>
-                        <p>Recommendations Sent</p>
+                    <div class="user-info">
+                        <span class="user-name" id="sidebarUserName">Teacher</span>
+                        <span class="user-role">Educator</span>
                     </div>
                 </div>
+                <button class="logout-btn-sidebar" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
             </div>
+        </aside>
 
-            <!-- Quick Actions -->
-            <div class="quick-actions">
-                <div class="action-card" onclick="showSection('createAssignment')">
-                    <i class="fas fa-plus-circle"></i>
-                    <span>Create Assignment</span>
+        <!-- Main Content -->
+        <div class="dashboard-main">
+            <header class="top-header">
+                <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="header-title">
+                    <h2 id="pageTitle">Dashboard Overview</h2>
                 </div>
-                <div class="action-card" onclick="showSection('recommendations')">
-                    <i class="fas fa-lightbulb"></i>
-                    <span>Send Recommendation</span>
-                </div>
-                <div class="action-card" onclick="window.location.href='admit-students.html'">
-                    <i class="fas fa-user-plus"></i>
-                    <span>Admit New Student</span>
-                </div>
-                <div class="action-card" onclick="showSection('students')">
-                    <i class="fas fa-users"></i>
-                    <span>View Students</span>
-                </div>
-            </div>
-
-            <!-- Recent Activity -->
-            <div class="recent-activity">
-                <h2>Recent Activity</h2>
-                <div id="recentActivity" class="activity-list">
-                    <!-- Recent submissions and activities will be loaded here -->
-                </div>
-            </div>
-        </section>
-
-            <section class="content-section" id="assignments">
-                <div class="section-header">
-                    <h2>Assignment Submissions</h2>
-                    <p>Review and grade student work</p>
-                </div>
-                <div id="submissionList" class="subject-cards"></div>
-            </section>
-
-            <section class="content-section" id="students">
-                <div class="section-header">
-                    <h2>My Students</h2>
-                    <p>Students enrolled in your classes</p>
-                </div>
-                <div id="studentList" class="subject-cards"></div>
-            </section>
-
-            <section class="content-section" id="recommendations">
-                <div class="section-header">
-                    <h2>Send Recommendation</h2>
-                    <p>Provide personalized feedback and learning suggestions</p>
-                </div>
-                <div class="profile-card" style="padding: 1.5rem;">
-                    <form id="recommendationForm">
-                        <div class="form-group">
-                            <label for="recommendationStudent">Select Student</label>
-                            <select id="recommendationStudent" required>
-                                <option value="">Choose a student...</option>
-                            </select>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notificationBadge">0</span>
+                    </button>
+                    <div class="user-menu">
+                        <div class="user-menu-trigger">
+                            <div class="avatar avatar-fallback-wrapper user-avatar-small">
+                                <img src="" alt="Avatar" id="headerAvatar" class="avatar-img">
+                                <div class="avatar-fallback avatar-fallback-small">
+                                    <span>T</span>
+                                </div>
+                            </div>
+                            <span id="headerUserName">Teacher</span>
+                            <i class="fas fa-chevron-down"></i>
                         </div>
-                        <div class="form-group">
-                            <label for="recommendationMessage">Recommendation</label>
-                            <textarea id="recommendationMessage" rows="4" placeholder="Write a personalized recommendation for the student..." required></textarea>
+                        <div class="user-menu-dropdown">
+                            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
                         </div>
-                        <button type="submit" class="auth-btn">Send Recommendation</button>
-                        <div id="recommendationFeedback" class="success-message" style="margin-top: 1rem;"></div>
-                    </form>
+                    </div>
                 </div>
-            </section>
+            </header>
 
-            <section class="content-section" id="createAssignment">
-                <div class="section-header">
-                    <h2>Create New Assignment</h2>
-                    <p>Assign work to help students learn and grow</p>
-                </div>
-                <div class="profile-card" style="padding: 1.5rem;">
-                    <form id="assignmentForm">
-                        <div class="form-group">
-                            <label for="assignmentStudent">Select Student</label>
-                            <select id="assignmentStudent" required>
-                                <option value="">Choose a student...</option>
-                            </select>
+            <main class="main-content">
+                <section class="content-section active" id="dashboard">
+                    <div class="dashboard-overview">
+                        <div class="section-header">
+                            <h2>Teacher Dashboard</h2>
+                            <p>Manage your students, create assignments, and provide personalized learning recommendations</p>
                         </div>
-                        <div class="form-group">
-                            <label for="assignmentTitle">Assignment Title</label>
-                            <input type="text" id="assignmentTitle" placeholder="Enter assignment title" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="assignmentDetails">Assignment Details</label>
-                            <textarea id="assignmentDetails" rows="4" placeholder="Describe the assignment requirements and objectives..." required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="assignmentDue">Due Date</label>
-                            <input type="date" id="assignmentDue" required>
-                        </div>
-                        <button type="submit" class="auth-btn">Send Assignment</button>
-                        <div id="assignmentFeedback" class="success-message" style="margin-top: 1rem;"></div>
-                    </form>
-                </div>
-            </section>
-        </section>
-    </main>
 
-    <script src="database.js"></script>
+                        <!-- Quick Stats -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="studentCount">0</h3>
+                                    <p>My Students</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="assignmentCount">0</h3>
+                                    <p>Assignments Sent</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="pendingSubmissions">0</h3>
+                                    <p>Pending Reviews</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="recommendationCount">0</h3>
+                                    <p>Recommendations Sent</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="quick-actions">
+                            <div class="action-card" onclick="showSection('createAssignment')">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>Create Assignment</span>
+                            </div>
+                            <div class="action-card" onclick="showSection('recommendations')">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Send Recommendation</span>
+                            </div>
+                            <div class="action-card" onclick="window.location.href='admit-students.html'">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Admit New Student</span>
+                            </div>
+                            <div class="action-card" onclick="showSection('students')">
+                                <i class="fas fa-users"></i>
+                                <span>View Students</span>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="recent-activity">
+                            <h2><i class="fas fa-history"></i> Recent Activity</h2>
+                            <div id="recentActivity" class="activity-list">
+                                <!-- Recent submissions and activities will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content-section" id="assignments">
+                    <div class="section-header">
+                        <h2>Assignment Submissions</h2>
+                        <p>Review and grade student work</p>
+                    </div>
+                    <div id="submissionList" class="subject-cards"></div>
+                </section>
+
+                <section class="content-section" id="students">
+                    <div class="section-header">
+                        <h2>My Students</h2>
+                        <p>Students enrolled in your classes</p>
+                    </div>
+                    <div id="studentList" class="subject-cards"></div>
+                </section>
+
+                <section class="content-section" id="recommendations">
+                    <div class="section-header">
+                        <h2>Send Recommendation</h2>
+                        <p>Provide personalized feedback and learning suggestions</p>
+                    </div>
+                    <div class="profile-card" style="padding: 2rem;">
+                        <form id="recommendationForm">
+                            <div class="form-group">
+                                <label for="recommendationStudent">Select Student</label>
+                                <select id="recommendationStudent" required>
+                                    <option value="">Choose a student...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="recommendationMessage">Recommendation</label>
+                                <textarea id="recommendationMessage" rows="4" placeholder="Write a personalized recommendation for the student..." required></textarea>
+                            </div>
+                            <button type="submit" class="auth-btn">Send Recommendation</button>
+                            <div id="recommendationFeedback" class="success-message" style="margin-top: 1rem;"></div>
+                        </form>
+                    </div>
+                </section>
+
+                <section class="content-section" id="createAssignment">
+                    <div class="section-header">
+                        <h2>Create New Assignment</h2>
+                        <p>Assign work to help students learn and grow</p>
+                    </div>
+                    <div class="profile-card" style="padding: 2rem;">
+                        <form id="assignmentForm">
+                            <div class="form-group">
+                                <label for="assignmentStudent">Select Student</label>
+                                <select id="assignmentStudent" required>
+                                    <option value="">Choose a student...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="assignmentTitle">Assignment Title</label>
+                                <input type="text" id="assignmentTitle" placeholder="Enter assignment title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="assignmentDetails">Assignment Details</label>
+                                <textarea id="assignmentDetails" rows="4" placeholder="Describe the assignment requirements and objectives..." required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="assignmentDue">Due Date</label>
+                                <input type="date" id="assignmentDue" required>
+                            </div>
+                            <button type="submit" class="auth-btn">Send Assignment</button>
+                            <div id="assignmentFeedback" class="success-message" style="margin-top: 1rem;"></div>
+                        </form>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
     <script>
         function getCurrentUser() {
             const currentUser = localStorage.getItem('edufusion_current_user');
@@ -367,6 +377,24 @@ async function renderTeacherDashboard() {
                 document.getElementById('sidebarUserName').textContent = user.name;
                 document.getElementById('headerUserName').textContent = user.name;
                 document.getElementById('pageTitle').textContent = 'Dashboard Overview';
+
+                // Handle avatar display
+                const sidebarAvatar = document.getElementById('sidebarAvatar');
+                const sidebarAvatarImg = sidebarAvatar.querySelector('.avatar-img');
+                const sidebarAvatarFallback = sidebarAvatar.querySelector('.avatar-fallback');
+                const headerAvatar = document.getElementById('headerAvatar');
+                const headerAvatarWrapper = headerAvatar.closest('.avatar');
+                const headerAvatarFallback = headerAvatarWrapper.querySelector('.avatar-fallback');
+
+                if (user.avatar && user.avatar.trim() !== '') {
+                    sidebarAvatarImg.src = user.avatar;
+                    headerAvatar.src = user.avatar;
+                    sidebarAvatar.classList.add('has-image');
+                    headerAvatarWrapper.classList.add('has-image');
+                } else {
+                    sidebarAvatar.classList.remove('has-image');
+                    headerAvatarWrapper.classList.remove('has-image');
+                }
 
                 const allUsers = await getUsers();
                 const students = allUsers.filter(u => u.role === 'student');
@@ -531,6 +559,21 @@ async function renderTeacherDashboard() {
             setInterval(async () => {
                 await renderTeacherDashboard();
             }, 30000);
+
+            // Mobile sidebar toggle
+            const mobileSidebarToggle = document.getElementById('mobileSidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+
+            mobileSidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                if (!sidebar.contains(event.target) && !mobileSidebarToggle.contains(event.target)) {
+                    sidebar.classList.remove('show');
+                }
+            });
         });
     </script>
 </body>

@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body>
+<body class="admission-page">
     <header class="top-nav">
         <div class="logo">
             <h1>EduFusion</h1>
         </div>
         <nav class="nav-links">
             <a href="teacher-dashboard.html">Dashboard</a>
-            <a href="admit-students.html">Admit Students</a>
+            <a href="admit-students.html" class="active">Admit Students</a>
             <a href="#students">Students</a>
             <a href="#assignments">Assignments</a>
             <a href="#recommendations">Recommendations</a>
@@ -62,12 +62,12 @@
             </div>
 
             <div id="admitTab" class="tab-content active">
-                <section class="admission-section">
-                    <div class="section-header">
-                        <h2>Student Admission Form</h2>
-                        <p>Fill in the details below to submit a new student for admission. All submissions require admin approval.</p>
-                    </div>
-                    <div class="profile-card" style="padding: 1.5rem;">
+                <div class="admission-grid">
+                    <section class="admission-section admission-form-card">
+                        <div class="section-header">
+                            <h2>Student Admission Form</h2>
+                            <p>Fill in the details below to submit a new student for admission. All submissions require admin approval.</p>
+                        </div>
                         <form id="admissionForm">
                             <div class="form-row">
                                 <div class="form-group">
@@ -123,17 +123,20 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="studentPathway">Academic Pathway</label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-route"></i>
-                                    <select id="studentPathway" name="pathway" required>
-                                        <option value="">Select Pathway</option>
-                                        <option value="stem">STEM (Science, Technology, Engineering, Mathematics)</option>
-                                        <option value="humanities">Humanities (Arts, Literature, Social Sciences)</option>
-                                        <option value="commerce">Commerce (Business, Economics, Accounting)</option>
-                                        <option value="technical">Technical (Vocational, Technical Skills)</option>
-                                        <option value="mixed">Mixed/General Studies</option>
-                                    </select>
+                                <label>Academic Pathway</label>
+                                <div class="pathway-options">
+                                    <label class="pathway-option">
+                                        <input type="radio" name="pathway" value="Arts and Sports" required>
+                                        <span>Arts & Sports</span>
+                                    </label>
+                                    <label class="pathway-option">
+                                        <input type="radio" name="pathway" value="Social Science" required>
+                                        <span>Social Science</span>
+                                    </label>
+                                    <label class="pathway-option">
+                                        <input type="radio" name="pathway" value="STEM" required>
+                                        <span>STEM</span>
+                                    </label>
                                 </div>
                             </div>
 
@@ -200,8 +203,25 @@
                             <button type="submit" class="auth-btn">Submit for Approval</button>
                             <div id="admissionFeedback" class="success-message" style="margin-top: 1rem;"></div>
                         </form>
-                    </div>
-                </section>
+                    </section>
+
+                    <aside class="admission-summary-card">
+                        <div class="section-header small">
+                            <h3>Admission Best Practices</h3>
+                            <p>Keep each application complete to speed admin review and place students in the right learning track.</p>
+                        </div>
+                        <ul class="admission-tips">
+                            <li>Use the full legal name and correct email address.</li>
+                            <li>Select the student’s grade/class accurately.</li>
+                            <li>Choose at least three subjects to reflect academic interests.</li>
+                            <li>Provide a clear school name and pathway choice.</li>
+                        </ul>
+                        <div class="admission-cta">
+                            <h4>Quick note</h4>
+                            <p>Admissions with full details are approved faster. Double-check the student’s pathway and school information before sending.</p>
+                        </div>
+                    </aside>
+                </div>
             </div>
 
             <div id="pendingTab" class="tab-content">
@@ -335,13 +355,14 @@
                 return;
             }
 
-            const admissionData = {
-                name: document.getElementById('studentName').value.trim(),
-                email: document.getElementById('studentEmail').value.trim(),
-                age: document.getElementById('studentAge').value,
-                class: document.getElementById('studentClass').value,
-                school: document.getElementById('studentSchool').value.trim(),
-                pathway: document.getElementById('studentPathway').value,
+const selectedPathway = document.querySelector('input[name="pathway"]:checked');
+                const admissionData = {
+                    name: document.getElementById('studentName').value.trim(),
+                    email: document.getElementById('studentEmail').value.trim(),
+                    age: document.getElementById('studentAge').value,
+                    class: document.getElementById('studentClass').value,
+                    school: document.getElementById('studentSchool').value.trim(),
+                    pathway: selectedPathway ? selectedPathway.value : '',
                 selectedSubjects: selectedSubjects,
                 notes: document.getElementById('admissionNotes').value.trim(),
                 submittedBy: user.email,
@@ -358,6 +379,14 @@
 
                 document.getElementById('admissionFeedback').textContent = 'Student admission submitted successfully! Awaiting admin approval.';
                 document.getElementById('admissionFeedback').className = 'success-message';
+
+                // Notify other tabs/windows that a new pending admission exists.
+                localStorage.setItem('edufusion_pending_admission_notification', JSON.stringify({
+                    timestamp: Date.now(),
+                    name: admissionData.name,
+                    email: admissionData.email,
+                    submittedBy: admissionData.submittedByName
+                }));
 
                 // Reset form
                 this.reset();
