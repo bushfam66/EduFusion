@@ -59,15 +59,6 @@
                 <li>
                     <i class="fas fa-tachometer-alt"></i>
                     <span><a href="index.html" style="color: inherit; text-decoration: none;">Dashboard</a></span>
-                </li></li>
-                <li>
-                    <i class="fas fa-graduation-cap"></i>
-                    <span><a href="subjects-taken.html" style="color: inherit; text-decoration: none;">Subjects Taken</a></span>
-                </li>
-                <li class="active">
-
-                    <i class="fas fa-chart-line"></i>
-                    <span><a href="overall-progress.html" style="color: inherit; text-decoration: none;">Progress</a></span>
                 </li>
                 <li>
                     <i class="fas fa-cog"></i>
@@ -482,14 +473,7 @@ tcp_client()</code></pre>
                 </div>
             </section>
 
-            <!-- Quiz Report Card -->
-            <section class="report-card" id="report-card" style="margin-top: 2rem; padding: 2rem; background-color: #f9f9f9; border-radius: 10px;">
-                <h2>Quiz Report Card & Analysis</h2>
-                <p>Get detailed analysis of your quiz performance with corrections and improvement suggestions.</p>
-                <div id="report-content"></div>
-                <button id="generate-report" style="background-color: #2196F3; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; margin-top: 1rem;">Generate Report</button>
-                <p style="margin-top: 1rem; font-size: 0.9em; color: #666;">For personalized AI analysis, ask Microsoft Copilot: "Analyze my EduFusion computer science quiz mistakes"</p>
-            </section>
+
 
             <!-- Quiz Modal -->
             <div id="quiz-modal" class="modal">
@@ -650,60 +634,7 @@ tcp_client()</code></pre>
             }
         });
 
-        // Generate report
-        document.getElementById('generate-report').addEventListener('click', () => {
-            const quizResults = JSON.parse(localStorage.getItem('edufusion_cs_quiz_results') || '{}');
-            const examAnswers = JSON.parse(localStorage.getItem('edufusion_cs_exam_answers') || '{}');
 
-            const totalQuizzes = 6;
-            const correctQuizzes = Object.values(quizResults).filter(result => result === true).length;
-            const quizScore = (correctQuizzes / totalQuizzes) * 100;
-
-            let report = `<h3>Computer Science Performance Report</h3>`;
-            report += `<p><strong>Quiz Performance:</strong> ${correctQuizzes}/${totalQuizzes} correct (${quizScore.toFixed(1)}%)</p>`;
-
-            if (Object.keys(examAnswers).length > 0) {
-                report += `<p><strong>Final Exam:</strong> Completed</p>`;
-            } else {
-                report += `<p><strong>Final Exam:</strong> Not attempted</p>`;
-            }
-
-            // Performance analysis
-            let analysis = '';
-            if (quizScore >= 80) {
-                analysis = 'Excellent performance! You have a strong understanding of Computer Science fundamentals.';
-            } else if (quizScore >= 60) {
-                analysis = 'Good performance! Review the topics you missed and try again.';
-            } else {
-                analysis = 'Needs improvement. Focus on the fundamental concepts and practice more exercises.';
-            }
-
-            report += `<p><strong>Analysis:</strong> ${analysis}</p>`;
-
-            // Recommendations
-            const recommendations = [];
-            if (correctQuizzes < totalQuizzes) {
-                recommendations.push('Review the quiz questions you answered incorrectly');
-                recommendations.push('Practice coding exercises regularly');
-                recommendations.push('Study algorithm complexity and data structures');
-            }
-            if (!examAnswers.q7 || examAnswers.q7.trim() === '') {
-                recommendations.push('Work on programming problem-solving skills');
-            }
-            if (Object.keys(examAnswers).length === 0) {
-                recommendations.push('Complete the final exam to test your knowledge');
-            }
-
-            if (recommendations.length > 0) {
-                report += `<p><strong>Recommendations:</strong></p><ul>`;
-                recommendations.forEach(rec => {
-                    report += `<li>${rec}</li>`;
-                });
-                report += `</ul>`;
-            }
-
-            document.getElementById('report-content').innerHTML = report;
-        });
 
         // Modal close
         document.querySelector('.close').addEventListener('click', () => {

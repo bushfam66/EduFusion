@@ -12,7 +12,7 @@
         <div class="auth-card">
             <div class="auth-header">
                 <h1>Complete Your Profile</h1>
-                <p>Tell us more about your school and subjects so EduFusion can personalize your learning.</p>
+                <p>Tell us more about your school so EduFusion can personalize your learning.</p>
             </div>
             <form id="setupForm" class="auth-form active-form">
                 <div class="form-group">
@@ -47,21 +47,6 @@
                             <option value="social">Social Science</option>
                         </select>
                     </div>
-                </div>
-                <div class="form-group">
-                    <p><strong>Compulsory subjects:</strong></p>
-                    <ul style="margin-left: 1rem; margin-bottom: 1rem; color: #4a5568;">
-                        <li>Mathematics</li>
-                        <li>English</li>
-                        <li>Kiswahili</li>
-                        <li>Community Service Learning</li>
-                        <li>Physical Education</li>
-                    </ul>
-                    <p><strong>Select exactly 3 additional subjects for your pathway:</strong></p>
-                    <div id="optionalSubjects" class="subject-options" style="display: grid; gap: 0.75rem;"></div>
-                </div>
-                <div class="form-agreement" style="margin-bottom: 1rem;">
-                    <p>Select exactly 3 optional subjects before you proceed.</p>
                 </div>
                 <button type="submit" class="auth-btn">Save and Continue</button>
                 <div id="setupError" class="error-message"></div>
@@ -108,47 +93,6 @@
             }
         }
 
-        function updateOptionalSubjects(pathway) {
-            const optionalSubjects = {
-                arts: ['Sports and Recreation', 'Film', 'Acting'],
-                social: ['History', 'CRE', 'Geography', 'Literature', 'Fasihi ya Kiswahili'],
-                stem: ['Biology', 'Chemistry', 'Physics', 'Computer', 'Building and Construction', 'Power Mechanics', 'Electricity']
-            };
-
-            const container = document.getElementById('optionalSubjects');
-            container.innerHTML = '';
-
-            if (!pathway || !optionalSubjects[pathway]) {
-                return;
-            }
-
-            optionalSubjects[pathway].forEach(subject => {
-                const checkboxId = `subject-${subject.replace(/\s+/g, '-')}`;
-                const item = document.createElement('div');
-                item.className = 'form-group';
-                item.innerHTML = `
-                    <label for="${checkboxId}" style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
-                        <input type="checkbox" id="${checkboxId}" name="optionalSubjects" value="${subject}" style="width: auto; margin: 0;">
-                        <span>${subject}</span>
-                    </label>
-                `;
-                container.appendChild(item);
-            });
-
-            const checkboxes = container.querySelectorAll('input[name="optionalSubjects"]');
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const checkedBoxes = container.querySelectorAll('input[name="optionalSubjects"]:checked');
-                    if (checkedBoxes.length > 3) {
-                        this.checked = false;
-                        document.getElementById('setupError').textContent = 'You must select exactly 3 optional subjects.';
-                    } else {
-                        document.getElementById('setupError').textContent = '';
-                    }
-                });
-            });
-        }
-
         function initForm() {
             const user = getCurrentUser();
             if (!user) {
@@ -162,12 +106,6 @@
                 redirectToDashboard();
                 return;
             }
-
-            const pathwaySelect = document.getElementById('studentPathway');
-            pathwaySelect.addEventListener('change', function() {
-                updateOptionalSubjects(this.value);
-            });
-        }
 
         document.getElementById('setupForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -184,20 +122,11 @@
             const age = document.getElementById('studentAge').value.trim();
             const studentClass = document.getElementById('studentClass').value.trim();
             const pathway = document.getElementById('studentPathway').value;
-            const selectedExtras = Array.from(document.querySelectorAll('input[name="optionalSubjects"]:checked')).map(cb => cb.value);
 
             if (!school || !age || !studentClass || !pathway) {
                 document.getElementById('setupError').textContent = 'Please complete all fields before continuing.';
                 return;
             }
-
-            if (selectedExtras.length !== 3) {
-                document.getElementById('setupError').textContent = 'Please select exactly 3 optional subjects for your pathway.';
-                return;
-            }
-
-            const compulsory = ['Mathematics', 'English', 'Kiswahili', 'Community Service Learning', 'Physical Education'];
-            const selectedSubjects = [...compulsory, ...selectedExtras];
 
             const users = getUsers();
             const userIndex = users.findIndex(u => u.id === user.id);
@@ -213,8 +142,7 @@
                     school,
                     age,
                     class: studentClass,
-                    pathway,
-                    selectedSubjects
+                    pathway
                 }
             };
             saveUsers(users);

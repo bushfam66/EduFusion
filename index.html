@@ -15,25 +15,7 @@
         </div>
         <nav class="nav-links">
             <a href="index.html">Home</a>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
-                <div class="dropdown-content" id="subjectsDropdown">
-                    <a href="mathematics.html">Mathematics</a>
-                    <a href="biology.html">Biology</a>
-                    <a href="physics.html">Physics</a>
-                    <a href="chemistry.html">Chemistry</a>
-                    <a href="history.html">History</a>
-                    <a href="computer-science.html">Computer Science</a>
-                </div>
-            </div>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Progress <i class="fas fa-chevron-down"></i></a>
-                <div class="dropdown-content">
-                    <a href="overall-progress.html">Overall Progress</a>
-                    <a href="subject-wise-progress.html">Subject-wise Progress</a>
-                    <a href="achievements.html">Achievements</a>
-                </div>
-            </div>
+            <a href="subjects.html">Subjects</a>
             <div class="dropdown">
                 <a href="#" class="dropbtn">Profile <i class="fas fa-chevron-down"></i></a>
                 <div class="dropdown-content">
@@ -67,14 +49,6 @@
                     <span>Dashboard</span>
                 </li>
                 <li>
-                    <i class="fas fa-graduation-cap"></i>
-                    <span><a href="subjects-taken.html" style="color: inherit; text-decoration: none;">Subjects Taken</a></span>
-                </li>
-                <li>
-                    <i class="fas fa-chart-line"></i>
-                    <span><a href="overall-progress.html" style="color: inherit; text-decoration: none;">Progress</a></span>
-                </li>
-                <li>
                     <i class="fas fa-cog"></i>
                     <span><a href="account-settings.html" style="color: inherit; text-decoration: none;">Settings</a></span>
                 </li>
@@ -88,46 +62,15 @@
                 <!-- Hero Section -->
                 <div class="hero-section">
                     <div class="hero-content">
-                        <h1 id="welcomeMessage">Welcome back, Student! 👋</h1>
-                        <p>Explore your subjects and track your learning progress with EduFusion.</p>
-                        <div class="hero-stats">
-                            <div class="hero-stat">
-                                <span class="stat-number" id="subjectCount">0</span>
-                                <span class="stat-label">Subjects Taken</span>
-                            </div>
-                            <div class="hero-stat">
-                                <span class="stat-number" id="averageProgress">0%</span>
-                                <span class="stat-label">Average Progress</span>
-                            </div>
-                            <div class="hero-stat">
-                                <span class="stat-number" id="activeSubjects">0</span>
-                                <span class="stat-label">Active Subjects</span>
-                            </div>
-                            <div class="hero-stat">
-                                <span class="stat-number" id="totalStudents">0</span>
-                                <span class="stat-label">Total Students</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="hero-actions">
-                        <button type="button" class="btn-primary" onclick="startLearning()">
-                            <i class="fas fa-play"></i> Start Learning
-                        </button>
-                        <button class="btn-secondary" onclick="takeQuiz()">
-                            <i class="fas fa-brain"></i> Take a Quiz
-                        </button>
+                        <h1 id="welcomeMessage">Welcome back, Student!</h1>
                     </div>
                 </div>
 
                 <!-- Quick Actions -->
                 <div class="quick-actions">
                     <div class="action-card" onclick="window.location.href='subjects.html'">
-                        <i class="fas fa-book"></i>
-                        <span>Browse Subjects</span>
-                    </div>
-                    <div class="action-card" onclick="window.location.href='overall-progress.html'">
-                        <i class="fas fa-chart-line"></i>
-                        <span>View Progress</span>
+                        <i class="fas fa-book-open"></i>
+                        <span>Subjects</span>
                     </div>
                     <div class="action-card" onclick="window.location.href='achievements.html'">
                         <i class="fas fa-trophy"></i>
@@ -157,29 +100,6 @@
                     </div>
                 </div>
 
-                <!-- Progress Overview -->
-                <div class="progress-overview">
-                    <div class="section-header">
-                        <h2>Your Progress</h2>
-                        <a href="overall-progress.html" class="view-all">View All Progress</a>
-                    </div>
-                    <div class="progress-chart-container">
-                        <canvas id="progressChart" width="600" height="250"></canvas>
-                    </div>
-                </div>
-
-                <!-- Subject Progress Grid -->
-                <div class="subjects-section">
-                    <div class="section-header">
-                        <h2>Subject Progress</h2>
-                        <a href="subject-wise-progress.html" class="view-all">View Details</a>
-                    </div>
-                    <div class="subject-cards" id="subjectCardsContainer"></div>
-                    <p id="noSubjectsMessage" class="empty-message" style="display:none; margin-top: 1.5rem;">
-                        No subjects selected yet. Complete your profile in <a href="account-setup.html">profile setup</a> to see your subjects here.
-                    </p>
-                </div>
-
                 <!-- Activity Feed & Recommendations -->
                 <div class="activity-recommendations">
                     <div class="activity-section">
@@ -203,7 +123,7 @@
                                 </div>
                                 <div class="recommendation-content">
                                     <h4>Teacher recommendations coming soon</h4>
-                                    <p>Recommendations will be provided by a teacher based on your progress.</p>
+                                    <p>Recommendations will be provided by a teacher to enhance your learning experience.</p>
                                 </div>
                             </div>
                         </div>
@@ -281,38 +201,11 @@
             }
         }
 
-        async function updateHomepageStats() {
-            const user = checkUserLogin();
-            if (!user) return;
-
-            try {
-                await edufusionDB.init();
-                const users = await edufusionDB.getAllUsers();
-                const totalStudents = users.filter(u => u.role === 'student').length;
-                const selectedSubjects = Array.isArray(user.profile?.selectedSubjects) ? user.profile.selectedSubjects.length : 0;
-                const averageProgressValue = typeof user.profile?.averageProgress === 'number' ? user.profile.averageProgress : 0;
-
-                document.getElementById('totalStudents').textContent = totalStudents;
-                document.getElementById('subjectCount').textContent = selectedSubjects;
-                document.getElementById('activeSubjects').textContent = selectedSubjects;
-                document.getElementById('averageProgress').textContent = `${averageProgressValue}%`;
-            } catch (error) {
-                console.error('Error updating homepage stats:', error);
-            }
-        }
-
         // Verify user is logged in on page load
         document.addEventListener('DOMContentLoaded', async function() {
             checkUserLogin();
             updateWelcomeMessage();
-            await updateHomepageStats();
             updateHashView();
-            
-            // Auto-refresh student count every 5 seconds for real-time updates
-            setInterval(async () => {
-                await updateHomepageStats();
-            }, 5000);
-        });
 
         window.addEventListener('hashchange', updateHashView);
 
@@ -520,181 +413,8 @@
             return currentUser ? JSON.parse(currentUser) : null;
         }
 
-        function getSubjectIcon(subject) {
-            const icons = {
-                Mathematics: 'fas fa-square-root-alt',
-                English: 'fas fa-book-open',
-                Kiswahili: 'fas fa-globe-africa',
-                'Community Service Learning': 'fas fa-hands-helping',
-                'Physical Education': 'fas fa-running',
-                Biology: 'fas fa-dna',
-                Chemistry: 'fas fa-flask',
-                Physics: 'fas fa-atom',
-                Computer: 'fas fa-laptop-code',
-                'Computer Science': 'fas fa-laptop-code',
-                History: 'fas fa-landmark',
-                CRE: 'fas fa-church',
-                Geography: 'fas fa-map-marked-alt',
-                Literature: 'fas fa-book',
-                'Fasihi ya Kiswahili': 'fas fa-pen-nib',
-                'Sports and Recreation': 'fas fa-futbol',
-                Film: 'fas fa-video',
-                Acting: 'fas fa-theater-masks',
-                'Building and Construction': 'fas fa-hard-hat',
-                'Power Mechanics': 'fas fa-cogs',
-                Electricity: 'fas fa-bolt'
-            };
-            return icons[subject] || 'fas fa-book';
-        }
-
-        function getSubjectLink(subject) {
-            const links = {
-                Mathematics: 'mathematics.html',
-                Biology: 'biology.html',
-                Physics: 'physics.html',
-                Chemistry: 'chemistry.html',
-                History: 'history.html',
-                'Computer Science': 'computer-science.html'
-            };
-            return links[subject] || '#';
-        }
-
-        function getSubjectProgress(subject) {
-            const normalized = subject.toLowerCase();
-            const calculate = (total, keyPrefix) => {
-                let completed = 0;
-                for (let i = 1; i <= total; i++) {
-                    if (localStorage.getItem(`${keyPrefix}${i}`) === 'completed') {
-                        completed++;
-                    }
-                }
-                return total > 0 ? Math.round((completed / total) * 100) : 0;
-            };
-
-            if (normalized === 'mathematics') {
-                return calculate(6, 'math_quiz_mathquiz');
-            }
-            if (normalized === 'biology') {
-                return calculate(1, 'biology_quiz_bioquiz');
-            }
-            if (normalized === 'physics') {
-                return calculate(1, 'physics_quiz_physquiz');
-            }
-            if (normalized === 'chemistry') {
-                return calculate(1, 'chemistry_quiz_chemquiz');
-            }
-            if (normalized === 'history') {
-                return calculate(10, 'history_quiz_historyquiz');
-            }
-            if (normalized === 'computer science' || normalized === 'computer') {
-                return 0;
-            }
-            return 0;
-        }
-
-        async function renderSelectedSubjects() {
-            const user = getCurrentUser();
-            if (!user || user.profileComplete === false) {
-                return;
-            }
-
-            await edufusionDB.init();
-            const users = await edufusionDB.getAllUsers();
-            const totalStudentsCount = users.filter(u => u.role === 'student').length;
-
-            const subjects = (user.profile && user.profile.selectedSubjects) || [];
-            const container = document.getElementById('subjectCardsContainer');
-            const noSubjects = document.getElementById('noSubjectsMessage');
-            const subjectCount = document.getElementById('subjectCount');
-            const averageProgress = document.getElementById('averageProgress');
-            const activeSubjects = document.getElementById('activeSubjects');
-            const totalStudents = document.getElementById('totalStudents');
-
-            if (!container || !subjectCount || !averageProgress || !activeSubjects || !totalStudents) {
-                return;
-            }
-
-            if (!subjects.length) {
-                container.innerHTML = '';
-                noSubjects.style.display = 'block';
-                subjectCount.textContent = '0';
-                averageProgress.textContent = '0%';
-                activeSubjects.textContent = '0';
-                totalStudents.textContent = `${totalStudentsCount}`;
-                return;
-            }
-
-            noSubjects.style.display = 'none';
-            let totalProgress = 0;
-            const cards = subjects.map(subject => {
-                const progress = getSubjectProgress(subject);
-                totalProgress += progress;
-                const icon = getSubjectIcon(subject);
-                const link = getSubjectLink(subject);
-                const tag = ['Mathematics', 'English', 'Kiswahili', 'Community Service Learning', 'Physical Education'].includes(subject) ? 'Core subject' : 'Elective';
-                const status = progress === 0 ? 'Not Started' : (progress < 50 ? 'In Progress' : 'On Track');
-                return `
-                    <a href="${link}" class="subject-card-link">
-                        <div class="subject-card">
-                            <div class="subject-header">
-                                <div class="subject-icon">
-                                    <i class="${icon}"></i>
-                                </div>
-                                <div class="subject-info">
-                                    <h3>${subject}</h3>
-                                    <span class="subject-status">${status}</span>
-                                    <span class="subject-tag ${tag === 'Core subject' ? 'subject-tag-core' : 'subject-tag-elective'}">${tag}</span>
-                                </div>
-                            </div>
-                            <div class="subject-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: ${progress}%;"></div>
-                                </div>
-                                <span class="progress-text">${progress}% Complete</span>
-                            </div>
-                            <div class="subject-meta">
-                                <span><i class="fas fa-clock"></i> ${progress === 0 ? 'Start now' : 'Keep going'}</span>
-                                <span><i class="fas fa-book"></i> ${subject}</span>
-                            </div>
-                        </div>
-                    </a>`;
-            }).join('');
-
-            container.innerHTML = cards;
-            subjectCount.textContent = `${subjects.length}`;
-            averageProgress.textContent = `${Math.round(totalProgress / subjects.length)}%`;
-            activeSubjects.textContent = `${subjects.length}`;
-            totalStudents.textContent = `${totalStudentsCount}`;
-        }
-
-        function renderSubjectDropdown() {
-            const user = getCurrentUser();
-            if (!user || user.profileComplete === false) {
-                return;
-            }
-
-            const subjects = (user.profile && user.profile.selectedSubjects) || [];
-            const dropdown = document.getElementById('subjectsDropdown');
-
-            if (!dropdown) {
-                return;
-            }
-
-            if (!subjects.length) {
-                dropdown.innerHTML = '<a href="account-setup.html">Setup Subjects</a>';
-                return;
-            }
-
-            const links = subjects.map(subject => {
-                const link = getSubjectLink(subject);
-                return `<a href="${link}">${subject}</a>`;
-            }).join('');
-
-            dropdown.innerHTML = links;
-        }
-
         // Call on page load
-        renderSelectedSubjects().then(renderSubjectDropdown);
+        updateHomepageStats();
     </script>
 </body>
 </html>

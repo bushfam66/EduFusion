@@ -605,25 +605,6 @@
         <nav class="nav-links">
             <a href="index.html">Home</a>
             <div class="dropdown">
-                <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
-                <div class="dropdown-content">
-                    <a href="mathematics.html">Mathematics</a>
-                    <a href="biology.html">Biology</a>
-                    <a href="physics.html">Physics</a>
-                    <a href="chemistry.html">Chemistry</a>
-                    <a href="history.html">History</a>
-                    <a href="computer-science.html">Computer Science</a>
-                </div>
-            </div>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Progress <i class="fas fa-chevron-down"></i></a>
-                <div class="dropdown-content">
-                    <a href="overall-progress.html">Overall Progress</a>
-                    <a href="subject-wise-progress.html">Subject-wise Progress</a>
-                    <a href="achievements.html">Achievements</a>
-                </div>
-            </div>
-            <div class="dropdown">
                 <a href="#" class="dropbtn">Profile <i class="fas fa-chevron-down"></i></a>
                 <div class="dropdown-content">
                     <a href="view-profile.html">View Profile</a>
@@ -646,7 +627,7 @@
                 <!-- Learning Hero Section -->
                 <div class="learning-hero">
                     <h1>🚀 Learning Center</h1>
-                    <p>Master your subjects with AI-powered quizzes and track your progress</p>
+                    <p>Enhance your knowledge with AI-powered quizzes and interactive learning</p>
                     <div class="learning-actions">
                         <a href="#quiz-inventory" class="action-btn primary">
                             <i class="fas fa-play-circle"></i> Take a Quiz
@@ -662,9 +643,6 @@
                     <div class="progress-header">
                         <h2 class="progress-title">Overall Learning Progress</h2>
                         <span class="progress-percentage" id="overall-percentage">0%</span>
-                    </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar-fill" id="overall-progress-fill" style="width: 0%;"></div>
                     </div>
                     <div class="progress-details">
                         <div class="progress-stat">
@@ -717,11 +695,6 @@
                                     <span id="math-progress-text">0% Complete</span>
                                 </div>
                             </div>
-                            <div class="subject-progress">
-                                <div class="subject-progress-bar">
-                                    <div class="subject-progress-fill" id="math-progress-fill" style="width: 0%;"></div>
-                                </div>
-                            </div>
                             <div class="quiz-list">
                                 <div class="quiz-item" onclick="startQuiz('math', 'algebra-basics')">
                                     <div class="quiz-info">
@@ -765,11 +738,6 @@
                                     <span id="physics-progress-text">0% Complete</span>
                                 </div>
                             </div>
-                            <div class="subject-progress">
-                                <div class="subject-progress-bar">
-                                    <div class="subject-progress-fill" id="physics-progress-fill" style="width: 0%;"></div>
-                                </div>
-                            </div>
                             <div class="quiz-list">
                                 <div class="quiz-item" onclick="startQuiz('physics', 'mechanics-basics')">
                                     <div class="quiz-info">
@@ -804,11 +772,6 @@
                                 <div class="subject-info">
                                     <h3>Chemistry</h3>
                                     <span id="chemistry-progress-text">0% Complete</span>
-                                </div>
-                            </div>
-                            <div class="subject-progress">
-                                <div class="subject-progress-bar">
-                                    <div class="subject-progress-fill" id="chemistry-progress-fill" style="width: 0%;"></div>
                                 </div>
                             </div>
                             <div class="quiz-list">
@@ -847,11 +810,6 @@
                                     <span id="biology-progress-text">0% Complete</span>
                                 </div>
                             </div>
-                            <div class="subject-progress">
-                                <div class="subject-progress-bar">
-                                    <div class="subject-progress-fill" id="biology-progress-fill" style="width: 0%;"></div>
-                                </div>
-                            </div>
                             <div class="quiz-list">
                                 <div class="quiz-item" onclick="startQuiz('biology', 'cell-biology')">
                                     <div class="quiz-info">
@@ -886,11 +844,6 @@
                                 <div class="subject-info">
                                     <h3>History</h3>
                                     <span id="history-progress-text">0% Complete</span>
-                                </div>
-                            </div>
-                            <div class="subject-progress">
-                                <div class="subject-progress-bar">
-                                    <div class="subject-progress-fill" id="history-progress-fill" style="width: 0%;"></div>
                                 </div>
                             </div>
                             <div class="quiz-list">

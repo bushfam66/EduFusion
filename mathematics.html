@@ -59,14 +59,6 @@
                 <li>
                     <i class="fas fa-tachometer-alt"></i>
                     <span><a href="index.html" style="color: inherit; text-decoration: none;">Dashboard</a></span>
-                </li></li>
-                <li>
-                    <i class="fas fa-graduation-cap"></i>
-                    <span><a href="subjects-taken.html" style="color: inherit; text-decoration: none;">Subjects Taken</a></span>
-                </li>
-                <li>
-                    <i class="fas fa-chart-line"></i>
-                    <span><a href="overall-progress.html" style="color: inherit; text-decoration: none;">Progress</a></span>
                 </li>
                 <li>
                     <i class="fas fa-cog"></i>
@@ -444,15 +436,7 @@
                     <button>Next Page</button>
                 </div>
             </section>
-            
-            <!-- Quiz Report Card -->
-            <section class="report-card" id="report-card" style="margin-top: 2rem; padding: 2rem; background-color: #f9f9f9; border-radius: 10px;">
-                <h2>Quiz Report Card & Analysis</h2>
-                <p>Get detailed analysis of your quiz performance with corrections and improvement suggestions.</p>
-                <div id="report-content"></div>
-                <button id="generate-report" style="background-color: #2196F3; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; margin-top: 1rem;">Generate Report</button>
-                <p style="margin-top: 1rem; font-size: 0.9em; color: #666;">For personalized AI analysis, ask Microsoft Copilot: "Analyze my EduFusion math quiz mistakes"</p>
-            </section>
+
             
             <!-- Quiz Modal -->
             <div id="quiz-modal" class="modal">
@@ -590,9 +574,6 @@
                 reportContent.innerHTML = '<p>No quiz answers found. Take some quizzes first!</p>';
             }
         }
-
-        // Event listener for generate report button
-        document.getElementById('generate-report').addEventListener('click', generateReport);
 
         // Page navigation
         let currentPage = 1;
