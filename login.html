@@ -167,6 +167,10 @@
                 }
             } catch (error) {
                 console.error('Error initializing database:', error);
+                const loginError = document.getElementById('loginError');
+                if (loginError) {
+                    loginError.textContent = 'Database failed to initialize. Please reopen the page.';
+                }
             }
         }
 
@@ -216,15 +220,18 @@
         }
 
         // Password strength indicator
-        document.getElementById('registerPassword')?.addEventListener('input', function(e) {
-            const password = e.target.value;
-            const strength = checkPasswordStrength(password);
-            const indicator = document.getElementById('strengthIndicator');
-            const text = document.getElementById('strengthText');
-            
-            indicator.className = `strength-level ${strength}`;
-            text.textContent = strength.charAt(0).toUpperCase() + strength.slice(1);
-        });
+        const registerPasswordInput = document.getElementById('registerPassword');
+        if (registerPasswordInput) {
+            registerPasswordInput.addEventListener('input', function(e) {
+                const password = e.target.value;
+                const strength = checkPasswordStrength(password);
+                const indicator = document.getElementById('strengthIndicator');
+                const text = document.getElementById('strengthText');
+                
+                indicator.className = `strength-level ${strength}`;
+                text.textContent = strength.charAt(0).toUpperCase() + strength.slice(1);
+            });
+        }
 
         function checkPasswordStrength(password) {
             if (password.length === 0) return 'weak';

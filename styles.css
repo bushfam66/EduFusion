@@ -1,5 +1,17 @@
 /* Modern Dashboard Styles */
 
+:root {
+    --primary-purple: #667eea;
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --text-primary: #1f2937;
+    --text-secondary: #64748b;
+    --bg-primary: #f8fafc;
+    --border-color: rgba(226, 232, 240, 0.8);
+    --shadow-heavy: 0 20px 60px rgba(102, 126, 234, 0.15);
+    --shadow-medium: 0 14px 45px rgba(102, 126, 234, 0.13);
+    --shadow-light: 0 12px 40px rgba(102, 126, 234, 0.12);
+}
+
 /* Dashboard Layout */
 .dashboard-layout {
     display: flex;
@@ -1320,11 +1332,6 @@
         color: #4338ca;
     }
 
-    padding: 0.95rem 1rem;
-    border-radius: 14px;
-    border: 1px solid #e2e8f0;
-    background: #ffffff;
-}
 
 .admission-form-card .subject-checkbox:hover {
     background: #eef2ff;
@@ -2143,11 +2150,12 @@
     .btn-secondary {
         background: transparent;
         color: #764ba2;
+    }
 
-.btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-}
+    .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+    }
 
 /* Metrics Grid */
 .metrics-grid {
@@ -3576,6 +3584,8 @@ html {
         background: var(--gradient-primary);
         border-color: var(--primary-purple);
         color: #1e293b;
+    }
+
 @media (max-width: 768px) {
     .profile-hero {
         flex-direction: column;

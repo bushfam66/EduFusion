@@ -2,7 +2,7 @@
 class EduFusionDB {
     constructor() {
         this.dbName = 'EduFusionDB';
-        this.version = 1;
+        this.version = 2;
         this.db = null;
     }
 
@@ -16,54 +16,83 @@ class EduFusionDB {
                 reject(request.error);
             };
 
-            request.onsuccess = () => {
-                this.db = request.result;
-                console.log('Database initialized successfully');
-                resolve(this.db);
+            request.onblocked = () => {
+                console.warn('Database open blocked by another connection.');
             };
 
             request.onupgradeneeded = (event) => {
                 const db = event.target.result;
+                this.createStores(db);
+            };
 
-                // Users store
-                if (!db.objectStoreNames.contains('users')) {
-                    const usersStore = db.createObjectStore('users', { keyPath: 'id', autoIncrement: true });
-                    usersStore.createIndex('email', 'email', { unique: true });
-                    usersStore.createIndex('role', 'role', { unique: false });
+            request.onsuccess = () => {
+                this.db = request.result;
+
+                const requiredStores = ['users', 'pendingAdmissions', 'assignments', 'submissions', 'recommendations'];
+                const missingStores = requiredStores.filter(store => !this.db.objectStoreNames.contains(store));
+
+                if (missingStores.length > 0) {
+                    const upgradeVersion = this.db.version + 1;
+                    this.db.close();
+
+                    const upgradeRequest = indexedDB.open(this.dbName, upgradeVersion);
+
+                    upgradeRequest.onerror = () => {
+                        console.error('Database upgrade error:', upgradeRequest.error);
+                        reject(upgradeRequest.error);
+                    };
+
+                    upgradeRequest.onupgradeneeded = (event) => {
+                        const db = event.target.result;
+                        this.createStores(db);
+                    };
+
+                    upgradeRequest.onsuccess = () => {
+                        this.db = upgradeRequest.result;
+                        console.log('Database upgraded and initialized successfully');
+                        resolve(this.db);
+                    };
+
+                    return;
                 }
 
-                // Pending admissions store
-                if (!db.objectStoreNames.contains('pendingAdmissions')) {
-                    const pendingStore = db.createObjectStore('pendingAdmissions', { keyPath: 'id', autoIncrement: true });
-                    pendingStore.createIndex('email', 'email', { unique: true });
-                    pendingStore.createIndex('submittedBy', 'submittedBy', { unique: false });
-                    pendingStore.createIndex('status', 'status', { unique: false });
-                }
-
-                // Assignments store
-                if (!db.objectStoreNames.contains('assignments')) {
-                    const assignmentsStore = db.createObjectStore('assignments', { keyPath: 'id', autoIncrement: true });
-                    assignmentsStore.createIndex('assignedByEmail', 'assignedByEmail', { unique: false });
-                    assignmentsStore.createIndex('studentEmail', 'studentEmail', { unique: false });
-                }
-
-                // Submissions store
-                if (!db.objectStoreNames.contains('submissions')) {
-                    const submissionsStore = db.createObjectStore('submissions', { keyPath: 'id', autoIncrement: true });
-                    submissionsStore.createIndex('teacherEmail', 'teacherEmail', { unique: false });
-                    submissionsStore.createIndex('studentEmail', 'studentEmail', { unique: false });
-                }
-
-                // Recommendations store
-                if (!db.objectStoreNames.contains('recommendations')) {
-                    const recommendationsStore = db.createObjectStore('recommendations', { keyPath: 'id', autoIncrement: true });
-                    recommendationsStore.createIndex('fromEmail', 'fromEmail', { unique: false });
-                    recommendationsStore.createIndex('toEmail', 'toEmail', { unique: false });
-                }
-
-                console.log('Database schema created');
+                console.log('Database initialized successfully');
+                resolve(this.db);
             };
         });
+    }
+
+    createStores(db) {
+        if (!db.objectStoreNames.contains('users')) {
+            const usersStore = db.createObjectStore('users', { keyPath: 'id', autoIncrement: true });
+            usersStore.createIndex('email', 'email', { unique: true });
+            usersStore.createIndex('role', 'role', { unique: false });
+        }
+
+        if (!db.objectStoreNames.contains('pendingAdmissions')) {
+            const pendingStore = db.createObjectStore('pendingAdmissions', { keyPath: 'id', autoIncrement: true });
+            pendingStore.createIndex('email', 'email', { unique: true });
+            pendingStore.createIndex('submittedBy', 'submittedBy', { unique: false });
+            pendingStore.createIndex('status', 'status', { unique: false });
+        }
+
+        if (!db.objectStoreNames.contains('assignments')) {
+            const assignmentsStore = db.createObjectStore('assignments', { keyPath: 'id', autoIncrement: true });
+            assignmentsStore.createIndex('assignedByEmail', 'assignedByEmail', { unique: false });
+            assignmentsStore.createIndex('studentEmail', 'studentEmail', { unique: false });
+        }
+
+        if (!db.objectStoreNames.contains('submissions')) {
+            const submissionsStore = db.createObjectStore('submissions', { keyPath: 'id', autoIncrement: true });
+            submissionsStore.createIndex('teacherEmail', 'teacherEmail', { unique: false });
+            submissionsStore.createIndex('studentEmail', 'studentEmail', { unique: false });
+        }
+
+        if (!db.objectStoreNames.contains('recommendations')) {
+            const recommendationsStore = db.createObjectStore('recommendations', { keyPath: 'id', autoIncrement: true });
+            recommendationsStore.createIndex('fromEmail', 'fromEmail', { unique: false });
+            recommendationsStore.createIndex('toEmail', 'toEmail', { unique: false });
+        }
     }
 
     // Generic method to add data to a store
