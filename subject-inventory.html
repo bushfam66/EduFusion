@@ -21,11 +21,59 @@
 
         <main class="student-content">
             <section class="student-section">
-                <h2>No Subjects Available</h2>
-                <p>The subject inventory is currently empty. Once your teacher adds subjects, they will appear here for selection and review.</p>
-                <div class="student-section-card student-empty-card">
-                    <h3>Subject inventory is currently empty</h3>
-                    <p>There are no subject entries to display right now.</p>
+                <h2>Available Subjects</h2>
+                <p>Select a subject to explore educational materials and resources</p>
+                
+                <div class="subject-cards">
+                    <!-- Biology Card -->
+                    <div class="subject-card biology-card">
+                        <div class="subject-card-header">
+                            <div class="subject-icon-container">
+                                <i class="fas fa-flask-vial biology-icon"></i>
+                            </div>
+                            <h3 class="subject-title">Biology</h3>
+                            <p class="subject-subtitle">Grade 10</p>
+                        </div>
+                        <div class="subject-card-content">
+                            <div class="subject-description">
+                                <p>Explore the fascinating world of living organisms, cellular biology, ecology, and human systems.</p>
+                            </div>
+                            
+                            <div class="subject-stats">
+                                <div class="stat">
+                                    <span class="stat-number">12</span>
+                                    <span class="stat-label">Chapters</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">48</span>
+                                    <span class="stat-label">Topics</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">156</span>
+                                    <span class="stat-label">Pages</span>
+                                </div>
+                            </div>
+
+                            <div class="subject-chapters">
+                                <h4>Key Topics:</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Cell Structure & Function</li>
+                                    <li><i class="fas fa-check-circle"></i> Genetics & Evolution</li>
+                                    <li><i class="fas fa-check-circle"></i> Ecology & Ecosystems</li>
+                                    <li><i class="fas fa-check-circle"></i> Human Body Systems</li>
+                                </ul>
+                            </div>
+
+                            <div class="subject-actions">
+                                <button class="btn-subject-primary" onclick="window.location.href='biology-reader.html'">
+                                    <i class="fas fa-book"></i> View Materials
+                                </button>
+                                <button class="btn-subject-secondary" onclick="alert('Start Quiz')">
+                                    <i class="fas fa-brain"></i> Take Quiz
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>

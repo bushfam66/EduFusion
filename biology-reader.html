@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Biology Textbook Reader</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="textbook-reader.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="student-mode theme-plain textbook-reader">
+    <div class="textbook-container">
+        <!-- Header -->
+        <header class="textbook-header">
+            <div class="header-left">
+                <button class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+                <h1>Biology Grade 10</h1>
+            </div>
+            <div class="header-right">
+                <button class="btn-icon text-to-speech-btn" title="Text to Speech" onclick="toggleTextToSpeech()">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                <button class="btn-icon notes-panel-btn" title="My Notes" onclick="toggleNotesPanel()">
+                    <i class="fas fa-sticky-note"></i>
+                </button>
+                <button class="btn-icon settings-btn" title="Settings" onclick="toggleSettings()">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="textbook-main">
+            <!-- Textbook Pages -->
+            <div class="textbook-pages-container">
+                <div class="textbook-pages" id="textbookPages">
+                    <!-- Page 1: Cell Structure & Function -->
+                    <div class="textbook-page" data-page="1">
+                        <div class="page-header">
+                            <span class="chapter-num">Chapter 1</span>
+                            <h2>Cell Structure & Function</h2>
+                        </div>
+                        <div class="page-content" id="pageContent1">
+                            <p><strong>Introduction to Cells</strong></p>
+                            <p>The cell is the basic unit of life. All living organisms are composed of one or more cells. Cells arise from pre-existing cells through cell division. There are two main types of cells: prokaryotic and eukaryotic.</p>
+                            
+                            <p><strong>Types of Cells</strong></p>
+                            <p><span class="highlightable">Prokaryotic cells lack a membrane-bound nucleus and organelles</span>. They are typically smaller and simpler than eukaryotic cells. Examples include bacteria and archaea.</p>
+                            
+                            <p><span class="highlightable">Eukaryotic cells contain a membrane-bound nucleus and various organelles</span>. These cells are larger and more complex. They are found in animals, plants, and fungi.</p>
+                            
+                            <p><strong>Cell Components</strong></p>
+                            <ul>
+                                <li><strong>Cell Membrane:</strong> <span class="highlightable">A semi-permeable barrier that controls the movement of substances in and out of the cell</span></li>
+                                <li><strong>Nucleus:</strong> <span class="highlightable">Contains the cell's DNA and controls cell activities</span></li>
+                                <li><strong>Mitochondria:</strong> <span class="highlightable">The powerhouse of the cell, responsible for energy production</span></li>
+                                <li><strong>Ribosomes:</strong> <span class="highlightable">Sites of protein synthesis</span></li>
+                                <li><strong>Endoplasmic Reticulum:</strong> <span class="highlightable">Network of membranes involved in protein and lipid synthesis</span></li>
+                                <li><strong>Golgi Apparatus:</strong> <span class="highlightable">Modifies and packages proteins for transport</span></li>
+                            </ul>
+                            
+                            <p><strong>Cell Division</strong></p>
+                            <p>Cells grow and divide through two main processes: mitosis and meiosis. <span class="highlightable">Mitosis produces two identical daughter cells for growth and repair</span>, while <span class="highlightable">meiosis produces four genetically different cells for sexual reproduction</span>.</p>
+                        </div>
+                        <div class="page-footer">
+                            <span class="page-number">Page 1</span>
+                        </div>
+                    </div>
+
+                    <!-- Page 2: Photosynthesis -->
+                    <div class="textbook-page" data-page="2">
+                        <div class="page-header">
+                            <span class="chapter-num">Chapter 2</span>
+                            <h2>Photosynthesis & Energy</h2>
+                        </div>
+                        <div class="page-content" id="pageContent2">
+                            <p><strong>Photosynthesis Overview</strong></p>
+                            <p><span class="highlightable">Photosynthesis is the process by which plants convert light energy into chemical energy stored in glucose</span>. This process occurs primarily in the leaves of plants.</p>
+                            
+                            <p><strong>Light-Dependent Reactions</strong></p>
+                            <p>These reactions occur in the thylakoid membranes of the chloroplast. <span class="highlightable">Light energy is absorbed by chlorophyll and used to split water molecules, releasing oxygen and electrons</span>. The electrons are used to generate ATP and NADPH.</p>
+                            
+                            <p><strong>Light-Independent Reactions (Calvin Cycle)</strong></p>
+                            <p>The Calvin Cycle occurs in the stroma of the chloroplast. <span class="highlightable">Carbon dioxide is fixed into 3-phosphoglycerate, which is then reduced using ATP and NADPH</span>. This produces glucose, which is used by the plant for energy and growth.</p>
+                            
+                            <p><strong>Factors Affecting Photosynthesis</strong></p>
+                            <ul>
+                                <li><strong>Light Intensity:</strong> More light increases photosynthesis rate up to a saturation point</li>
+                                <li><strong>Temperature:</strong> Enzymes work optimally at around 25-35°C</li>
+                                <li><strong>CO₂ Concentration:</strong> Higher CO₂ increases photosynthesis rate</li>
+                                <li><strong>Water Availability:</strong> <span class="highlightable">Essential for the light-dependent reactions</span></li>
+                            </ul>
+                        </div>
+                        <div class="page-footer">
+                            <span class="page-number">Page 2</span>
+                        </div>
+                    </div>
+
+                    <!-- Page 3: Genetics -->
+                    <div class="textbook-page" data-page="3">
+                        <div class="page-header">
+                            <span class="chapter-num">Chapter 3</span>
+                            <h2>Genetics & Heredity</h2>
+                        </div>
+                        <div class="page-content" id="pageContent3">
+                            <p><strong>DNA Structure</strong></p>
+                            <p><span class="highlightable">DNA (deoxyribonucleic acid) is a double helix molecule composed of nucleotides</span>. Each nucleotide contains a phosphate group, a sugar molecule (deoxyribose), and a nitrogenous base.</p>
+                            
+                            <p><strong>Inheritance</strong></p>
+                            <p><span class="highlightable">Genes are segments of DNA that code for proteins and traits</span>. They are passed from parents to offspring through sexual reproduction. <span class="highlightable">Alleles are different versions of the same gene</span>.</p>
+                            
+                            <p><strong>Mendelian Genetics</strong></p>
+                            <p>Gregor Mendel discovered the principles of inheritance through his experiments with pea plants. <span class="highlightable">The law of segregation states that alleles separate during gamete formation</span>. <span class="highlightable">The law of independent assortment states that different genes are inherited independently</span>.</p>
+                            
+                            <p><strong>Dominant and Recessive Traits</strong></p>
+                            <p><span class="highlightable">Dominant alleles hide the effect of recessive alleles</span>. An organism with two dominant alleles (DD) or one dominant and one recessive (Dd) shows the dominant trait. Only organisms with two recessive alleles (dd) show the recessive trait.</p>
+                            
+                            <p><strong>Mitosis vs Meiosis</strong></p>
+                            <p><span class="highlightable">Mitosis produces two identical diploid cells for growth and repair</span>, while <span class="highlightable">meiosis produces four genetically different haploid cells for sexual reproduction</span>.</p>
+                        </div>
+                        <div class="page-footer">
+                            <span class="page-number">Page 3</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page Indicators -->
+                <div class="page-indicators">
+                    <button class="page-dot" data-page="1" onclick="goToPage(1)"></button>
+                    <button class="page-dot" data-page="2" onclick="goToPage(2)"></button>
+                    <button class="page-dot" data-page="3" onclick="goToPage(3)"></button>
+                </div>
+
+                <!-- Navigation Arrows -->
+                <button class="nav-arrow nav-prev" onclick="previousPage()" title="Previous Page">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="nav-arrow nav-next" onclick="nextPage()" title="Next Page">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <!-- Swipe Hint -->
+                <div class="swipe-hint">Swipe left/right to navigate</div>
+            </div>
+
+            <!-- Sidebar: Videos & Resources -->
+            <aside class="textbook-sidebar">
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-video"></i> Videos</h3>
+                    <div class="videos-container" id="videosContainer">
+                        <div class="video-placeholder">
+                            <i class="fas fa-play-circle"></i>
+                            <p>No videos yet</p>
+                        </div>
+                    </div>
+                    <button class="btn-add-video" onclick="showVideoUploadModal()" title="Add Video">
+                        <i class="fas fa-plus"></i> Add Video
+                    </button>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-lightbulb"></i> Key Points</h3>
+                    <div class="key-points">
+                        <div class="key-point">
+                            <i class="fas fa-check"></i>
+                            <p>Cells are the basic unit of life</p>
+                        </div>
+                        <div class="key-point">
+                            <i class="fas fa-check"></i>
+                            <p>Photosynthesis converts light to chemical energy</p>
+                        </div>
+                        <div class="key-point">
+                            <i class="fas fa-check"></i>
+                            <p>DNA carries genetic information</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Sticky Notes Panel -->
+        <div class="notes-panel" id="notesPanel">
+            <div class="notes-header">
+                <h3>My Notes</h3>
+                <button class="close-panel" onclick="toggleNotesPanel()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="notes-toolbar">
+                <button class="tool-btn pen-tool" title="Pen Tool" onclick="switchNoteMode('pen')">
+                    <i class="fas fa-pen"></i>
+                </button>
+                <button class="tool-btn text-tool active" title="Text Tool" onclick="switchNoteMode('text')">
+                    <i class="fas fa-keyboard"></i>
+                </button>
+                <button class="tool-btn clear-btn" title="Clear Notes" onclick="clearCurrentNote()">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            <div class="notes-list" id="notesList">
+                <!-- Sticky notes will be added here -->
+            </div>
+            <button class="btn-new-note" onclick="createNewNote()">
+                <i class="fas fa-plus"></i> New Note
+            </button>
+        </div>
+
+        <!-- Text to Speech Controls -->
+        <div class="tts-controls" id="ttsControls">
+            <div class="tts-header">
+                <h3>Text to Speech</h3>
+                <button class="close-btn" onclick="toggleTextToSpeech()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="tts-buttons">
+                <button class="btn-tts" onclick="speakCurrentPage()">
+                    <i class="fas fa-play"></i> Read Aloud
+                </button>
+                <button class="btn-tts" onclick="pauseSpeech()">
+                    <i class="fas fa-pause"></i> Pause
+                </button>
+                <button class="btn-tts" onclick="stopSpeech()">
+                    <i class="fas fa-stop"></i> Stop
+                </button>
+            </div>
+            <div class="tts-settings">
+                <label>Speed:</label>
+                <input type="range" id="ttsSpeed" min="0.5" max="2" step="0.1" value="1">
+                <label>Pitch:</label>
+                <input type="range" id="ttsPitch" min="0.5" max="2" step="0.1" value="1">
+            </div>
+        </div>
+
+        <!-- Settings Panel -->
+        <div class="settings-panel" id="settingsPanel">
+            <div class="settings-header">
+                <h3>Settings</h3>
+                <button class="close-btn" onclick="toggleSettings()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="settings-group">
+                <label><i class="fas fa-text-height"></i> Font Size</label>
+                <div class="font-size-controls">
+                    <button onclick="changeFontSize('decrease')">A-</button>
+                    <span id="fontSizeDisplay">16px</span>
+                    <button onclick="changeFontSize('increase')">A+</button>
+                </div>
+            </div>
+            <div class="settings-group">
+                <label><i class="fas fa-moon"></i> Theme</label>
+                <select id="themeSelect" onchange="changeTheme(this.value)">
+                    <option value="intergalactic">Intergalactic</option>
+                    <option value="plain" selected>Plain</option>
+                    <option value="pink">Pink</option>
+                    <option value="dark">Dark</option>
+                </select>
+            </div>
+            <div class="settings-group">
+                <label><i class="fas fa-palette"></i> Line Spacing</label>
+                <div class="line-spacing-controls">
+                    <button onclick="changeLineSpacing(1.4)">Single</button>
+                    <button onclick="changeLineSpacing(1.6)">1.5x</button>
+                    <button onclick="changeLineSpacing(2)">Double</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Upload Modal -->
+        <div class="modal" id="videoModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Add Video</h2>
+                    <button class="close-modal" onclick="closeVideoModal()"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="video-input-group">
+                        <label>Video URL:</label>
+                        <input type="text" id="videoUrl" placeholder="Enter YouTube or video URL">
+                    </div>
+                    <div class="video-input-group">
+                        <label>Video Description:</label>
+                        <textarea id="videoDescription" placeholder="Enter video description" rows="3"></textarea>
+                    </div>
+                    <div class="video-input-group">
+                        <label>Or Upload File:</label>
+                        <input type="file" id="videoFile" accept="video/*">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeVideoModal()">Cancel</button>
+                    <button class="btn-submit" onclick="saveVideo()">Add Video</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="biology-reader.js"></script>
+    <script src="theme.js"></script>
+</body>
+</html>
