@@ -11,7 +11,7 @@
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
-                <a href="index.html"><h1>EduFusion</h1></a>
+                <h1>EduFusion</h1>
                 <p>Your Learning Companion</p>
             </div>
 
@@ -215,9 +215,9 @@
                         } else if (user.role === 'administrator') {
                             window.location.href = 'admin-dashboard.html';
                         } else if (user.profileComplete !== true) {
-                            window.location.href = 'account-setup.html';
+                            window.location.href = 'student.html';
                         } else {
-                            window.location.href = 'index.html';
+                            window.location.href = 'student.html';
                         }
                     }, 1500);
                 } else {
@@ -250,10 +250,8 @@
                     window.location.href = 'teacher-dashboard.html';
                 } else if (user.role === 'administrator') {
                     window.location.href = 'admin-dashboard.html';
-                } else if (user.profileComplete !== true) {
-                    window.location.href = 'account-setup.html';
                 } else {
-                    window.location.href = 'index.html';
+                    window.location.href = 'student.html';
                 }
             }
         }

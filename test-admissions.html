@@ -10,7 +10,7 @@
     <div class="container">
         <header class="header">
             <div class="logo">
-                <a href="index.html"><h1>EduFusion</h1></a>
+                <a href="#" onclick="goToHome()"><h1>EduFusion</h1></a>
                 <p>Admissions System Test</p>
             </div>
         </header>
@@ -59,6 +59,21 @@
 
     <script src="database.js"></script>
     <script>
+        function goToHome() {
+            const user = JSON.parse(localStorage.getItem('edufusion_current_user') || 'null');
+            if (user) {
+                if (user.role === 'teacher') {
+                    window.location.href = 'teacher-dashboard.html';
+                } else if (user.role === 'administrator') {
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    window.location.href = 'student.html';
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+
         let testTeacher = null;
         let testAdmin = null;
         let testAdmissionId = null;

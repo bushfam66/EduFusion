@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFusion - Student Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="student-mode theme-intergalactic">
+    <div class="student-dashboard">
+        <header class="student-header">
+            <div>
+                <h1>Welcome, <span id="studentName">Student</span></h1>
+                <p class="student-role">Learner Dashboard</p>
+            </div>
+            <div class="student-header-actions">
+                <div class="theme-switcher" role="group" aria-label="Theme modes">
+                    <button type="button" data-theme="intergalactic" class="active">Galaxy</button>
+                    <button type="button" data-theme="plain">Plain</button>
+                    <button type="button" data-theme="pink">Pink</button>
+                    <button type="button" data-theme="dark">Dark</button>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+
+        <nav class="student-menu-bar">
+            <a href="#assignments">Assignments</a>
+            <a href="subject-inventory.html">Subjects</a>
+            <a href="#notes">Notes by Teacher</a>
+            <a href="#progress">Progress</a>
+        </nav>
+
+        <main class="student-content">
+            <section id="assignments" class="student-section">
+                <h2>Assignments</h2>
+                <p>View your active assignments here. Your teacher can assign work and track completion.</p>
+                <div class="student-card-grid">
+                    <div class="student-section-card">
+                        <h3>No assignments yet</h3>
+                        <p>New assignments will appear here once your teacher posts them.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="subjects" class="student-section">
+                <h2>Subjects</h2>
+                <p>There are no available subjects in your current roster.</p>
+                <div class="student-section-card student-empty-card">
+                    <h3>No subjects are available</h3>
+                    <p>Your subject list is empty right now. When your teacher adds subjects, they will appear here.</p>
+                </div>
+            </section>
+
+            <section id="notes" class="student-section">
+                <h2>Notes by Teacher</h2>
+                <p>Teacher feedback and notes will appear in this section.</p>
+                <div class="student-section-card">
+                    <p>No teacher notes have been shared yet.</p>
+                </div>
+            </section>
+
+            <section id="progress" class="student-section">
+                <h2>Progress</h2>
+                <p>Track your learning progress, recent activity, and mastery.</p>
+                <div class="student-progress-summary">
+                    <div class="progress-item">
+                        <h3>Overall Completion</h3>
+                        <p>0%</p>
+                    </div>
+                    <div class="progress-item">
+                        <h3>Assignments Completed</h3>
+                        <p>0 / 0</p>
+                    </div>
+                    <div class="progress-item">
+                        <h3>Teacher Feedback</h3>
+                        <p>None yet</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        function applyStudentTheme(theme) {
+            const body = document.body;
+            body.classList.remove('theme-intergalactic', 'theme-plain', 'theme-pink', 'theme-dark');
+            body.classList.add(`theme-${theme}`);
+            localStorage.setItem('studentThemeMode', theme);
+
+            document.querySelectorAll('.theme-switcher button').forEach(button => {
+                button.classList.toggle('active', button.dataset.theme === theme);
+            });
+        }
+
+        function initializeStudentTheme() {
+            const savedTheme = localStorage.getItem('studentThemeMode') || 'intergalactic';
+            applyStudentTheme(savedTheme);
+
+            document.querySelectorAll('.theme-switcher button').forEach(button => {
+                button.addEventListener('click', () => applyStudentTheme(button.dataset.theme));
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = checkUserLogin();
+            if (!user) return;
+
+            document.getElementById('studentName').textContent = user.name || 'Student';
+
+            document.querySelectorAll('.student-menu-bar a').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    link.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+                    });
+                }
+            });
+
+            initializeStudentTheme();
+        });
+    </script>
+</body>
+</html>

@@ -13,7 +13,7 @@
         <aside class="dashboard-sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo">
-                    <a href="index.html"><h1>EduFusion</h1></a>
+                    <a href="#" onclick="goToHome()"><h1>EduFusion</h1></a>
                 </div>
                 <button class="sidebar-toggle" id="sidebarToggle">
                     <i class="fas fa-bars"></i>
@@ -279,41 +279,18 @@
             return email.replace(/[^a-zA-Z0-9_-]/g, '_');
         }
 
-        async function saveStudentPassword(email, safeEmail) {
-            const input = document.getElementById(`newPasswordInput_${safeEmail}`);
-            const feedback = document.getElementById(`passwordFeedback_${safeEmail}`);
-            const newPassword = input ? input.value.trim() : '';
-
-            if (!newPassword) {
-                if (feedback) feedback.textContent = 'Please enter a new password.';
-                return;
-            }
-            if (newPassword.length < 6) {
-                if (feedback) feedback.textContent = 'Password must be at least 6 characters.';
+        async function deleteStudent(studentId, studentName) {
+            if (!confirm(`Are you sure you want to delete the student "${studentName}"? This action cannot be undone.`)) {
                 return;
             }
 
             try {
-                const allUsers = await getUsers();
-                const student = allUsers.find(u => u.email === email && u.role === 'student');
-                if (!student) {
-                    if (feedback) feedback.textContent = 'Student not found.';
-                    return;
-                }
-
-                student.password = newPassword;
-                await edufusionDB.updateUser(student);
-                if (feedback) {
-                    feedback.textContent = 'Password updated successfully.';
-                    feedback.className = 'success-message';
-                }
+                await edufusionDB.deleteData('users', parseInt(studentId));
+                alert(`Student "${studentName}" has been deleted successfully.`);
                 await renderTeacherDashboard();
             } catch (error) {
-                console.error('Error saving student password:', error);
-                if (feedback) {
-                    feedback.textContent = 'Unable to update password. Try again.';
-                    feedback.className = 'error-message';
-                }
+                console.error('Error deleting student:', error);
+                alert('Unable to delete student. Please try again.');
             }
         }
 
@@ -330,6 +307,21 @@
             if (panel) panel.style.display = 'none';
             if (input) input.value = '';
             if (feedback) feedback.textContent = '';
+        }
+
+        async function deleteStudent(studentId, studentName) {
+            if (!confirm(`Are you sure you want to delete the student "${studentName}"? This action cannot be undone.`)) {
+                return;
+            }
+
+            try {
+                await edufusionDB.deleteData('users', parseInt(studentId));
+                alert(`Student "${studentName}" has been deleted successfully.`);
+                await renderTeacherDashboard();
+            } catch (error) {
+                console.error('Error deleting student:', error);
+                alert('Unable to delete student. Please try again.');
+            }
         }
 
         async function saveAssignments(assignments) {
@@ -418,11 +410,26 @@
                 if (user.role === 'administrator') {
                     window.location.href = 'admin-dashboard.html';
                 } else {
-                    window.location.href = 'index.html';
+                    window.location.href = 'student.html';
                 }
                 return null;
             }
             return user;
+        }
+
+        function goToHome() {
+            const user = getCurrentUser();
+            if (user) {
+                if (user.role === 'teacher') {
+                    window.location.href = 'teacher-dashboard.html';
+                } else if (user.role === 'administrator') {
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    window.location.href = 'student.html';
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
         }
 
 async function renderTeacherDashboard() {
@@ -526,6 +533,7 @@ async function renderTeacherDashboard() {
                             <p style="margin-top: 0.5rem;">Role: Learner</p>
                             <div class="subject-actions">
                                 <button type="button" class="btn-secondary" onclick="togglePasswordReset('${safeEmail}')">Change Password</button>
+                                <button type="button" class="btn-danger" onclick="deleteStudent('${student.id}', '${student.name}')">Delete Student</button>
                             </div>
                             <div class="password-reset-panel" id="passwordPanel_${safeEmail}" style="display: none;">
                                 <div class="form-group">

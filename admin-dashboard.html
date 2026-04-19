@@ -13,7 +13,7 @@
         <aside class="dashboard-sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo">
-                    <a href="index.html"><h1>EduFusion</h1></a>
+                    <a href="#" onclick="goToHome()"><h1>EduFusion</h1></a>
                 </div>
                 <button class="sidebar-toggle" id="sidebarToggle">
                     <i class="fas fa-bars"></i>
@@ -360,11 +360,26 @@
                 if (user.role === 'teacher') {
                     window.location.href = 'teacher-dashboard.html';
                 } else {
-                    window.location.href = 'index.html';
+                    window.location.href = 'student.html';
                 }
                 return null;
             }
             return user;
+        }
+
+        function goToHome() {
+            const user = getCurrentUser();
+            if (user) {
+                if (user.role === 'teacher') {
+                    window.location.href = 'teacher-dashboard.html';
+                } else if (user.role === 'administrator') {
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    window.location.href = 'student.html';
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
         }
 
 async function renderAdminDashboard() {

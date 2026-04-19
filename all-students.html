@@ -10,10 +10,10 @@
 <body>
     <header class="top-nav">
         <div class="logo">
-            <a href="index.html"><h1>EduFusion</h1></a>
+            <a href="#" onclick="goToHome()"><h1>EduFusion</h1></a>
         </div>
         <nav class="nav-links">
-            <a href="index.html">Home</a>
+            <a href="#" onclick="goToHome()">Home</a>
             <div class="dropdown">
                 <a href="#" class="dropbtn">Subjects <i class="fas fa-chevron-down"></i></a>
                 <div class="dropdown-content">
@@ -56,7 +56,7 @@
             <ul class="sidebar-menu">
                 <li>
                     <i class="fas fa-home"></i>
-                    <span><a href="index.html" style="color: inherit; text-decoration: none;">Dashboard</a></span>
+                    <span><a href="#" onclick="goToHome()" style="color: inherit; text-decoration: none;">Dashboard</a></span>
                 </li>
                 <li class="active">
                     <i class="fas fa-users"></i>
@@ -123,6 +123,21 @@
         function getCurrentUser() {
             const currentUser = localStorage.getItem('edufusion_current_user');
             return currentUser ? JSON.parse(currentUser) : null;
+        }
+
+        function goToHome() {
+            const user = getCurrentUser();
+            if (user) {
+                if (user.role === 'teacher') {
+                    window.location.href = 'teacher-dashboard.html';
+                } else if (user.role === 'administrator') {
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    window.location.href = 'student.html';
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
         }
 
         function logout() {
