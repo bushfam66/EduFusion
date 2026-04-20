@@ -32,6 +32,7 @@ function initializeReader() {
     setupTouchGestures();
     setupHighlighting();
     updateVideoControls();
+    initializeTextToSpeech();
 }
 
 function setupEventListeners() {
@@ -375,37 +376,133 @@ function toggleTextToSpeech() {
 }
 
 function speakCurrentPage() {
+    // Check if speech synthesis is supported
+    if (!('speechSynthesis' in window)) {
+        alert('Text-to-Speech is not supported on this device.');
+        return;
+    }
+
     stopSpeech();
     
     const pageContent = document.getElementById(`pageContent${currentPage}`);
-    if (!pageContent) return;
+    if (!pageContent) {
+        console.warn('Page content not found');
+        return;
+    }
 
-    const text = pageContent.innerText;
-    const utterance = new SpeechSynthesisUtterance(text);
-    
-    // Get settings
-    const speed = parseFloat(document.getElementById('ttsSpeed').value);
-    const pitch = parseFloat(document.getElementById('ttsPitch').value);
-    
-    utterance.rate = speed;
-    utterance.pitch = pitch;
-    utterance.volume = 1;
-    
-    currentSpeakerUtterance = utterance;
-    window.speechSynthesis.speak(utterance);
+    // Extract text - use textContent for better compatibility
+    const text = pageContent.textContent.trim();
+    if (!text) {
+        alert('No text content found on this page.');
+        return;
+    }
+
+    try {
+        const utterance = new SpeechSynthesisUtterance(text);
+        
+        // Get settings
+        const speed = parseFloat(document.getElementById('ttsSpeed').value) || 1;
+        const pitch = parseFloat(document.getElementById('ttsPitch').value) || 1;
+        
+        utterance.rate = Math.max(0.5, Math.min(2, speed));
+        utterance.pitch = Math.max(0.5, Math.min(2, pitch));
+        utterance.volume = 1;
+        utterance.lang = 'en-US';
+        
+        // Add event listeners for better feedback
+        utterance.onstart = function() {
+            console.log('Speech started');
+            const speakBtn = document.querySelector('.btn-tts');
+            if (speakBtn) speakBtn.style.opacity = '0.6';
+        };
+        
+        utterance.onend = function() {
+            console.log('Speech ended');
+            const speakBtn = document.querySelector('.btn-tts');
+            if (speakBtn) speakBtn.style.opacity = '1';
+        };
+        
+        utterance.onerror = function(event) {
+            console.error('Speech error:', event.error);
+            alert('Error during text-to-speech: ' + event.error);
+        };
+        
+        currentSpeakerUtterance = utterance;
+        
+        // Cancel any ongoing speech before starting new
+        window.speechSynthesis.cancel();
+        
+        // Use a small timeout to ensure the cancel completes
+        setTimeout(() => {
+            window.speechSynthesis.speak(utterance);
+        }, 100);
+    } catch (error) {
+        console.error('TTS Error:', error);
+        alert('Failed to initialize text-to-speech: ' + error.message);
+    }
 }
 
 function pauseSpeech() {
-    if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
-        window.speechSynthesis.pause();
-    } else if (window.speechSynthesis.paused) {
-        window.speechSynthesis.resume();
+    if (!('speechSynthesis' in window)) return;
+    
+    try {
+        if (window.speechSynthesis.speaking) {
+            if (window.speechSynthesis.paused) {
+                window.speechSynthesis.resume();
+            } else {
+                window.speechSynthesis.pause();
+            }
+        }
+    } catch (error) {
+        console.error('Pause error:', error);
     }
 }
 
 function stopSpeech() {
-    window.speechSynthesis.cancel();
-    currentSpeakerUtterance = null;
+    if (!('speechSynthesis' in window)) return;
+    
+    try {
+        window.speechSynthesis.cancel();
+        currentSpeakerUtterance = null;
+        const speakBtn = document.querySelector('.btn-tts');
+        if (speakBtn) speakBtn.style.opacity = '1';
+    } catch (error) {
+        console.error('Stop error:', error);
+    }
+}
+
+function initializeTextToSpeech() {
+    if (!('speechSynthesis' in window)) {
+        console.warn('Text-to-Speech API not supported on this device');
+        disableTTSControls();
+        return;
+    }
+
+    // Preload voices - on some browsers, voices load asynchronously
+    const loadVoices = () => {
+        const voices = window.speechSynthesis.getVoices();
+        console.log('Available voices:', voices.length);
+        
+        if (voices.length === 0) {
+            console.warn('No voices available yet, retrying...');
+            setTimeout(loadVoices, 500);
+        }
+    };
+
+    // Load voices immediately and also on voiceschanged event
+    loadVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+}
+
+function disableTTSControls() {
+    const ttsBtn = document.querySelector('.text-to-speech-btn');
+    if (ttsBtn) {
+        ttsBtn.disabled = true;
+        ttsBtn.style.opacity = '0.5';
+        ttsBtn.title = 'Text-to-Speech not supported on this device';
+    }
 }
 
 // ============================================

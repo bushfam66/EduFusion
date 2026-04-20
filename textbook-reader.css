@@ -1200,7 +1200,21 @@ body.theme-pink .btn-icon {
         right: -100%;
         bottom: 0;
         border-radius: 16px 16px 0 0;
+        padding: 1rem;
+        max-height: 70vh;
+        overflow-y: auto;
     }
+
+    .btn-tts {
+        padding: 0.6rem 0.4rem;
+        font-size: 0.8rem;
+        min-height: 44px;
+    }
+
+    .tts-settings input {
+        height: 8px;
+    }
+
 
     .modal-content {
         width: 95%;
@@ -1287,7 +1301,24 @@ body.theme-pink .btn-icon {
 
     .tts-controls {
         width: 100%;
+        padding: 1rem;
+        max-height: 70vh;
     }
+
+    .btn-tts {
+        padding: 0.6rem 0.4rem;
+        font-size: 0.75rem;
+        min-height: 44px;
+    }
+
+    .tts-header h3 {
+        font-size: 1rem;
+    }
+
+    .tts-settings label {
+        font-size: 0.8rem;
+    }
+
 
     .modal-content {
         width: 95%;
