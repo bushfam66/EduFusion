@@ -6,8 +6,7 @@
     <title>EduFusion - Biology Textbook Reader</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="textbook-reader.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">    <script src=\"https://cdn.jsdelivr.net/npm/@xenova/transformers@2.1.0/dist/transformers.min.js\"></script></head>
 <body class="student-mode theme-plain textbook-reader">
     <div class="textbook-container">
         <!-- Header -->
@@ -39,6 +38,7 @@
                         <div class="page-header">
                             <span class="chapter-num">Chapter 1</span>
                             <h2>Cell Structure & Function</h2>
+                            <button class="btn-explain" onclick="showDetailedAnalysis(1)">Explain this topic</button>
                         </div>
                         <div class="page-content" id="pageContent1">
                             <p><strong>Introduction to Cells</strong></p>
@@ -72,6 +72,7 @@
                         <div class="page-header">
                             <span class="chapter-num">Chapter 2</span>
                             <h2>Photosynthesis & Energy</h2>
+                            <button class="btn-explain" onclick="showDetailedAnalysis(2)">Explain this topic</button>
                         </div>
                         <div class="page-content" id="pageContent2">
                             <p><strong>Photosynthesis Overview</strong></p>
@@ -101,6 +102,7 @@
                         <div class="page-header">
                             <span class="chapter-num">Chapter 3</span>
                             <h2>Genetics & Heredity</h2>
+                            <button class="btn-explain" onclick="showDetailedAnalysis(3)">Explain this topic</button>
                         </div>
                         <div class="page-content" id="pageContent3">
                             <p><strong>DNA Structure</strong></p>
@@ -257,6 +259,26 @@
                     <button onclick="changeLineSpacing(1.4)">Single</button>
                     <button onclick="changeLineSpacing(1.6)">1.5x</button>
                     <button onclick="changeLineSpacing(2)">Double</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Topic Analysis Panel -->
+        <div class="analysis-panel" id="analysisPanel">
+            <div class="analysis-header">
+                <div>
+                    <h3>Deep Topic Analysis</h3>
+                    <span class="api-status" id="apiStatus">Checking AI service...</span>
+                </div>
+                <button class="close-btn" onclick="closeAnalysisPanel()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="analysis-body" id="analysisBody"></div>
+            <div class="analysis-chat" id="analysisChat">
+                <h4>Ask a follow-up question</h4>
+                <div class="chat-messages" id="chatMessages"></div>
+                <div class="chat-input-group">
+                    <input type="text" id="chatQuestion" placeholder="Type your question here..." autocomplete="off">
+                    <button onclick="askAnalysisQuestion()">Ask</button>
                 </div>
             </div>
         </div>

@@ -1,0 +1,15 @@
+{
+  "name": "edufusion-reader-api",
+  "version": "1.0.0",
+  "description": "EduFusion Biology reader API backend for AI chat support",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2"
+  }
+}

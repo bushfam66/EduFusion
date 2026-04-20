@@ -3,10 +3,19 @@
 // ============================================
 
 // State Management
+const API_BASE_URL = (typeof window !== 'undefined' && window.location.protocol.startsWith('http')) ? window.location.origin : 'http://localhost:3000';
 let currentPage = 1;
 let totalPages = 3;
-let touchStartX = 0;
-let touchEndX = 0;
+let touchStartX = null;
+let touchStartY = null;
+let touchCurrentX = null;
+let touchCurrentY = null;
+let isDragging = false;
+let dragThreshold = 60;
+let velocity = 0;
+let lastTouchTime = 0;
+let activeAnalysisPage = null;
+let apiAvailable = false;
 let noteMode = 'text'; // 'pen' or 'text'
 let currentSpeakerUtterance = null;
 let fontSize = 16;
@@ -25,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // ============================================
 // INITIALIZATION
 // ============================================
-function initializeReader() {
+async function initializeReader() {
     console.log('Initializing Biology Reader...');
     showPage(1);
     updatePageIndicators();
@@ -33,6 +42,7 @@ function initializeReader() {
     setupHighlighting();
     updateVideoControls();
     initializeTextToSpeech();
+    await checkApiStatus();
 }
 
 function setupEventListeners() {
@@ -42,9 +52,16 @@ function setupEventListeners() {
         if (e.key === 'ArrowRight') nextPage();
     });
 
-    // Touch gestures for mobile
-    document.querySelector('.textbook-pages-container').addEventListener('touchstart', handleTouchStart, false);
-    document.querySelector('.textbook-pages-container').addEventListener('touchend', handleTouchEnd, false);
+    // Chat enter key
+    const chatInput = document.getElementById('chatQuestion');
+    if (chatInput) {
+        chatInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                askAnalysisQuestion();
+            }
+        });
+    }
 }
 
 // ============================================
@@ -52,17 +69,46 @@ function setupEventListeners() {
 // ============================================
 function showPage(pageNum) {
     const pages = document.querySelectorAll('.textbook-page');
-    pages.forEach(page => {
-        page.classList.remove('active', 'slide-in-right', 'slide-in-left', 'slide-out-left', 'slide-out-right');
-    });
-
+    const currentActivePage = document.querySelector('.textbook-page.active');
     const targetPage = document.querySelector(`[data-page="${pageNum}"]`);
-    if (targetPage) {
-        targetPage.classList.add('active', 'slide-in-right');
-        currentPage = pageNum;
-        updatePageIndicators();
-        loadHighlights();
-        window.scrollTo(0, 0);
+
+    if (!targetPage) return;
+
+    // Determine slide direction
+    const direction = pageNum > currentPage ? 'right' : 'left';
+    const slideInClass = direction === 'right' ? 'slide-in-right' : 'slide-in-left';
+    const slideOutClass = direction === 'right' ? 'slide-out-left' : 'slide-out-right';
+
+    // Add slide-out animation to current page
+    if (currentActivePage && currentActivePage !== targetPage) {
+        currentActivePage.classList.add(slideOutClass);
+        currentActivePage.classList.remove('active');
+
+        // Remove slide-out class after animation
+        setTimeout(() => {
+            currentActivePage.classList.remove(slideOutClass);
+        }, 600);
+    }
+
+    // Add slide-in animation to target page
+    targetPage.classList.add('active', slideInClass);
+
+    // Remove slide-in class after animation completes
+    setTimeout(() => {
+        targetPage.classList.remove(slideInClass);
+    }, 600);
+
+    currentPage = pageNum;
+    updatePageIndicators();
+    loadHighlights();
+
+    // Smooth scroll to top with easing
+    const pageContent = targetPage.querySelector('.page-content');
+    if (pageContent) {
+        pageContent.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     }
 }
 
@@ -97,29 +143,308 @@ function updatePageIndicators() {
 // ============================================
 function setupTouchGestures() {
     const container = document.querySelector('.textbook-pages-container');
-    container.addEventListener('touchstart', handleTouchStart, false);
-    container.addEventListener('touchend', handleTouchEnd, false);
+    if (!container) return;
+
+    container.style.touchAction = 'pan-y';
+
+    container.addEventListener('pointerdown', handlePointerStart, { passive: true });
+    container.addEventListener('pointermove', handlePointerMove, { passive: false });
+    container.addEventListener('pointerup', handlePointerEnd, { passive: true });
+    container.addEventListener('pointercancel', handlePointerEnd, { passive: true });
+    container.addEventListener('pointerleave', handlePointerEnd, { passive: true });
+    container.addEventListener('wheel', handleWheel, { passive: false });
+
+    container.addEventListener('touchstart', handleTouchStart, { passive: false });
+    container.addEventListener('touchmove', handleTouchMove, { passive: false });
+    container.addEventListener('touchend', handleTouchEnd, { passive: false });
+    container.addEventListener('touchcancel', handleTouchEnd, { passive: false });
+}
+
+function handleWheel(e) {
+    const currentPageEl = document.querySelector('.textbook-page.active');
+    if (!currentPageEl) return;
+
+    currentPageEl.scrollTop += e.deltaY;
+    e.preventDefault();
 }
 
 function handleTouchStart(e) {
-    touchStartX = e.changedTouches[0].screenX;
+    if (!e.touches || e.touches.length > 1) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchCurrentX = touchStartX;
+    touchCurrentY = touchStartY;
+    isDragging = false;
+    velocity = 0;
+    lastTouchTime = Date.now();
+}
+
+function handlePointerStart(e) {
+    touchStartX = e.clientX;
+    touchStartY = e.clientY;
+    touchCurrentX = touchStartX;
+    touchCurrentY = touchStartY;
+    isDragging = false;
+    velocity = 0;
+    lastTouchTime = Date.now();
+}
+
+function handleTouchMove(e) {
+    if (touchStartX === null) return;
+    if (!e.touches || e.touches.length === 0) return;
+
+    touchCurrentX = e.touches[0].clientX;
+    touchCurrentY = e.touches[0].clientY;
+
+    processDragMove(e);
+}
+
+function handlePointerMove(e) {
+    if (touchStartX === null) return;
+
+    touchCurrentX = e.clientX;
+    touchCurrentY = e.clientY;
+
+    processDragMove(e);
+}
+
+function processDragMove(e) {
+    const deltaX = touchCurrentX - touchStartX;
+    const deltaY = touchCurrentY - touchStartY;
+
+    if (!isDragging && Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+        isDragging = true;
+    }
+
+    if (isDragging) {
+        const currentTime = Date.now();
+        const timeDelta = currentTime - lastTouchTime;
+        if (timeDelta > 0) {
+            velocity = deltaX / timeDelta;
+        }
+        lastTouchTime = currentTime;
+
+        const currentPageEl = document.querySelector('.textbook-page.active');
+        if (currentPageEl) {
+            const translateX = Math.max(Math.min(deltaX, 120), -120);
+            const scale = 1 - Math.min(Math.abs(translateX) / 120, 0.08);
+            currentPageEl.style.transform = `translateX(${translateX}px) scale(${scale})`;
+            currentPageEl.style.transition = 'none';
+            currentPageEl.classList.add('dragging');
+        }
+
+        e.preventDefault();
+    }
 }
 
 function handleTouchEnd(e) {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
+    handlePointerEnd(e);
+}
+
+function handlePointerEnd(e) {
+    if (!isDragging) {
+        touchStartX = null;
+        return;
+    }
+
+    const deltaX = touchCurrentX - touchStartX;
+    const deltaY = touchCurrentY - touchStartY;
+    const absDeltaX = Math.abs(deltaX);
+    const absDeltaY = Math.abs(deltaY);
+
+    const currentPageEl = document.querySelector('.textbook-page.active');
+    if (currentPageEl) {
+        currentPageEl.style.transition = 'transform 0.25s ease-out';
+        currentPageEl.style.transform = '';
+        currentPageEl.classList.remove('dragging');
+    }
+
+    const isHorizontalSwipe = absDeltaX > absDeltaY && absDeltaX > dragThreshold;
+    const isFastSwipe = Math.abs(velocity) > 0.7;
+
+    if (isHorizontalSwipe || isFastSwipe) {
+        if (deltaX < -dragThreshold || (deltaX < -25 && isFastSwipe)) {
+            smoothPageTransition('next');
+        } else if (deltaX > dragThreshold || (deltaX > 25 && isFastSwipe)) {
+            smoothPageTransition('prev');
+        }
+    }
+
+    touchStartX = null;
+    touchStartY = null;
+    touchCurrentX = null;
+    touchCurrentY = null;
+    isDragging = false;
+}
+
+function smoothPageTransition(direction) {
+    if (direction === 'next' && currentPage < totalPages) {
+        nextPage();
+    } else if (direction === 'prev' && currentPage > 1) {
+        previousPage();
+    }
+}
+
+function showDetailedAnalysis(pageNum) {
+    activeAnalysisPage = pageNum;
+    const panel = document.getElementById('analysisPanel');
+    const body = document.getElementById('analysisBody');
+    const chatMessages = document.getElementById('chatMessages');
+    const questionInput = document.getElementById('chatQuestion');
+    const pageElement = document.querySelector(`[data-page="${pageNum}"] h2`);
+    const topicTitle = pageElement ? pageElement.textContent : `Topic ${pageNum}`;
+    const analysis = getTopicAnalysis(pageNum, topicTitle);
+
+    body.innerHTML = analysis.map(section => `<p>${section}</p>`).join('');
+    chatMessages.innerHTML = '';
+    questionInput.value = '';
+    panel.classList.add('open');
+}
+
+function closeAnalysisPanel() {
+    const panel = document.getElementById('analysisPanel');
+    panel.classList.remove('open');
+}
+
+async function askAnalysisQuestion() {
+    const input = document.getElementById('chatQuestion');
+    const question = input.value.trim();
+    if (!question) return;
+
+    const pageNum = activeAnalysisPage || currentPage;
+    const pageElement = document.querySelector(`[data-page="${pageNum}"] h2`);
+    const topicTitle = pageElement ? pageElement.textContent : `Topic ${pageNum}`;
+
+    appendChatMessage('user', question);
+    input.value = '';
+
+    try {
+        const aiResponse = getLocalAIResponse(question, pageNum, topicTitle);
+        appendChatMessage('ai', aiResponse);
+    } catch (error) {
+        console.error('AI chat error:', error);
+        appendChatMessage('ai', getLocalAIResponse(question, pageNum, topicTitle));
+    }
+}
+
+function appendChatMessage(role, text) {
+    const messages = document.getElementById('chatMessages');
+    if (!messages) return;
+    const messageEl = document.createElement('div');
+    messageEl.className = `chat-message ${role}`;
+    messageEl.innerHTML = `<strong>${role === 'user' ? 'You' : 'EduFusion AI'}:</strong> ${text}`;
+    messages.appendChild(messageEl);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+function getChatResponse(question, pageNum, topicTitle) {
+    return getLocalAIResponse(question, pageNum, topicTitle);
+}
+
+function getLocalAIResponse(question, pageNum, topicTitle) {
+    const lower = question.toLowerCase();
+    const topic = topicTitle.toLowerCase();
+
+    if (lower.includes('mitosis') || lower.includes('meiosis') || topic.includes('cell structure')) {
+        if (lower.includes('difference')) {
+            return 'Mitosis makes two identical diploid cells for growth and repair, while meiosis makes four genetically unique haploid cells for reproduction.';
+        }
+        if (lower.includes('cell division')) {
+            return 'Cell division creates new cells. Mitosis makes identical body cells, while meiosis makes sex cells with half the number of chromosomes.';
+        }
+    }
+
+    if (lower.includes('photosynthesis') || topic.includes('photosynthesis')) {
+        if (lower.includes('light')) {
+            return 'Plants capture sunlight with chlorophyll and use it to power chemical reactions that make glucose.';
+        }
+        if (lower.includes('glucose') || lower.includes('sugar')) {
+            return 'Glucose is the sugar produced by photosynthesis. Plants use it for energy and store the excess as starch.';
+        }
+        return 'Photosynthesis is the process by which plants turn light, water, and carbon dioxide into glucose and oxygen inside chloroplasts.';
+    }
+
+    if (lower.includes('dna') || lower.includes('gene') || lower.includes('chromosome')) {
+        if (lower.includes('inherit') || lower.includes('inheritance')) {
+            return 'Inheritance happens when parents pass genes to their children. Genes are instructions in DNA that determine traits.';
+        }
+        if (lower.includes('dominant') || lower.includes('recessive')) {
+            return 'A dominant allele shows its trait when present. A recessive allele only shows its trait when both copies are recessive.';
+        }
+        return 'DNA is the molecule that carries genetic information. Genes are segments of DNA that define traits and are passed down through inheritance.';
+    }
+
+    if (lower.includes('cell membrane') || lower.includes('membrane')) {
+        return 'The cell membrane is a protective barrier that controls what enters and leaves the cell. It keeps the cell stable and safe.';
+    }
+
+    if (lower.includes('chlorophyll')) {
+        return 'Chlorophyll is the green pigment in plants that absorbs sunlight for photosynthesis.';
+    }
+
+    if (lower.includes('organelles') || lower.includes('mitochondria') || lower.includes('nucleus') || lower.includes('ribosome')) {
+        return 'Organelles are the small structures inside cells that do special jobs. The nucleus stores DNA and mitochondria make energy.';
+    }
+
+    if (lower.includes('what is') || lower.includes('explain') || lower.includes('how does') || lower.includes('why')) {
+        return `Here is a clear answer for ${topicTitle}: ${getTopicExplanation(pageNum)} If you want more detail on one part, ask a follow-up question.`;
+    }
+
+    return `Here is a helpful answer about ${topicTitle}: ${getTopicExplanation(pageNum)} Ask another question for more detail.`;
+}
+
+async function checkApiStatus() {
+    const statusEl = document.getElementById('apiStatus');
+    if (!statusEl) return;
+
+    statusEl.textContent = 'Local AI chat ready';
+    statusEl.classList.add('online');
+    statusEl.classList.remove('warning', 'offline');
+}
+
+function getTopicExplanation(pageNum) {
+    const explanations = {
+        1: 'Cells are built around a complex internal system. The membrane controls exchange, the nucleus stores information, mitochondria make energy, and organelles coordinate growth, repair, and survival. Each component has a unique purpose that contributes to the full function of the living cell.',
+        2: 'Photosynthesis is powered by light energy and takes place inside chloroplasts. The first stage captures energy from sunlit light, and the second stage uses that energy to transform carbon dioxide into sugar. It is the foundation for plant growth and the food chain.',
+        3: 'Genetics is the study of how traits are inherited. Chromosomes carry genes, and each gene can exist in different forms called alleles. The combination of alleles inherited from parents creates the traits you see and determines how organisms vary.'
+    };
+    return explanations[pageNum] || 'This topic explores fundamental principles and can be understood step-by-step by breaking each concept down.';
+}
+
+function getTopicAnalysis(pageNum, topicTitle) {
+    const analysisMap = {
+        1: [
+            `In ${topicTitle}, we explore the fundamental architecture of cells and the distinct roles that each component plays. The cell membrane, nucleus, mitochondria, ribosomes, endoplasmic reticulum, and Golgi apparatus work together in a coordinated system to keep the cell alive, reproduce, and respond to its environment.`,
+            `The cell membrane is the boundary that regulates exchanges between the cell and its environment. It is made up of a phospholipid bilayer with embedded proteins that allow selective transport, communication, and protection. Understanding this barrier is crucial because it determines how nutrients, waste, and signals move in and out of the cell.`,
+            `Eukaryotic cells contain organelles that specialize in specific tasks. The nucleus stores DNA and directs protein production, mitochondria generate energy through cellular respiration, ribosomes build proteins, the endoplasmic reticulum synthesizes and processes molecules, and the Golgi apparatus packages and ships them. This compartmentalization is what enables complex life to exist.`,
+            `Cell division is the process that produces new cells. Mitosis results in two genetically identical diploid daughter cells used for growth and repair, while meiosis creates four genetically diverse haploid cells used for reproduction. Each stage of mitosis and meiosis ensures accurate replication and distribution of chromosomes, which is why errors can lead to serious health consequences.`
+        ],
+        2: [
+            `${topicTitle} explains how plants convert light into chemical energy through a two-stage process inside chloroplasts. The light-dependent reactions capture light energy to split water molecules and create ATP and NADPH, while the Calvin cycle uses those energy carriers to fix carbon dioxide into glucose.`,
+            `During the light-dependent reactions, chlorophyll absorbs photons and energizes electrons. These high-energy electrons travel through an electron transport chain, producing ATP and reducing NADP+ to NADPH. Oxygen is released as a byproduct when water molecules are split to replace lost electrons.`,
+            `The Calvin cycle occurs in the stroma and is sometimes called the dark reactions because it does not directly require light. It uses ATP and NADPH made in the light-dependent stage to convert carbon dioxide into glyceraldehyde-3-phosphate, which is then assembled into glucose and other carbohydrates.`,
+            `Several environmental factors influence the rate of photosynthesis: light intensity, temperature, carbon dioxide concentration, and water availability. Understanding how each factor affects enzyme activity and reaction rates helps explain why plants grow better under certain conditions and why photosynthesis can become limited under stress.`
+        ],
+        3: [
+            `In ${topicTitle}, you learn how traits are passed from one generation to the next through genes and chromosomes. DNA stores hereditary information in sequences of nucleotide bases, and genes are specific sections of DNA that code for proteins. The arrangement of alleles in pairs determines the traits an organism expresses.`,
+            `Gregor Mendel’s laws of segregation and independent assortment describe how different versions of genes separate into gametes and combine during fertilization. Segregation ensures each gamete gets one allele from each gene pair, while independent assortment means genes on different chromosomes are inherited independently, creating genetic diversity.`,
+            `Dominant alleles mask the effect of recessive alleles in heterozygous individuals. Only when both alleles are recessive does the recessive trait appear. This explains why some traits seem to skip generations and why carriers can pass on traits without showing them.`,
+            `Mitosis and meiosis are both forms of cell division, but they serve different purposes. Mitosis creates identical cells for body growth and repair, maintaining chromosome number, while meiosis reduces chromosome number by half to create sex cells. Meiosis also introduces genetic variation through crossing over and independent assortment, which is the basis for inheritance and evolution.`
+        ]
+    };
+
+    return analysisMap[pageNum] || [`Detailed analysis for ${topicTitle} is currently unavailable.`];
 }
 
 function handleSwipe() {
+    // Legacy function - kept for backward compatibility
     const swipeThreshold = 50;
-    const diff = touchStartX - touchEndX;
+    const diff = touchStartX - touchCurrentX;
 
     if (Math.abs(diff) > swipeThreshold) {
         if (diff > 0) {
-            // Swiped left - go to next page
             nextPage();
         } else {
-            // Swiped right - go to previous page
             previousPage();
         }
     }
@@ -330,11 +655,13 @@ function clearCurrentNote() {
 function saveNotesToStorage() {
     const notes = [];
     document.querySelectorAll('.sticky-note').forEach(noteEl => {
+        const pageText = noteEl.querySelector('.note-footer small')?.textContent || `Page ${currentPage}`;
+        const pageNumber = parseInt(pageText.replace(/\D/g, ''), 10) || currentPage;
         notes.push({
             id: noteEl.dataset.id,
             title: noteEl.querySelector('.note-title').value,
             content: noteEl.querySelector('.note-content').value,
-            page: currentPage,
+            page: pageNumber,
             color: noteEl.style.backgroundColor
         });
     });
